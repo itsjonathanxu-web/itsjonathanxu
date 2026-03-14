@@ -15,7 +15,7 @@ export default function Home() {
         {/* Hero background image */}
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=1920&q=85"
+            src="/chile/DSC08349.jpg"
             alt="Cinematic travel landscape"
             fill
             className="object-cover"
