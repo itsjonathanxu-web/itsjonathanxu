@@ -39,9 +39,11 @@
 ### Font Stack
 | Role           | Font                  | Weight    | Fallback              |
 |----------------|-----------------------|-----------|-----------------------|
-| Headings       | **Inter**             | 300 (Light), 400 (Regular) | system-ui, sans-serif |
-| Body           | **Inter**             | 300 (Light), 400 (Regular) | system-ui, sans-serif |
-| Accent/Nav     | **Inter**             | 500 (Medium)         | system-ui, sans-serif |
+| Display/Headings | **Syne**            | 800 (ExtraBold)      | Inter, system-ui      |
+| Nav/Labels     | **Syne**              | 500–700              | Inter, system-ui      |
+| Body           | **Inter**             | 400–500              | system-ui, sans-serif |
+
+> **Syne** — geometric, modern, distinctive. Used for all headings, nav links, labels, and the XSEN wordmark. Inter remains the body text font.
 
 ### Type Scale
 | Element        | Size (desktop)  | Size (mobile)  | Letter Spacing | Line Height |
@@ -161,21 +163,24 @@
 
 ## Home Page Structure
 
-1. **Hero (XSEN)** — Full-screen centered, font-black, fades in on load, fades out on scroll
-2. **Descriptor lines** — "Cinematic Storyteller / Videographer / Photographer" in massive bold text over fixed parallax background image
-3. **Mission statement** — Brief about text + CTA buttons, still over background
-4. **Fade to black** — Background image opacity transitions to 0
-5. **About section** — Black background, 2-column: text left + glass stats card right
-6. **Featured Projects** — 2-column grid, 4:3 aspect ratio cards with info below
-7. **Expertise** — 2-column grid with numbered categories
-8. **CTA** — Bold closing headline + glass button
+1. **Hero (XSEN)** — Fills viewport width/height, Syne extrabold, slight transparency (0.85), subtle grain texture overlay, fades in 2s on load, fades out on scroll
+2. **Descriptor lines + Mission** — Combined in one scroll screen. "Cinematic Storyteller / Videographer / Photographer" in massive Syne extrabold, followed by mission text and CTAs. Compact spacing.
+3. **Fade to black** — Background image fully fades to opacity 0 before section ends (seamless transition, no black bleed-through)
+4. **About section** — Black background, 2-column: text left + profile photo right (no stats/numbers)
+5. **Featured Projects** — 2-column grid, 4:3 aspect ratio cards with info below
+6. **Expertise** — 2-column grid with numbered categories
+7. **CTA** — Bold closing headline + glass button
 
 ### Key Design Decisions
+- **Font:** Syne (display) for all headings, nav, labels. Inter for body text.
 - Background image is **fixed position** with **parallax Y movement** on scroll (mason-wong.com reference)
 - Image oversized at 130% height to prevent edge reveal during parallax
-- No grain texture overlay — clean aesthetic
-- Font weights: 900 (black) for headlines, 700 (bold) for body/descriptors
-- Liquid glass (Apple-inspired) for cards and buttons
+- XSEN has subtle **grain texture** via CSS SVG filter (`.grain-overlay`) — adds analog film feel
+- XSEN text slightly transparent (0.85 opacity) for depth
+- **Navigation stays transparent** on scroll — no black bg appearing
+- Font weights: 800 (extrabold) for headlines via Syne, 500–700 for body
+- Liquid glass (Apple-inspired) for buttons
+- Image fade completes fully before black sections begin — seamless
 
 ---
 
