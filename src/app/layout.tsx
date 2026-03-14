@@ -3,19 +3,20 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import CustomCursor from "@/components/CustomCursor";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["200", "300", "400", "500"],
   variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
-  title: "Jonathan Xu — Cinematic Visual Storytelling",
+  title: "XSEN — Cinematic Visual Storytelling",
   description:
     "Premium videography and photography for hospitality, architecture, travel, and commercial brands. Based in Toronto.",
   openGraph: {
-    title: "Jonathan Xu — Cinematic Visual Storytelling",
+    title: "XSEN — Cinematic Visual Storytelling",
     description:
       "Premium videography and photography for hospitality, architecture, travel, and commercial brands.",
     type: "website",
@@ -30,6 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased`}>
+        <CustomCursor />
         <Navigation />
         <main>{children}</main>
         <Footer />

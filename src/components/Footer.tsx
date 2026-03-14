@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-6 px-6 py-12 md:flex-row md:px-20">
         <div className="flex flex-col items-center gap-2 md:items-start">
           <span className="text-sm font-medium tracking-[0.2em] text-white uppercase">
-            Jonathan Xu
+            XSEN
           </span>
           <span className="text-[13px] text-[#8A8A8A]">
             Cinematic Visual Storytelling
@@ -44,7 +44,7 @@ export default function Footer() {
             Instagram
           </a>
           <span className="text-[12px] text-[#8A8A8A]/60">
-            &copy; {new Date().getFullYear()} Jonathan Xu
+            &copy; {new Date().getFullYear()} XSEN
           </span>
         </div>
       </div>
