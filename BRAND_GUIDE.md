@@ -55,9 +55,11 @@
 | Nav Links      | 14px / 0.875rem | 14px           | 0.08em         | 1           |
 
 ### Rules:
-- Headings are light-weight (300) — elegant, not loud
-- ALL CAPS used sparingly: navigation, category labels, small metadata only
-- Tight letter spacing on headings, slightly tracked-out on nav/captions
+- Hero and section headings use **font-black (900)** — bold, impactful, mason-wong inspired
+- Body and descriptors use **font-bold (700)** for presence
+- ALL CAPS for hero name, section titles, navigation, and metadata
+- Tight negative letter spacing on large headings (-0.04em)
+- Tracked-out uppercase on nav/captions (0.08em–0.3em)
 
 ---
 
@@ -101,17 +103,31 @@
 - Primary: White text, transparent bg, 1px white border → hover: white bg, black text
 - Keep buttons minimal — text links preferred where possible
 
-### Navigation
-- Fixed top nav, transparent bg on scroll-top, fades to black on scroll
-- Logo (text "JONATHAN XU") left, nav links right
+### Navigation (component)
+- Fixed top nav, transparent bg on scroll-top, fades to black/blur on scroll
+- Logo "XSEN" left (bold), nav links right
+- All nav links white, hover fades opacity to 50% (darkens)
 - Mobile: hamburger menu, full-screen overlay
-- Nav links: uppercase, tracked-out, small font
+- Nav links: uppercase, tracked-out, 13px, font-medium
 
 ### Cursor / Interactions
+- Custom cursor with smooth trail (no grain overlay)
 - Smooth scroll between sections
 - Fade-in-up animations on scroll (subtle, not flashy)
 - Image hover: gentle zoom + overlay with project title
 - Page transitions: fade between routes
+
+### Apple Liquid Glass UI
+- Glass cards: `rgba(255,255,255,0.04)` bg, `blur(40px) saturate(1.4)` backdrop, subtle inset top highlight
+- Glass buttons: `rgba(255,255,255,0.06)` bg, `blur(20px)` backdrop, hover transitions to solid white
+- Border: `rgba(255,255,255,0.08)` — barely visible, adds depth
+- Used for: stat cards, CTA buttons, interactive elements
+- Inspired by Apple's Liquid Glass design language (WWDC 2025)
+
+### Navigation
+- All links white text, hover fades to 50% opacity (goes dark)
+- Fixed top nav, transparent on top, black/blur on scroll
+- Logo "XSEN" bold, tracked-out uppercase
 
 ---
 
@@ -140,6 +156,26 @@
 - Video embeds will be added as content becomes available
 - Hero image: high-res cinematic still (landscape, 16:9 minimum)
 - Favicon: simple "JX" monogram or initial on black background
+
+---
+
+## Home Page Structure
+
+1. **Hero (XSEN)** — Full-screen centered, font-black, fades in on load, fades out on scroll
+2. **Descriptor lines** — "Cinematic Storyteller / Videographer / Photographer" in massive bold text over fixed parallax background image
+3. **Mission statement** — Brief about text + CTA buttons, still over background
+4. **Fade to black** — Background image opacity transitions to 0
+5. **About section** — Black background, 2-column: text left + glass stats card right
+6. **Featured Projects** — 2-column grid, 4:3 aspect ratio cards with info below
+7. **Expertise** — 2-column grid with numbered categories
+8. **CTA** — Bold closing headline + glass button
+
+### Key Design Decisions
+- Background image is **fixed position** with **parallax Y movement** on scroll (mason-wong.com reference)
+- Image oversized at 130% height to prevent edge reveal during parallax
+- No grain texture overlay — clean aesthetic
+- Font weights: 900 (black) for headlines, 700 (bold) for body/descriptors
+- Liquid glass (Apple-inspired) for cards and buttons
 
 ---
 

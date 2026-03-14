@@ -42,22 +42,22 @@ export default function Navigation() {
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5 md:px-20">
           <Link
             href="/"
-            className="text-sm font-medium tracking-[0.2em] text-white uppercase transition-opacity hover:opacity-70"
+            className="text-sm font-bold tracking-[0.2em] text-white uppercase transition-opacity duration-300 hover:opacity-50"
           >
             XSEN
           </Link>
 
-          {/* Desktop nav */}
+          {/* Desktop nav — all white, hover goes dark */}
           <div className="hidden items-center gap-10 md:flex">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[13px] tracking-[0.08em] uppercase transition-colors ${
+                className={`text-[13px] font-medium tracking-[0.08em] text-white uppercase transition-opacity duration-300 ${
                   pathname === link.href ||
                   (link.href !== "/" && pathname.startsWith(link.href))
-                    ? "text-white"
-                    : "text-[#8A8A8A] hover:text-[#C8C8C8]"
+                    ? "opacity-100"
+                    : "opacity-80 hover:opacity-50"
                 }`}
               >
                 {link.label}
@@ -105,8 +105,8 @@ export default function Navigation() {
                 >
                   <Link
                     href={link.href}
-                    className={`text-2xl font-light tracking-[0.15em] uppercase ${
-                      pathname === link.href ? "text-white" : "text-[#8A8A8A]"
+                    className={`text-2xl font-bold tracking-[0.15em] text-white uppercase transition-opacity duration-300 hover:opacity-50 ${
+                      pathname === link.href ? "opacity-100" : "opacity-70"
                     }`}
                   >
                     {link.label}
