@@ -5,191 +5,192 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-function ScrollReveal({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+function ScrollRevealLine({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"],
+    offset: ["start 0.95", "start 0.65"],
   });
-  const opacity = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0, 1, 1, 0]);
-  const y = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [80, 0, 0, -80]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [30, 0]);
 
   return (
-    <motion.div ref={ref} style={{ opacity, y }} className={className}>
+    <motion.div ref={ref} style={{ opacity, y }}>
       {children}
     </motion.div>
   );
 }
 
 export default function AboutPage() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: heroScroll } = useScroll({
-    target: heroRef,
+  const heroSectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroSectionRef,
     offset: ["start start", "end start"],
   });
-  const bgY = useTransform(heroScroll, [0, 1], ["0%", "30%"]);
-  const bgScale = useTransform(heroScroll, [0, 1], [1, 1.1]);
-  const textOpacity = useTransform(heroScroll, [0, 0.5], [1, 0]);
+
+  // Parallax on background image
+  const bgY = useTransform(heroProgress, [0, 1], ["0%", "-25%"]);
+  const bgOpacity = useTransform(heroProgress, [0, 0.55, 0.75], [1, 1, 0]);
+
+  // Title fade on scroll
+  const titleOpacity = useTransform(heroProgress, [0, 0.15], [1, 0]);
+  const titleScale = useTransform(heroProgress, [0, 0.15], [1, 0.98]);
 
   return (
     <>
-      {/* Hero — Full screen background photo with large text */}
-      <section ref={heroRef} className="relative h-[200vh]">
-        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-          {/* Background photo */}
-          <motion.div style={{ y: bgY, scale: bgScale }} className="absolute inset-0">
-            <Image
-              src="/chile/DSC08376.jpg"
-              alt="Patagonia landscape"
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-black/60" />
-          </motion.div>
-
-          {/* Large statement text */}
-          <motion.div
-            style={{ opacity: textOpacity }}
-            className="relative z-10 mx-auto w-full max-w-[1400px] px-6 md:px-20"
-          >
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              className="mb-6 text-[12px] font-medium tracking-[0.3em] text-[#8A8A8A] uppercase"
-            >
-              About
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className="max-w-5xl text-[40px] font-extralight leading-[1.1] tracking-[-0.03em] text-white md:text-[80px]"
-            >
-              The story
-              <br />
-              behind the lens.
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              className="mt-8 max-w-xl text-lg font-light leading-relaxed text-[#F5F5F5]/60 md:text-xl"
-            >
-              Jonathan Xu — videographer, photographer, and the creative behind XSEN.
-            </motion.p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Bio — Large scrolling text blocks */}
-      <section className="bg-black py-32 md:py-48">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-          <ScrollReveal>
-            <div className="mx-auto max-w-4xl">
-              <h2 className="text-[28px] font-extralight leading-[1.4] text-white md:text-[44px] md:leading-[1.35]">
-                I&apos;m Jonathan Xu — a videographer and photographer based in
-                Toronto, Canada. I create cinematic content for brands that care
-                about how their story is told.
-              </h2>
+      {/* ===== HERO SECTION — parallax background like home page ===== */}
+      <section ref={heroSectionRef} className="relative" style={{ height: "280vh" }}>
+        {/* Fixed parallax background */}
+        <motion.div style={{ opacity: bgOpacity }} className="fixed inset-0 z-0">
+          <motion.div style={{ y: bgY }} className="absolute inset-0">
+            <div className="absolute -top-[12%] left-0 right-0" style={{ height: "125%" }}>
+              <Image
+                src="/about/DSC01568.jpg"
+                alt="Jonathan Xu"
+                fill
+                className="object-cover"
+                priority
+                sizes="100vw"
+                quality={90}
+              />
             </div>
-          </ScrollReveal>
+          </motion.div>
+          <div className="absolute inset-0 bg-black/40" />
+        </motion.div>
+
+        <div className="relative z-10">
+          {/* Screen 1: ABOUT title */}
+          <div className="grain-overlay flex h-screen items-center justify-center overflow-hidden">
+            <motion.div
+              style={{ opacity: titleOpacity, scale: titleScale }}
+              className="flex w-full items-center justify-center"
+            >
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 2.2, ease: "easeOut" }}
+                className="text-center"
+              >
+                <h1 className="font-display text-[clamp(80px,20vw,280px)] font-extrabold leading-[0.85] tracking-[-0.04em] text-white/90">
+                  ABOUT
+                </h1>
+                <p className="font-display mt-4 text-[clamp(14px,2vw,22px)] font-medium tracking-[0.2em] text-white/40 uppercase">
+                  The story behind the lens
+                </p>
+              </motion.div>
+            </motion.div>
+          </div>
+
+          {/* Screen 2: Bio statement */}
+          <div className="flex min-h-screen items-center py-16">
+            <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
+              <ScrollRevealLine>
+                <h2 className="font-display max-w-5xl text-[clamp(28px,5vw,64px)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white">
+                  I&apos;m Jonathan Xu — a videographer and photographer based in
+                  Toronto, creating cinematic content for brands that care about
+                  how their story is told.
+                </h2>
+              </ScrollRevealLine>
+              <ScrollRevealLine>
+                <p className="font-display mt-6 text-[clamp(11px,1vw,14px)] font-medium tracking-[0.25em] text-white/35 uppercase">
+                  Based in Toronto, Canada
+                </p>
+              </ScrollRevealLine>
+            </div>
+          </div>
+
+          {/* Seamless gradient fade into black */}
+          <div className="relative h-[20vh]">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black" />
+          </div>
         </div>
       </section>
 
-      {/* Background + Story */}
-      <section className="bg-black py-12 md:py-24">
+      {/* ===== BACKGROUND & STORY ===== */}
+      <section className="relative z-10 bg-black py-20 md:py-32">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-          <div className="grid items-start gap-16 md:grid-cols-2 md:gap-24">
+          <div className="grid items-start gap-12 md:grid-cols-2 md:gap-20">
             {/* Photo */}
-            <ScrollReveal>
-              <div className="relative aspect-[3/4] overflow-hidden">
+            <ScrollRevealLine>
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl">
                 <Image
                   src="/about/DSC01568.jpg"
                   alt="Jonathan Xu"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 600px"
                 />
               </div>
-            </ScrollReveal>
+            </ScrollRevealLine>
 
             {/* Text blocks */}
-            <div className="flex flex-col gap-20 md:pt-24">
-              <ScrollReveal>
-                <p className="mb-4 text-[12px] font-medium tracking-[0.3em] text-[#8A8A8A] uppercase">
+            <div className="flex flex-col gap-16 md:pt-12">
+              <ScrollRevealLine>
+                <p className="font-display mb-3 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
                   Background
                 </p>
-                <p className="text-lg font-light leading-relaxed text-[#F5F5F5]/80 md:text-xl">
+                <p className="text-[15px] leading-[1.8] text-white/50">
                   My background is in interior design and architecture — I spent
                   years at Partisans, one of Canada&apos;s most innovative
                   architecture studios. That trained my eye for space, light,
                   materiality, and the way a place makes you feel before you
                   can explain why.
                 </p>
-              </ScrollReveal>
+              </ScrollRevealLine>
 
-              <ScrollReveal>
-                <p className="mb-4 text-[12px] font-medium tracking-[0.3em] text-[#8A8A8A] uppercase">
+              <ScrollRevealLine>
+                <p className="font-display mb-3 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
                   The Transition
                 </p>
-                <p className="text-lg font-light leading-relaxed text-[#F5F5F5]/80 md:text-xl">
+                <p className="text-[15px] leading-[1.8] text-white/50">
                   I carried that sensibility into visual storytelling. Now I
                   work with hotels, restaurants, real estate developers,
                   architects, and tourism brands — creating content that
                   doesn&apos;t just show a space, but makes you feel like
                   you&apos;re already there.
                 </p>
-              </ScrollReveal>
+              </ScrollRevealLine>
 
-              <ScrollReveal>
-                <p className="mb-4 text-[12px] font-medium tracking-[0.3em] text-[#8A8A8A] uppercase">
+              <ScrollRevealLine>
+                <p className="font-display mb-3 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
                   The Approach
                 </p>
-                <p className="text-lg font-light leading-relaxed text-[#F5F5F5]/80 md:text-xl">
+                <p className="text-[15px] leading-[1.8] text-white/50">
                   My work is cinematic, moody, and intentional. Every frame is
                   considered. I shoot both photography and video — often both
                   in a single project — to give clients a complete visual
                   identity that works across their website, social media, and
                   marketing.
                 </p>
-              </ScrollReveal>
+              </ScrollRevealLine>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Full-width statement */}
-      <section className="bg-black py-32 md:py-48">
+      {/* ===== FULL-WIDTH STATEMENT ===== */}
+      <section className="relative z-10 bg-black py-20 md:py-32">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-          <ScrollReveal>
-            <div className="mx-auto max-w-4xl">
-              <h2 className="text-[28px] font-extralight leading-[1.4] text-white md:text-[44px] md:leading-[1.35]">
-                When I&apos;m not behind the camera, I&apos;m planning my next
-                destination. Travel isn&apos;t just a subject I shoot — it&apos;s
-                how I see the world and find the stories worth telling.
-              </h2>
-            </div>
-          </ScrollReveal>
+          <ScrollRevealLine>
+            <h2 className="font-display mx-auto max-w-4xl text-[clamp(24px,4vw,52px)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
+              When I&apos;m not behind the camera, I&apos;m planning my next
+              destination. Travel isn&apos;t just a subject I shoot — it&apos;s
+              how I see the world and find the stories worth telling.
+            </h2>
+          </ScrollRevealLine>
         </div>
       </section>
 
-      {/* Services + Industries grid */}
-      <section className="bg-black py-12 md:py-24">
+      {/* ===== SERVICES & INDUSTRIES — glass panels ===== */}
+      <section className="relative z-10 bg-black py-20 md:py-32">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-          <div className="grid gap-16 md:grid-cols-2 md:gap-24">
-            <ScrollReveal>
-              <div className="border-t border-[#1A1A1A] pt-8">
-                <p className="mb-8 text-[12px] font-medium tracking-[0.3em] text-[#8A8A8A] uppercase">
+          <div className="grid gap-5 md:grid-cols-2">
+            <ScrollRevealLine>
+              <div className="glass-panel rounded-2xl p-8 md:p-10">
+                <p className="font-display mb-6 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
                   What I Do
                 </p>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-3">
                   {[
                     "Cinematic Videography",
                     "Photography",
@@ -200,21 +201,21 @@ export default function AboutPage() {
                   ].map((service) => (
                     <span
                       key={service}
-                      className="text-lg font-light text-[#F5F5F5]/80"
+                      className="font-display text-[clamp(16px,1.5vw,20px)] font-bold text-white/70"
                     >
                       {service}
                     </span>
                   ))}
                 </div>
               </div>
-            </ScrollReveal>
+            </ScrollRevealLine>
 
-            <ScrollReveal>
-              <div className="border-t border-[#1A1A1A] pt-8">
-                <p className="mb-8 text-[12px] font-medium tracking-[0.3em] text-[#8A8A8A] uppercase">
+            <ScrollRevealLine>
+              <div className="glass-panel rounded-2xl p-8 md:p-10">
+                <p className="font-display mb-6 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
                   Clients &amp; Industries
                 </p>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-3">
                   {[
                     "Hotels & Resorts",
                     "Restaurants & Bars",
@@ -225,33 +226,33 @@ export default function AboutPage() {
                   ].map((industry) => (
                     <span
                       key={industry}
-                      className="text-lg font-light text-[#F5F5F5]/80"
+                      className="font-display text-[clamp(16px,1.5vw,20px)] font-bold text-white/70"
                     >
                       {industry}
                     </span>
                   ))}
                 </div>
               </div>
-            </ScrollReveal>
+            </ScrollRevealLine>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="border-t border-[#1A1A1A] bg-black py-32 md:py-48">
-        <ScrollReveal>
+      {/* ===== CTA ===== */}
+      <section className="relative z-10 overflow-hidden bg-black py-28 md:py-40">
+        <ScrollRevealLine>
           <div className="mx-auto max-w-[1400px] px-6 text-center md:px-20">
-            <h2 className="text-[32px] font-extralight tracking-[-0.03em] text-white md:text-[56px]">
+            <h2 className="font-display mx-auto max-w-3xl text-[clamp(32px,5.5vw,72px)] font-extrabold tracking-[-0.03em] text-white">
               Let&apos;s create something together.
             </h2>
             <Link
               href="/contact"
-              className="mt-12 inline-block border border-white/60 px-12 py-5 text-[12px] font-medium tracking-[0.15em] text-white uppercase transition-all duration-500 hover:bg-white hover:text-black"
+              className="glass-btn mt-10 inline-block px-11 py-4 text-[12px] font-bold tracking-[0.15em] text-white uppercase"
             >
               Get in Touch
             </Link>
           </div>
-        </ScrollReveal>
+        </ScrollRevealLine>
       </section>
     </>
   );
