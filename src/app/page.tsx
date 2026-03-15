@@ -17,8 +17,6 @@ export default function Home() {
 
   // Parallax on background image
   const bgY = useTransform(heroProgress, [0, 1], ["0%", "-25%"]);
-  // Smooth fade — use a long crossfade so black never "pops"
-  const bgOpacity = useTransform(heroProgress, [0, 0.55, 0.75], [1, 1, 0]);
 
   // XSEN fades out on scroll
   const xsenOpacity = useTransform(heroProgress, [0, 0.15], [1, 0]);
@@ -37,8 +35,8 @@ export default function Home() {
     <>
       {/* ===== HERO SECTION ===== */}
       <section ref={heroSectionRef} className="relative" style={{ height: "320vh" }}>
-        {/* Fixed parallax background */}
-        <motion.div style={{ opacity: bgOpacity }} className="fixed inset-0 z-0">
+        {/* Fixed parallax background — stays visible, covered by scrolling gradient */}
+        <div className="fixed inset-0 z-0">
           <motion.div style={{ y: bgY }} className="absolute inset-0">
             <div className="absolute -top-[12%] left-0 right-0" style={{ height: "125%" }}>
               <Image
@@ -52,8 +50,7 @@ export default function Home() {
               />
             </div>
           </motion.div>
-          <div className="absolute inset-0 bg-black/30" />
-        </motion.div>
+        </div>
 
         <div className="relative z-10">
           {/* Screen 1: XSEN — truly fills the entire screen */}
@@ -124,9 +121,9 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Seamless gradient fade into black */}
-          <div className="relative h-[20vh]">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black" />
+          {/* Long gradient that scrolls over the fixed background — image blends into black */}
+          <div className="relative h-[80vh]">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/60 to-black" />
           </div>
         </div>
       </section>

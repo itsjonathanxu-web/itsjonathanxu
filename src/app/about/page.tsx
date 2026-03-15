@@ -30,7 +30,6 @@ export default function AboutPage() {
 
   // Parallax on background image
   const bgY = useTransform(heroProgress, [0, 1], ["0%", "-25%"]);
-  const bgOpacity = useTransform(heroProgress, [0, 0.55, 0.75], [1, 1, 0]);
 
   // Title fade on scroll
   const titleOpacity = useTransform(heroProgress, [0, 0.15], [1, 0]);
@@ -40,8 +39,8 @@ export default function AboutPage() {
     <>
       {/* ===== HERO SECTION — parallax background like home page ===== */}
       <section ref={heroSectionRef} className="relative" style={{ height: "280vh" }}>
-        {/* Fixed parallax background */}
-        <motion.div style={{ opacity: bgOpacity }} className="fixed inset-0 z-0">
+        {/* Fixed parallax background — stays visible, covered by scrolling gradient */}
+        <div className="fixed inset-0 z-0">
           <motion.div style={{ y: bgY }} className="absolute inset-0">
             <div className="absolute -top-[12%] left-0 right-0" style={{ height: "125%" }}>
               <Image
@@ -55,8 +54,7 @@ export default function AboutPage() {
               />
             </div>
           </motion.div>
-          <div className="absolute inset-0 bg-black/40" />
-        </motion.div>
+        </div>
 
         <div className="relative z-10">
           {/* Screen 1: ABOUT title */}
@@ -99,9 +97,9 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Seamless gradient fade into black */}
-          <div className="relative h-[20vh]">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black" />
+          {/* Long gradient that scrolls over the fixed background — image blends into black */}
+          <div className="relative h-[80vh]">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/60 to-black" />
           </div>
         </div>
       </section>
