@@ -3,8 +3,16 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+} from "framer-motion";
 import { getFeaturedProjects, categories } from "@/lib/data";
+
+/* ===== SPRING CONFIG — Apple-style fluid feel ===== */
+const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
 
 export default function Home() {
   const featured = getFeaturedProjects();
@@ -15,12 +23,14 @@ export default function Home() {
     offset: ["start start", "end start"],
   });
 
-  // Parallax on background image
-  const bgY = useTransform(heroProgress, [0, 1], ["0%", "-25%"]);
+  // Parallax on background image — spring smoothed
+  const bgYRaw = useTransform(heroProgress, [0, 1], [0, -25]);
+  const bgYSmooth = useSpring(bgYRaw, smoothSpring);
 
-  // XSEN fades out on scroll
-  const xsenOpacity = useTransform(heroProgress, [0, 0.15], [1, 0]);
-  const xsenScale = useTransform(heroProgress, [0, 0.15], [1, 0.98]);
+  // XSEN fades out + scales down + blurs on scroll
+  const xsenOpacity = useTransform(heroProgress, [0, 0.12], [1, 0]);
+  const xsenScale = useTransform(heroProgress, [0, 0.12], [1, 0.95]);
+  const xsenBlur = useTransform(heroProgress, [0, 0.12], [0, 12]);
 
   // Featured title
   const featuredRef = useRef<HTMLDivElement>(null);
@@ -29,16 +39,19 @@ export default function Home() {
     offset: ["start end", "start 0.4"],
   });
   const featuredTitleOpacity = useTransform(featuredProgress, [0, 1], [0, 1]);
-  const featuredTitleY = useTransform(featuredProgress, [0, 1], [50, 0]);
+  const featuredTitleY = useTransform(featuredProgress, [0, 1], [80, 0]);
 
   return (
     <>
       {/* ===== HERO SECTION ===== */}
       <section ref={heroSectionRef} className="relative" style={{ height: "320vh" }}>
-        {/* Fixed parallax background — stays visible, covered by scrolling gradient */}
+        {/* Fixed parallax background */}
         <div className="fixed inset-0 z-0">
-          <motion.div style={{ y: bgY }} className="absolute inset-0">
-            <div className="absolute -top-[12%] left-0 right-0" style={{ height: "125%" }}>
+          <motion.div
+            style={{ y: bgYSmooth }}
+            className="absolute inset-0 will-change-transform"
+          >
+            <div className="absolute -top-[15%] left-0 right-0" style={{ height: "130%" }}>
               <Image
                 src="/chile/DSC08349.jpg"
                 alt="Cinematic background"
@@ -53,41 +66,47 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 flex flex-col" style={{ minHeight: "320vh" }}>
-          {/* Screen 1: XSEN — truly fills the entire screen */}
+          {/* Screen 1: XSEN — fills entire screen */}
           <div className="grain-overlay flex h-screen shrink-0 items-center justify-center overflow-hidden">
             <motion.div
-              style={{ opacity: xsenOpacity, scale: xsenScale }}
-              className="flex w-full items-center justify-center"
+              style={{
+                opacity: xsenOpacity,
+                scale: xsenScale,
+                filter: useTransform(xsenBlur, (v) => `blur(${v}px)`),
+              }}
+              className="flex w-full items-center justify-center will-change-transform"
             >
               <motion.h1
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.9 }}
-                transition={{ duration: 2.2, ease: "easeOut" }}
+                initial={{ opacity: 0, scale: 1.08 }}
+                animate={{ opacity: 0.9, scale: 1 }}
+                transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
                 className="font-display w-full text-center text-[clamp(200px,42vw,600px)] font-extrabold leading-[0.75] tracking-[-0.06em] text-white/90"
               >
                 XSEN
               </motion.h1>
             </motion.div>
+
+            {/* Scroll indicator */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.4 }}
+              transition={{ delay: 2.5, duration: 1 }}
+              className="absolute bottom-10 left-1/2 -translate-x-1/2"
+            >
+              <motion.div
+                animate={{ y: [0, 8, 0] }}
+                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                className="h-12 w-[1px] bg-gradient-to-b from-white/40 to-transparent"
+              />
+            </motion.div>
           </div>
 
-          {/* Screen 2: Descriptors + mission */}
+          {/* Screen 2: Descriptors + mission — word-by-word stagger */}
           <div className="flex min-h-screen shrink-0 items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
-              <ScrollRevealLine>
-                <p className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white">
-                  Cinematic Storyteller
-                </p>
-              </ScrollRevealLine>
-              <ScrollRevealLine>
-                <p className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white">
-                  Videographer
-                </p>
-              </ScrollRevealLine>
-              <ScrollRevealLine>
-                <p className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white">
-                  Photographer
-                </p>
-              </ScrollRevealLine>
+              <StaggerWords text="Cinematic Storyteller" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
+              <StaggerWords text="Videographer" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
+              <StaggerWords text="Photographer" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
 
               <div className="mt-10 md:mt-14">
                 <ScrollRevealLine>
@@ -121,7 +140,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Gradient fills all remaining space — no gap possible on any screen */}
+          {/* Gradient fills all remaining space */}
           <div className="relative flex-1">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/70 via-[40%] to-black" />
           </div>
@@ -161,17 +180,10 @@ export default function Home() {
               </ScrollRevealLine>
             </div>
 
-            <ScrollRevealLine>
-              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl">
-                <Image
-                  src="/about/DSC01568.jpg"
-                  alt="Jonathan Xu"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 600px"
-                />
-              </div>
-            </ScrollRevealLine>
+            <ParallaxImage
+              src="/about/DSC01568.jpg"
+              alt="Jonathan Xu"
+            />
           </div>
         </div>
       </section>
@@ -191,8 +203,8 @@ export default function Home() {
           </motion.div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
-            {featured.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+            {featured.map((project, i) => (
+              <ProjectCard key={project.id} project={project} index={i} />
             ))}
           </div>
 
@@ -219,22 +231,7 @@ export default function Home() {
           </ScrollRevealLine>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
             {categories.map((cat, i) => (
-              <ScrollRevealLine key={cat.slug}>
-                <Link
-                  href={`/work/${cat.slug}`}
-                  className="glass-panel group block rounded-2xl p-8 md:p-10"
-                >
-                  <span className="font-display text-[11px] font-bold tracking-[0.25em] text-white/20 uppercase transition-colors duration-500 group-hover:text-white/40">
-                    0{i + 1}
-                  </span>
-                  <h3 className="font-display mt-3 text-[clamp(20px,2.5vw,32px)] font-extrabold text-white transition-all duration-500 group-hover:translate-x-1">
-                    {cat.title}
-                  </h3>
-                  <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/30 transition-colors duration-500 group-hover:text-white/50">
-                    {cat.description}
-                  </p>
-                </Link>
-              </ScrollRevealLine>
+              <ExpertiseCard key={cat.slug} cat={cat} index={i} />
             ))}
           </div>
         </div>
@@ -264,6 +261,7 @@ export default function Home() {
 
 /* ===== COMPONENTS ===== */
 
+/** Scroll-triggered fade + slide up */
 function ScrollRevealLine({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -280,21 +278,108 @@ function ScrollRevealLine({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** Word-by-word stagger on scroll — each word fades/slides in individually */
+function StaggerWords({ text, className }: { text: string; className: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.95", "start 0.55"],
+  });
+
+  const words = text.split(" ");
+
+  return (
+    <div ref={ref} className={className} style={{ display: "flex", flexWrap: "wrap", gap: "0 0.3em" }}>
+      {words.map((word, i) => {
+        const start = i / (words.length + 1);
+        const end = (i + 1.5) / (words.length + 1);
+        return (
+          <StaggerWord key={i} word={word} progress={scrollYProgress} start={start} end={end} />
+        );
+      })}
+    </div>
+  );
+}
+
+function StaggerWord({
+  word,
+  progress,
+  start,
+  end,
+}: {
+  word: string;
+  progress: ReturnType<typeof useScroll>["scrollYProgress"];
+  start: number;
+  end: number;
+}) {
+  const opacity = useTransform(progress, [start, end], [0.15, 1]);
+  const y = useTransform(progress, [start, end], [8, 0]);
+  const blur = useTransform(progress, [start, end], [4, 0]);
+
+  return (
+    <motion.span
+      style={{
+        opacity,
+        y,
+        filter: useTransform(blur, (v) => `blur(${v}px)`),
+      }}
+      className="inline-block will-change-transform"
+    >
+      {word}
+    </motion.span>
+  );
+}
+
+/** Parallax image with scroll-driven scale + reveal */
+function ParallaxImage({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.08, 1, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.25], [0, 1]);
+
+  return (
+    <motion.div ref={ref} style={{ opacity }} className="relative aspect-[3/4] w-full overflow-hidden rounded-xl">
+      <motion.div style={{ y, scale }} className="absolute inset-0 will-change-transform">
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 600px"
+        />
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/** Project card with staggered entrance + hover reveal */
 function ProjectCard({
   project,
+  index,
 }: {
   project: ReturnType<typeof getFeaturedProjects>[number];
+  index: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "start 0.4"],
+    offset: ["start end", "start 0.35"],
   });
   const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 0.5], [50, 0]);
+  const y = useTransform(scrollYProgress, [0, 0.5], [60, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [0.96, 1]);
 
   return (
-    <motion.div ref={ref} style={{ opacity, y }}>
+    <motion.div
+      ref={ref}
+      style={{ opacity, y, scale }}
+      className="will-change-transform"
+      transition={{ delay: index * 0.08 }}
+    >
       <Link
         href={`/work/${project.categorySlug}`}
         className="group relative block overflow-hidden rounded-xl"
@@ -304,7 +389,7 @@ function ProjectCard({
             src={project.image}
             alt={project.title}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 700px"
           />
           {/* Default subtle overlay */}
@@ -312,7 +397,7 @@ function ProjectCard({
 
           {/* Text revealed on hover */}
           <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-            <div className="translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+            <div className="translate-y-4 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
               <p className="font-display text-[11px] font-bold tracking-[0.2em] text-white/60 uppercase">
                 {project.category}
               </p>
@@ -325,6 +410,47 @@ function ProjectCard({
             </div>
           </div>
         </div>
+      </Link>
+    </motion.div>
+  );
+}
+
+/** Expertise card with staggered entrance */
+function ExpertiseCard({
+  cat,
+  index,
+}: {
+  cat: (typeof categories)[number];
+  index: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "start 0.5"],
+  });
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
+  const y = useTransform(scrollYProgress, [0, 0.5], [40, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [0.97, 1]);
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ opacity, y, scale }}
+      className="will-change-transform"
+    >
+      <Link
+        href={`/work/${cat.slug}`}
+        className="glass-panel group block p-8 md:p-10"
+      >
+        <span className="font-display text-[11px] font-bold tracking-[0.25em] text-white/20 uppercase transition-colors duration-500 group-hover:text-white/40">
+          0{index + 1}
+        </span>
+        <h3 className="font-display mt-3 text-[clamp(20px,2.5vw,32px)] font-extrabold text-white transition-all duration-500 group-hover:translate-x-1">
+          {cat.title}
+        </h3>
+        <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/30 transition-colors duration-500 group-hover:text-white/50">
+          {cat.description}
+        </p>
       </Link>
     </motion.div>
   );
