@@ -40,7 +40,7 @@ export default function Home() {
           <motion.div style={{ y: bgY }} className="absolute inset-0">
             <div className="absolute -top-[12%] left-0 right-0" style={{ height: "125%" }}>
               <Image
-                src="/chile/DSC08376.jpg"
+                src="/chile/DSC08349.jpg"
                 alt="Cinematic background"
                 fill
                 className="object-cover"
@@ -52,9 +52,9 @@ export default function Home() {
           </motion.div>
         </div>
 
-        <div className="relative z-10">
+        <div className="relative z-10 flex flex-col" style={{ minHeight: "320vh" }}>
           {/* Screen 1: XSEN — truly fills the entire screen */}
-          <div className="grain-overlay flex h-screen items-center justify-center overflow-hidden">
+          <div className="grain-overlay flex h-screen shrink-0 items-center justify-center overflow-hidden">
             <motion.div
               style={{ opacity: xsenOpacity, scale: xsenScale }}
               className="flex w-full items-center justify-center"
@@ -71,7 +71,7 @@ export default function Home() {
           </div>
 
           {/* Screen 2: Descriptors + mission */}
-          <div className="flex min-h-screen items-center py-16">
+          <div className="flex min-h-screen shrink-0 items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               <ScrollRevealLine>
                 <p className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white">
@@ -121,9 +121,9 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Long gradient that scrolls over the fixed background — image blends into black */}
-          <div className="relative h-[80vh]">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/60 to-black" />
+          {/* Gradient fills all remaining space — no gap possible on any screen */}
+          <div className="relative flex-1">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/70 via-[40%] to-black" />
           </div>
         </div>
       </section>

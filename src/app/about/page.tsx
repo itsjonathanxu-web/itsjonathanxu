@@ -56,9 +56,9 @@ export default function AboutPage() {
           </motion.div>
         </div>
 
-        <div className="relative z-10">
+        <div className="relative z-10 flex flex-col" style={{ minHeight: "280vh" }}>
           {/* Screen 1: ABOUT title */}
-          <div className="grain-overlay flex h-screen items-center justify-center overflow-hidden">
+          <div className="grain-overlay flex h-screen shrink-0 items-center justify-center overflow-hidden">
             <motion.div
               style={{ opacity: titleOpacity, scale: titleScale }}
               className="flex w-full items-center justify-center"
@@ -80,7 +80,7 @@ export default function AboutPage() {
           </div>
 
           {/* Screen 2: Bio statement */}
-          <div className="flex min-h-screen items-center py-16">
+          <div className="flex min-h-screen shrink-0 items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               <ScrollRevealLine>
                 <h2 className="font-display max-w-5xl text-[clamp(28px,5vw,64px)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white">
@@ -97,9 +97,9 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Long gradient that scrolls over the fixed background — image blends into black */}
-          <div className="relative h-[80vh]">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/60 to-black" />
+          {/* Gradient fills all remaining space — no gap possible on any screen */}
+          <div className="relative flex-1">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/70 via-[40%] to-black" />
           </div>
         </div>
       </section>
