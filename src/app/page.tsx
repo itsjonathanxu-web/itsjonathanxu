@@ -9,7 +9,6 @@ import { getFeaturedProjects, categories } from "@/lib/data";
 export default function Home() {
   const featured = getFeaturedProjects();
 
-  // Main hero section scroll (entire bg image area)
   const heroSectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroSectionRef,
@@ -17,34 +16,31 @@ export default function Home() {
   });
 
   // Parallax on background image
-  const bgY = useTransform(heroProgress, [0, 1], ["0%", "-30%"]);
-  // Image fades fully to black BEFORE the section ends — no bleed
-  const bgOpacity = useTransform(heroProgress, [0, 0.6, 0.78], [1, 1, 0]);
+  const bgY = useTransform(heroProgress, [0, 1], ["0%", "-25%"]);
+  // Smooth fade — use a long crossfade so black never "pops"
+  const bgOpacity = useTransform(heroProgress, [0, 0.55, 0.75], [1, 1, 0]);
 
-  // XSEN fades/scales out as you scroll
-  const xsenOpacity = useTransform(heroProgress, [0, 0.18], [1, 0]);
-  const xsenScale = useTransform(heroProgress, [0, 0.18], [1, 0.97]);
+  // XSEN fades out on scroll
+  const xsenOpacity = useTransform(heroProgress, [0, 0.15], [1, 0]);
+  const xsenScale = useTransform(heroProgress, [0, 0.15], [1, 0.98]);
 
-  // Featured projects
+  // Featured title
   const featuredRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: featuredProgress } = useScroll({
     target: featuredRef,
-    offset: ["start end", "start 0.3"],
+    offset: ["start end", "start 0.4"],
   });
   const featuredTitleOpacity = useTransform(featuredProgress, [0, 1], [0, 1]);
-  const featuredTitleY = useTransform(featuredProgress, [0, 1], [60, 0]);
+  const featuredTitleY = useTransform(featuredProgress, [0, 1], [50, 0]);
 
   return (
     <>
-      {/* ===== HERO + SCROLLING TEXT WITH PARALLAX BACKGROUND ===== */}
-      <section ref={heroSectionRef} className="relative" style={{ height: "350vh" }}>
-        {/* Fixed background image with parallax */}
-        <motion.div
-          style={{ opacity: bgOpacity }}
-          className="fixed inset-0 z-0"
-        >
+      {/* ===== HERO SECTION ===== */}
+      <section ref={heroSectionRef} className="relative" style={{ height: "320vh" }}>
+        {/* Fixed parallax background */}
+        <motion.div style={{ opacity: bgOpacity }} className="fixed inset-0 z-0">
           <motion.div style={{ y: bgY }} className="absolute inset-0">
-            <div className="absolute -top-[15%] left-0 right-0" style={{ height: "130%" }}>
+            <div className="absolute -top-[12%] left-0 right-0" style={{ height: "125%" }}>
               <Image
                 src="/chile/DSC08376.jpg"
                 alt="Cinematic background"
@@ -56,30 +52,29 @@ export default function Home() {
               />
             </div>
           </motion.div>
-          <div className="absolute inset-0 bg-black/35" />
+          <div className="absolute inset-0 bg-black/30" />
         </motion.div>
 
-        {/* Scrolling content */}
         <div className="relative z-10">
-          {/* Screen 1: XSEN — fills the viewport */}
+          {/* Screen 1: XSEN — truly fills the entire screen */}
           <div className="grain-overlay flex h-screen items-center justify-center overflow-hidden">
             <motion.div
               style={{ opacity: xsenOpacity, scale: xsenScale }}
-              className="flex w-full items-center justify-center px-4"
+              className="flex w-full items-center justify-center"
             >
               <motion.h1
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 0.85 }}
-                transition={{ duration: 2, ease: "easeOut" }}
-                className="font-display text-center text-[clamp(160px,28vw,400px)] font-extrabold leading-[0.8] tracking-[-0.05em] text-white/85"
+                animate={{ opacity: 0.9 }}
+                transition={{ duration: 2.2, ease: "easeOut" }}
+                className="font-display w-full text-center text-[clamp(200px,42vw,600px)] font-extrabold leading-[0.75] tracking-[-0.06em] text-white/90"
               >
                 XSEN
               </motion.h1>
             </motion.div>
           </div>
 
-          {/* Screen 2: Descriptors + mission — compact */}
-          <div className="flex min-h-screen items-center py-20">
+          {/* Screen 2: Descriptors + mission */}
+          <div className="flex min-h-screen items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               <ScrollRevealLine>
                 <p className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white">
@@ -97,15 +92,15 @@ export default function Home() {
                 </p>
               </ScrollRevealLine>
 
-              <div className="mt-12 md:mt-16">
+              <div className="mt-10 md:mt-14">
                 <ScrollRevealLine>
-                  <p className="max-w-2xl text-[clamp(18px,2.5vw,32px)] font-medium leading-[1.4] text-white/80">
+                  <p className="max-w-2xl text-[clamp(18px,2.5vw,30px)] font-medium leading-[1.4] text-white/75">
                     Crafting compelling visual narratives for hospitality,
                     architecture, travel, and commercial brands.
                   </p>
                 </ScrollRevealLine>
                 <ScrollRevealLine>
-                  <p className="font-display mt-4 text-[clamp(12px,1.2vw,16px)] font-medium tracking-[0.2em] text-white/40 uppercase">
+                  <p className="font-display mt-3 text-[clamp(11px,1vw,14px)] font-medium tracking-[0.25em] text-white/35 uppercase">
                     Based in Toronto
                   </p>
                 </ScrollRevealLine>
@@ -113,13 +108,13 @@ export default function Home() {
                   <div className="mt-8 flex gap-5">
                     <Link
                       href="/work"
-                      className="glass-btn border border-white/30 px-9 py-3.5 text-[12px] font-bold tracking-[0.15em] text-white uppercase transition-all duration-500 hover:bg-white hover:text-black"
+                      className="glass-btn px-9 py-3.5 text-[12px] font-bold tracking-[0.15em] text-white uppercase"
                     >
                       View Work
                     </Link>
                     <Link
                       href="/contact"
-                      className="px-9 py-3.5 text-[12px] font-bold tracking-[0.15em] text-white/50 uppercase transition-colors duration-500 hover:text-white"
+                      className="px-9 py-3.5 text-[12px] font-bold tracking-[0.15em] text-white/40 uppercase transition-colors duration-500 hover:text-white"
                     >
                       Contact
                     </Link>
@@ -129,19 +124,20 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Fade-to-black buffer — image fully fades before this ends */}
-          <div className="h-[50vh]" />
+          {/* Seamless gradient fade into black */}
+          <div className="relative h-[20vh]">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black" />
+          </div>
         </div>
       </section>
 
-      {/* ===== ABOUT SECTION ===== */}
-      <section className="relative z-10 bg-black py-24 md:py-40">
+      {/* ===== ABOUT ===== */}
+      <section className="relative z-10 bg-black py-20 md:py-32">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <div className="grid items-center gap-12 md:grid-cols-2 md:gap-20">
-            {/* Text */}
             <div>
               <ScrollRevealLine>
-                <p className="font-display mb-5 text-[12px] font-bold tracking-[0.3em] text-[#8A8A8A] uppercase">
+                <p className="font-display mb-4 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
                   About
                 </p>
               </ScrollRevealLine>
@@ -151,7 +147,7 @@ export default function Home() {
                 </h2>
               </ScrollRevealLine>
               <ScrollRevealLine>
-                <p className="mt-6 text-[15px] leading-[1.8] text-[#8A8A8A] md:text-base">
+                <p className="mt-5 text-[15px] leading-[1.8] text-white/40">
                   With a background in interior design and architecture, I bring a
                   spatial awareness and compositional eye to every project. Whether
                   it&apos;s a boutique hotel, a travel destination, or a commercial
@@ -161,16 +157,15 @@ export default function Home() {
               <ScrollRevealLine>
                 <Link
                   href="/about"
-                  className="font-display mt-8 inline-block text-[12px] font-bold tracking-[0.15em] text-white uppercase transition-opacity duration-300 hover:opacity-50"
+                  className="font-display mt-7 inline-block text-[12px] font-bold tracking-[0.15em] text-white/70 uppercase transition-opacity duration-300 hover:opacity-50"
                 >
                   More About Me &rarr;
                 </Link>
               </ScrollRevealLine>
             </div>
 
-            {/* Image */}
             <ScrollRevealLine>
-              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg">
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl">
                 <Image
                   src="/about/DSC01568.jpg"
                   alt="Jonathan Xu"
@@ -184,12 +179,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== FEATURED PROJECTS — 2 per row ===== */}
+      {/* ===== FEATURED PROJECTS — 2 per row, hover reveal ===== */}
       <section ref={featuredRef} className="relative z-10 bg-black py-20 md:py-32">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <motion.div
             style={{ opacity: featuredTitleOpacity, y: featuredTitleY }}
-            className="mb-14 md:mb-20"
+            className="mb-12 md:mb-16"
           >
             <h2 className="font-display text-[clamp(44px,7vw,100px)] font-extrabold leading-[0.9] tracking-[-0.04em] text-white">
               FEATURED
@@ -198,17 +193,17 @@ export default function Home() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
             {featured.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
           </div>
 
           <ScrollRevealLine>
-            <div className="mt-14 text-center">
+            <div className="mt-12 text-center">
               <Link
                 href="/work"
-                className="glass-btn inline-block border border-white/30 px-9 py-3.5 text-[12px] font-bold tracking-[0.15em] text-white uppercase transition-all duration-500 hover:bg-white hover:text-black"
+                className="glass-btn inline-block px-9 py-3.5 text-[12px] font-bold tracking-[0.15em] text-white uppercase"
               >
                 View All Work
               </Link>
@@ -217,28 +212,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== EXPERTISE ===== */}
+      {/* ===== EXPERTISE — liquid glass panels ===== */}
       <section className="relative z-10 bg-black py-20 md:py-32">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <ScrollRevealLine>
-            <p className="font-display mb-12 text-[12px] font-bold tracking-[0.3em] text-[#8A8A8A] uppercase">
-              Expertise
-            </p>
+            <h2 className="font-display mb-10 text-[clamp(32px,5vw,64px)] font-extrabold tracking-[-0.03em] text-white">
+              EXPERTISE
+            </h2>
           </ScrollRevealLine>
-          <div className="grid gap-0 border-t border-[#1A1A1A] md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
             {categories.map((cat, i) => (
               <ScrollRevealLine key={cat.slug}>
                 <Link
                   href={`/work/${cat.slug}`}
-                  className="group flex flex-col gap-3 border-b border-[#1A1A1A] py-8 transition-colors duration-500 md:border-r md:px-8 md:py-10 md:even:border-r-0"
+                  className="glass-panel group block rounded-2xl p-8 md:p-10"
                 >
-                  <span className="font-display text-[11px] font-bold tracking-[0.2em] text-[#8A8A8A]/50 uppercase transition-colors duration-500 group-hover:text-white/50">
+                  <span className="font-display text-[11px] font-bold tracking-[0.25em] text-white/20 uppercase transition-colors duration-500 group-hover:text-white/40">
                     0{i + 1}
                   </span>
-                  <h3 className="font-display text-xl font-extrabold text-white transition-all duration-500 group-hover:translate-x-2 md:text-2xl">
+                  <h3 className="font-display mt-3 text-[clamp(20px,2.5vw,32px)] font-extrabold text-white transition-all duration-500 group-hover:translate-x-1">
                     {cat.title}
                   </h3>
-                  <p className="max-w-sm text-sm leading-relaxed text-[#8A8A8A] transition-colors duration-500 group-hover:text-[#C8C8C8]">
+                  <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/30 transition-colors duration-500 group-hover:text-white/50">
                     {cat.description}
                   </p>
                 </Link>
@@ -259,7 +254,7 @@ export default function Home() {
             </h2>
             <Link
               href="/contact"
-              className="glass-btn mt-10 inline-block border border-white/30 px-11 py-4 text-[12px] font-bold tracking-[0.15em] text-white uppercase transition-all duration-500 hover:bg-white hover:text-black"
+              className="glass-btn mt-10 inline-block px-11 py-4 text-[12px] font-bold tracking-[0.15em] text-white uppercase"
             >
               Get in Touch
             </Link>
@@ -272,11 +267,7 @@ export default function Home() {
 
 /* ===== COMPONENTS ===== */
 
-function ScrollRevealLine({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function ScrollRevealLine({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -309,9 +300,9 @@ function ProjectCard({
     <motion.div ref={ref} style={{ opacity, y }}>
       <Link
         href={`/work/${project.categorySlug}`}
-        className="group block"
+        className="group relative block overflow-hidden rounded-xl"
       >
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg">
+        <div className="relative aspect-[4/3] w-full">
           <Image
             src={project.image}
             alt={project.title}
@@ -319,18 +310,23 @@ function ProjectCard({
             className="object-cover transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 700px"
           />
-          <div className="absolute inset-0 bg-black/5 transition-all duration-700 group-hover:bg-black/25" />
-        </div>
-        <div className="mt-4">
-          <p className="font-display text-[11px] font-bold tracking-[0.15em] text-[#8A8A8A] uppercase">
-            {project.category}
-          </p>
-          <h3 className="font-display mt-1.5 text-[clamp(16px,2vw,24px)] font-extrabold tracking-[-0.01em] text-white">
-            {project.title}
-          </h3>
-          <p className="mt-1.5 text-sm leading-relaxed text-[#8A8A8A]">
-            {project.description}
-          </p>
+          {/* Default subtle overlay */}
+          <div className="absolute inset-0 bg-black/10 transition-all duration-700 group-hover:bg-black/50" />
+
+          {/* Text revealed on hover */}
+          <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
+            <div className="translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+              <p className="font-display text-[11px] font-bold tracking-[0.2em] text-white/60 uppercase">
+                {project.category}
+              </p>
+              <h3 className="font-display mt-2 text-[clamp(18px,2.5vw,28px)] font-extrabold tracking-[-0.01em] text-white">
+                {project.title}
+              </h3>
+              <p className="mt-1.5 max-w-sm text-sm leading-relaxed text-white/60">
+                {project.description}
+              </p>
+            </div>
+          </div>
         </div>
       </Link>
     </motion.div>

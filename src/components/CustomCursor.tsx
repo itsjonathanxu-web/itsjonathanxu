@@ -49,7 +49,6 @@ export default function CustomCursor() {
         }
       }
 
-      // Draw smooth trail
       for (let i = 0; i < trail.length; i++) {
         const point = trail[i];
         const life = 1 - point.age / 30;
@@ -68,7 +67,6 @@ export default function CustomCursor() {
         ctx.fill();
       }
 
-      // Main cursor dot
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
       if (mx > 0 && my > 0) {
@@ -83,24 +81,16 @@ export default function CustomCursor() {
         ctx.fill();
       }
 
-      // No grain overlay — clean cursor only
-
       rafRef.current = requestAnimationFrame(animate);
     };
 
     rafRef.current = requestAnimationFrame(animate);
-
-    document.body.style.cursor = "none";
-    document.querySelectorAll("a, button").forEach((el) => {
-      (el as HTMLElement).style.cursor = "none";
-    });
 
     return () => {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("touchstart", onTouch);
       cancelAnimationFrame(rafRef.current);
-      document.body.style.cursor = "";
     };
   }, []);
 
