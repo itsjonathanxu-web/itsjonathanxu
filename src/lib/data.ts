@@ -39,18 +39,18 @@ export interface TravelArea {
 
 export const categories: Category[] = [
   {
-    slug: "hospitality",
-    title: "Hospitality",
-    description:
-      "Cinematic content for hotels, restaurants, bars, and cafes. Capturing the atmosphere, experience, and story of every space.",
-    image: "/work/hospitality/joia-newmarket/dsc08589.jpg",
-  },
-  {
     slug: "travel-destination",
     title: "Travel & Destination",
     description:
       "Destination marketing and cinematic travel content. Making places unforgettable through visual storytelling.",
     image: "/work/travel-destination/chile/dsc08349.jpg",
+  },
+  {
+    slug: "hospitality",
+    title: "Hospitality",
+    description:
+      "Cinematic content for hotels, restaurants, bars, and cafes. Capturing the atmosphere, experience, and story of every space.",
+    image: "/work/hospitality/joia-newmarket/dsc08589.jpg",
   },
   {
     slug: "architecture-interiors",
@@ -398,7 +398,7 @@ export function getTravelLocationBySlug(slug: string): TravelLocation | undefine
 }
 
 export function getFeaturedProjects(): Project[] {
-  return [travelFeaturedProjects[0], travelFeaturedProjects[1]];
+  return travelFeaturedProjects;
 }
 
 // Travel locations surfaced as "featured projects" on home page
@@ -417,6 +417,14 @@ const travelFeaturedProjects: Project[] = [
     categorySlug: "travel-destination",
     description: "Glacial waters, jagged peaks, and the raw grandeur of Patagonia.",
     coverImage: "/work/travel-destination/chile/dsc08349.jpg",
+    images: [],
+  },
+  {
+    slug: "japan",
+    title: "Japan",
+    categorySlug: "travel-destination",
+    description: "A cinematic journey through Tokyo, Kyoto, Osaka, and Nara — capturing the contrast of tradition and modernity.",
+    coverImage: "/work/travel-destination/japan/nara/dsc06565-min.jpg",
     images: [],
   },
 ];

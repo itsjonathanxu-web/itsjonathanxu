@@ -58,7 +58,7 @@ export default function CustomCursor() {
           point.x, point.y, 0,
           point.x, point.y, radius
         );
-        gradient.addColorStop(0, `rgba(255, 255, 255, ${life * 0.15})`);
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${life * 0.225})`);
         gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
 
         ctx.beginPath();
@@ -71,8 +71,8 @@ export default function CustomCursor() {
       const my = mouseRef.current.y;
       if (mx > 0 && my > 0) {
         const cursorGradient = ctx.createRadialGradient(mx, my, 0, mx, my, 10);
-        cursorGradient.addColorStop(0, "rgba(255, 255, 255, 0.5)");
-        cursorGradient.addColorStop(0.6, "rgba(255, 255, 255, 0.1)");
+        cursorGradient.addColorStop(0, "rgba(255, 255, 255, 0.75)");
+        cursorGradient.addColorStop(0.6, "rgba(255, 255, 255, 0.15)");
         cursorGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
 
         ctx.beginPath();

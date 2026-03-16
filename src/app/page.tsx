@@ -65,6 +65,9 @@ export default function Home() {
           </motion.div>
         </div>
 
+        {/* Top gradient for header legibility */}
+        <div className="pointer-events-none fixed inset-x-0 top-0 z-[5] h-40 bg-gradient-to-b from-black/60 to-transparent" />
+
         <div className="relative z-10 flex flex-col" style={{ minHeight: "320vh" }}>
           {/* Screen 1: XSEN — fills entire screen */}
           <div className="grain-overlay flex h-screen shrink-0 items-center justify-center overflow-hidden">
@@ -101,21 +104,13 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* Screen 2: Descriptors + mission — word-by-word stagger */}
+          {/* Screen 2: Production company statement — left/right offset */}
           <div className="flex min-h-screen shrink-0 items-center py-16">
-            <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20 text-center">
-              <StaggerWords text="Cinematographer" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white justify-center" />
-              <StaggerWords text="Videographer" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white justify-center" />
-              <StaggerWords text="Photographer" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white justify-center" />
-
-              <div className="mt-10 md:mt-14">
-                <ScrollRevealLine>
-                  <p className="mx-auto max-w-2xl text-[clamp(18px,2.5vw,30px)] font-medium leading-[1.4] text-white/75">
-                    Crafting compelling visual narratives for hospitality,
-                    architecture, travel, and commercial brands.
-                  </p>
-                </ScrollRevealLine>
-              </div>
+            <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
+              <StaggerWords text="A travel production" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
+              <StaggerWords text="company focused on" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white md:ml-auto md:text-right md:justify-end" />
+              <StaggerWords text="travel, architecture" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
+              <StaggerWords text="and hospitality" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white md:ml-auto md:text-right md:justify-end" />
             </div>
           </div>
 
@@ -172,7 +167,7 @@ export default function Home() {
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <motion.div
             style={{ opacity: featuredTitleOpacity, y: featuredTitleY }}
-            className="mb-12 text-center md:mb-16"
+            className="mb-12 md:mb-16"
           >
             <h2 className="font-display text-[clamp(44px,7vw,100px)] font-extrabold leading-[0.9] tracking-[-0.04em] text-white">
               FEATURED
@@ -181,7 +176,7 @@ export default function Home() {
             </h2>
           </motion.div>
 
-          <div className="mx-auto flex w-full flex-col items-center gap-8 md:w-[70%]">
+          <div className="flex w-full flex-col gap-8">
             {featured.map((project, i) => (
               <ProjectCard key={project.slug} project={project} index={i} />
             ))}
@@ -202,7 +197,7 @@ export default function Home() {
 
       {/* ===== EXPERTISE — liquid glass panels ===== */}
       <section className="relative z-10 bg-black py-20 md:py-32">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-20 text-center">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <ScrollRevealLine>
             <h2 className="font-display mb-10 text-[clamp(32px,5vw,64px)] font-extrabold tracking-[-0.03em] text-white">
               EXPERTISE
@@ -321,7 +316,7 @@ function ParallaxImage({ src, alt }: { src: string; alt: string }) {
   const opacity = useTransform(scrollYProgress, [0, 0.25], [0, 1]);
 
   return (
-    <motion.div ref={ref} style={{ opacity }} className="relative aspect-[3/4] w-full overflow-hidden rounded-xl">
+    <motion.div ref={ref} style={{ opacity }} className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl">
       <motion.div style={{ y, scale }} className="absolute inset-0 will-change-transform">
         <Image
           src={src}
@@ -361,7 +356,7 @@ function ProjectCard({
     >
       <Link
         href={project.categorySlug === "travel-destination" ? `/work/travel-destination/${project.slug}` : `/work/${project.categorySlug}`}
-        className="group relative block overflow-hidden rounded-xl"
+        className="group relative block overflow-hidden rounded-2xl"
       >
         <div className="relative aspect-[4/3] w-full">
           <Image
@@ -369,7 +364,7 @@ function ProjectCard({
             alt={project.title}
             fill
             className="object-cover"
-            sizes="(max-width: 768px) 100vw, 700px"
+            sizes="100vw"
           />
           {/* Darken overlay on hover */}
           <div className="absolute inset-0 bg-black/10 transition-all duration-500 group-hover:bg-black/40" />
@@ -377,10 +372,7 @@ function ProjectCard({
           {/* Text revealed on hover */}
           <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
             <div className="translate-y-4 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-              <p className="font-display text-[11px] font-bold tracking-[0.2em] text-white/60 uppercase">
-                {project.categorySlug === "hospitality" ? "Hospitality" : project.categorySlug === "travel-destination" ? "Travel & Destination" : "Architecture & Interiors"}
-              </p>
-              <h3 className="font-display mt-2 text-[clamp(18px,2.5vw,28px)] font-extrabold tracking-[-0.01em] text-white">
+              <h3 className="font-display text-[clamp(18px,2.5vw,28px)] font-extrabold tracking-[-0.01em] text-white">
                 {project.title}
               </h3>
               <p className="mt-1.5 max-w-sm text-sm leading-relaxed text-white/60">
