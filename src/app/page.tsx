@@ -53,7 +53,7 @@ export default function Home() {
           >
             <div className="absolute -top-[15%] left-0 right-0" style={{ height: "130%" }}>
               <Image
-                src="/chile/DSC08349.jpg"
+                src="/work/travel-destination/chile/dsc08349.jpg"
                 alt="Cinematic background"
                 fill
                 className="object-cover"
@@ -204,7 +204,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
             {featured.map((project, i) => (
-              <ProjectCard key={project.id} project={project} index={i} />
+              <ProjectCard key={project.slug} project={project} index={i} />
             ))}
           </div>
 
@@ -386,7 +386,7 @@ function ProjectCard({
       >
         <div className="relative aspect-[4/3] w-full">
           <Image
-            src={project.image}
+            src={project.coverImage}
             alt={project.title}
             fill
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
@@ -399,7 +399,7 @@ function ProjectCard({
           <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
             <div className="translate-y-4 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
               <p className="font-display text-[11px] font-bold tracking-[0.2em] text-white/60 uppercase">
-                {project.category}
+                {project.categorySlug === "hospitality" ? "Hospitality" : "Architecture & Interiors"}
               </p>
               <h3 className="font-display mt-2 text-[clamp(18px,2.5vw,28px)] font-extrabold tracking-[-0.01em] text-white">
                 {project.title}
