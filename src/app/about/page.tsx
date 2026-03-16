@@ -127,7 +127,7 @@ export default function AboutPage() {
                 <p className="font-display mb-3 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
                   Background
                 </p>
-                <p className="text-[15px] leading-[1.8] text-white/50">
+                <p className="text-[16px] leading-[1.8] text-white/60">
                   My background is in interior design and architecture — I spent
                   years at Partisans, one of Canada&apos;s most innovative
                   architecture studios. That trained my eye for space, light,
@@ -140,7 +140,7 @@ export default function AboutPage() {
                 <p className="font-display mb-3 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
                   The Transition
                 </p>
-                <p className="text-[15px] leading-[1.8] text-white/50">
+                <p className="text-[16px] leading-[1.8] text-white/60">
                   I carried that sensibility into visual storytelling. Now I
                   work with hotels, restaurants, real estate developers,
                   architects, and tourism brands — creating content that
@@ -153,7 +153,7 @@ export default function AboutPage() {
                 <p className="font-display mb-3 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
                   The Approach
                 </p>
-                <p className="text-[15px] leading-[1.8] text-white/50">
+                <p className="text-[16px] leading-[1.8] text-white/60">
                   My work is cinematic, moody, and intentional. Every frame is
                   considered. I shoot both photography and video — often both
                   in a single project — to give clients a complete visual
@@ -176,63 +176,6 @@ export default function AboutPage() {
               how I see the world and find the stories worth telling.
             </h2>
           </ScrollRevealLine>
-        </div>
-      </section>
-
-      {/* ===== SERVICES & INDUSTRIES — glass panels ===== */}
-      <section className="relative z-10 bg-black py-20 md:py-32">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-          <div className="grid gap-5 md:grid-cols-2">
-            <ScrollRevealLine>
-              <div className="glass-panel rounded-2xl p-8 md:p-10">
-                <p className="font-display mb-6 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
-                  What I Do
-                </p>
-                <div className="flex flex-col gap-3">
-                  {[
-                    "Cinematic Videography",
-                    "Photography",
-                    "Brand Content",
-                    "Destination Marketing",
-                    "Real Estate Video",
-                    "Commercial Production",
-                  ].map((service) => (
-                    <span
-                      key={service}
-                      className="font-display text-[clamp(16px,1.5vw,20px)] font-bold text-white/70"
-                    >
-                      {service}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </ScrollRevealLine>
-
-            <ScrollRevealLine>
-              <div className="glass-panel rounded-2xl p-8 md:p-10">
-                <p className="font-display mb-6 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
-                  Clients &amp; Industries
-                </p>
-                <div className="flex flex-col gap-3">
-                  {[
-                    "Hotels & Resorts",
-                    "Restaurants & Bars",
-                    "Real Estate",
-                    "Interior Design",
-                    "Architecture",
-                    "Tourism Boards",
-                  ].map((industry) => (
-                    <span
-                      key={industry}
-                      className="font-display text-[clamp(16px,1.5vw,20px)] font-bold text-white/70"
-                    >
-                      {industry}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </ScrollRevealLine>
-          </div>
         </div>
       </section>
 

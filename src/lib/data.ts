@@ -398,5 +398,25 @@ export function getTravelLocationBySlug(slug: string): TravelLocation | undefine
 }
 
 export function getFeaturedProjects(): Project[] {
-  return [hospitalityProjects[0], architectureProjects[0]];
+  return [hospitalityProjects[0], architectureProjects[0], travelFeaturedProjects[0], travelFeaturedProjects[1]];
 }
+
+// Travel locations surfaced as "featured projects" on home page
+const travelFeaturedProjects: Project[] = [
+  {
+    slug: "death-valley",
+    title: "Death Valley",
+    categorySlug: "travel-destination",
+    description: "Endless desert, shifting dunes, and otherworldly landscapes in the hottest place on Earth.",
+    coverImage: "/work/travel-destination/death-valley/itsjonathanxu---dune-2-min.jpg",
+    images: [],
+  },
+  {
+    slug: "chile",
+    title: "Chile",
+    categorySlug: "travel-destination",
+    description: "Glacial waters, jagged peaks, and the raw grandeur of Patagonia.",
+    coverImage: "/work/travel-destination/chile/dsc08349.jpg",
+    images: [],
+  },
+];

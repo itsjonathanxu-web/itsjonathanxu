@@ -33,7 +33,7 @@ function CategoryCard({ cat, index }: { cat: (typeof categories)[0]; index: numb
           src={cat.image}
           alt={cat.title}
           fill
-          className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
+          className="object-cover"
           sizes="(max-width: 768px) 100vw, 1400px"
         />
 

@@ -52,7 +52,7 @@ function GalleryImage({ src, alt, index }: { src: string; alt: string; index: nu
           alt={alt}
           width={800}
           height={600}
-          className="h-auto w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.03]"
+          className="h-auto w-full object-cover"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           loading={index < 3 ? "eager" : "lazy"}
         />
@@ -191,10 +191,10 @@ export default function TravelLocationPage() {
                       src={loc.coverImage}
                       alt={loc.title}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="object-cover"
                       sizes="(max-width: 768px) 100vw, 450px"
                     />
-                    <div className="absolute inset-0 bg-black/40 transition-all duration-500 group-hover:bg-black/60" />
+                    <div className="absolute inset-0 bg-black/30 transition-all duration-500 group-hover:bg-black/55" />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <h3 className="font-display text-[clamp(16px,1.5vw,22px)] font-extrabold tracking-wide text-white">
                         {loc.title}

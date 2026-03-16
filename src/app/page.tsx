@@ -53,7 +53,7 @@ export default function Home() {
           >
             <div className="absolute -top-[15%] left-0 right-0" style={{ height: "130%" }}>
               <Image
-                src="/work/travel-destination/chile/dsc08349.jpg"
+                src="/work/travel-destination/death-valley/itsjonathanxu---dune-2-min.jpg"
                 alt="Cinematic background"
                 fill
                 className="object-cover"
@@ -163,7 +163,7 @@ export default function Home() {
                 </h2>
               </ScrollRevealLine>
               <ScrollRevealLine>
-                <p className="mt-5 text-[15px] leading-[1.8] text-white/40">
+                <p className="mt-5 text-[16px] leading-[1.8] text-white/60">
                   With a background in interior design and architecture, I bring a
                   spatial awareness and compositional eye to every project. Whether
                   it&apos;s a boutique hotel, a travel destination, or a commercial
@@ -181,7 +181,7 @@ export default function Home() {
             </div>
 
             <ParallaxImage
-              src="/about/DSC01568.jpg"
+              src="/about/portrait.jpg"
               alt="Jonathan Xu"
             />
           </div>
@@ -381,7 +381,7 @@ function ProjectCard({
       transition={{ delay: index * 0.08 }}
     >
       <Link
-        href={`/work/${project.categorySlug}`}
+        href={project.categorySlug === "travel-destination" ? `/work/travel-destination/${project.slug}` : `/work/${project.categorySlug}`}
         className="group relative block overflow-hidden rounded-xl"
       >
         <div className="relative aspect-[4/3] w-full">
@@ -389,17 +389,17 @@ function ProjectCard({
             src={project.coverImage}
             alt={project.title}
             fill
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className="object-cover"
             sizes="(max-width: 768px) 100vw, 700px"
           />
-          {/* Default subtle overlay */}
-          <div className="absolute inset-0 bg-black/10 transition-all duration-700 group-hover:bg-black/50" />
+          {/* Darken overlay on hover */}
+          <div className="absolute inset-0 bg-black/10 transition-all duration-500 group-hover:bg-black/40" />
 
           {/* Text revealed on hover */}
           <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
             <div className="translate-y-4 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
               <p className="font-display text-[11px] font-bold tracking-[0.2em] text-white/60 uppercase">
-                {project.categorySlug === "hospitality" ? "Hospitality" : "Architecture & Interiors"}
+                {project.categorySlug === "hospitality" ? "Hospitality" : project.categorySlug === "travel-destination" ? "Travel & Destination" : "Architecture & Interiors"}
               </p>
               <h3 className="font-display mt-2 text-[clamp(18px,2.5vw,28px)] font-extrabold tracking-[-0.01em] text-white">
                 {project.title}

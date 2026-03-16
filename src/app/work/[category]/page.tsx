@@ -67,7 +67,7 @@ function GalleryImage({ src, alt, index }: { src: string; alt: string; index: nu
           alt={alt}
           width={800}
           height={600}
-          className="h-auto w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.03]"
+          className="h-auto w-full object-cover"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           loading={index < 3 ? "eager" : "lazy"}
         />
@@ -112,7 +112,7 @@ function LocationCard({ location }: { location: (typeof travelLocations)[0] }) {
             src={location.coverImage}
             alt={location.title}
             fill
-            className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.05]"
+            className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-700 group-hover:from-black/90 group-hover:via-black/30" />
@@ -265,10 +265,10 @@ export default function CategoryPage() {
                     src={cat.image}
                     alt={cat.title}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="object-cover"
                     sizes="(max-width: 768px) 100vw, 700px"
                   />
-                  <div className="absolute inset-0 bg-black/40 transition-all duration-500 group-hover:bg-black/60" />
+                  <div className="absolute inset-0 bg-black/30 transition-all duration-500 group-hover:bg-black/55" />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <h3 className="font-display text-[clamp(18px,2vw,28px)] font-extrabold tracking-wide text-white">
                       {cat.title}
