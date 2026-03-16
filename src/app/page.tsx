@@ -103,38 +103,17 @@ export default function Home() {
 
           {/* Screen 2: Descriptors + mission — word-by-word stagger */}
           <div className="flex min-h-screen shrink-0 items-center py-16">
-            <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
-              <StaggerWords text="Cinematic Storyteller" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
-              <StaggerWords text="Videographer" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
-              <StaggerWords text="Photographer" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
+            <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20 text-center">
+              <StaggerWords text="Cinematographer" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white justify-center" />
+              <StaggerWords text="Videographer" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white justify-center" />
+              <StaggerWords text="Photographer" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white justify-center" />
 
               <div className="mt-10 md:mt-14">
                 <ScrollRevealLine>
-                  <p className="max-w-2xl text-[clamp(18px,2.5vw,30px)] font-medium leading-[1.4] text-white/75">
+                  <p className="mx-auto max-w-2xl text-[clamp(18px,2.5vw,30px)] font-medium leading-[1.4] text-white/75">
                     Crafting compelling visual narratives for hospitality,
                     architecture, travel, and commercial brands.
                   </p>
-                </ScrollRevealLine>
-                <ScrollRevealLine>
-                  <p className="font-display mt-3 text-[clamp(11px,1vw,14px)] font-medium tracking-[0.25em] text-white/35 uppercase">
-                    Based in Toronto
-                  </p>
-                </ScrollRevealLine>
-                <ScrollRevealLine>
-                  <div className="mt-8 flex gap-5">
-                    <Link
-                      href="/work"
-                      className="glass-btn px-9 py-3.5 text-[12px] font-bold tracking-[0.15em] text-white uppercase"
-                    >
-                      View Work
-                    </Link>
-                    <Link
-                      href="/contact"
-                      className="px-9 py-3.5 text-[12px] font-bold tracking-[0.15em] text-white/40 uppercase transition-colors duration-500 hover:text-white"
-                    >
-                      Contact
-                    </Link>
-                  </div>
                 </ScrollRevealLine>
               </div>
             </div>
@@ -181,19 +160,19 @@ export default function Home() {
             </div>
 
             <ParallaxImage
-              src="/about/portrait.jpg"
+              src="/about/DSC01568.jpg"
               alt="Jonathan Xu"
             />
           </div>
         </div>
       </section>
 
-      {/* ===== FEATURED PROJECTS — 2 per row, hover reveal ===== */}
+      {/* ===== FEATURED PROJECTS — centered, one per row ===== */}
       <section ref={featuredRef} className="relative z-10 bg-black py-20 md:py-32">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <motion.div
             style={{ opacity: featuredTitleOpacity, y: featuredTitleY }}
-            className="mb-12 md:mb-16"
+            className="mb-12 text-center md:mb-16"
           >
             <h2 className="font-display text-[clamp(44px,7vw,100px)] font-extrabold leading-[0.9] tracking-[-0.04em] text-white">
               FEATURED
@@ -202,7 +181,7 @@ export default function Home() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+          <div className="mx-auto flex w-full flex-col items-center gap-8 md:w-[70%]">
             {featured.map((project, i) => (
               <ProjectCard key={project.slug} project={project} index={i} />
             ))}
@@ -223,13 +202,13 @@ export default function Home() {
 
       {/* ===== EXPERTISE — liquid glass panels ===== */}
       <section className="relative z-10 bg-black py-20 md:py-32">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-20">
+        <div className="mx-auto max-w-[1400px] px-6 md:px-20 text-center">
           <ScrollRevealLine>
             <h2 className="font-display mb-10 text-[clamp(32px,5vw,64px)] font-extrabold tracking-[-0.03em] text-white">
               EXPERTISE
             </h2>
           </ScrollRevealLine>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
             {categories.map((cat, i) => (
               <ExpertiseCard key={cat.slug} cat={cat} index={i} />
             ))}
@@ -377,7 +356,7 @@ function ProjectCard({
     <motion.div
       ref={ref}
       style={{ opacity, y, scale }}
-      className="will-change-transform"
+      className="w-full will-change-transform"
       transition={{ delay: index * 0.08 }}
     >
       <Link
@@ -440,15 +419,15 @@ function ExpertiseCard({
     >
       <Link
         href={`/work/${cat.slug}`}
-        className="glass-panel group block p-8 md:p-10"
+        className="glass-panel group block p-8 text-left md:p-10"
       >
-        <span className="font-display text-[11px] font-bold tracking-[0.25em] text-white/20 uppercase transition-colors duration-500 group-hover:text-white/40">
+        <span className="font-display text-[11px] font-bold tracking-[0.25em] text-white/30 uppercase transition-colors duration-500 group-hover:text-white/50">
           0{index + 1}
         </span>
         <h3 className="font-display mt-3 text-[clamp(20px,2.5vw,32px)] font-extrabold text-white transition-all duration-500 group-hover:translate-x-1">
           {cat.title}
         </h3>
-        <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/30 transition-colors duration-500 group-hover:text-white/50">
+        <p className="mt-2 text-sm leading-relaxed text-white/50 transition-colors duration-500 group-hover:text-white/70">
           {cat.description}
         </p>
       </Link>

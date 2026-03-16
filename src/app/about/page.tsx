@@ -44,8 +44,8 @@ export default function AboutPage() {
           <motion.div style={{ y: bgY }} className="absolute inset-0">
             <div className="absolute -top-[12%] left-0 right-0" style={{ height: "125%" }}>
               <Image
-                src="/about/DSC01568.jpg"
-                alt="Jonathan Xu"
+                src="/work/travel-destination/death-valley/dsc07177-enhanced-nr-2-min.jpg"
+                alt="Death Valley"
                 fill
                 className="object-cover"
                 priority
@@ -55,6 +55,9 @@ export default function AboutPage() {
             </div>
           </motion.div>
         </div>
+
+        {/* Top gradient for header legibility */}
+        <div className="pointer-events-none fixed inset-x-0 top-0 z-[5] h-40 bg-gradient-to-b from-black/60 to-transparent" />
 
         <div className="relative z-10 flex flex-col" style={{ minHeight: "280vh" }}>
           {/* Screen 1: ABOUT title */}
@@ -112,7 +115,7 @@ export default function AboutPage() {
             <ScrollRevealLine>
               <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl">
                 <Image
-                  src="/about/DSC01568.jpg"
+                  src="/about/portrait.jpg"
                   alt="Jonathan Xu"
                   fill
                   className="object-cover"

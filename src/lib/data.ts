@@ -398,7 +398,7 @@ export function getTravelLocationBySlug(slug: string): TravelLocation | undefine
 }
 
 export function getFeaturedProjects(): Project[] {
-  return [hospitalityProjects[0], architectureProjects[0], travelFeaturedProjects[0], travelFeaturedProjects[1]];
+  return [travelFeaturedProjects[0], travelFeaturedProjects[1]];
 }
 
 // Travel locations surfaced as "featured projects" on home page
@@ -408,7 +408,7 @@ const travelFeaturedProjects: Project[] = [
     title: "Death Valley",
     categorySlug: "travel-destination",
     description: "Endless desert, shifting dunes, and otherworldly landscapes in the hottest place on Earth.",
-    coverImage: "/work/travel-destination/death-valley/itsjonathanxu---dune-2-min.jpg",
+    coverImage: "/work/travel-destination/death-valley/dsc07213-enhanced-nr-min.jpg",
     images: [],
   },
   {
