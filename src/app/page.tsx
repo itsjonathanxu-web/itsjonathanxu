@@ -122,7 +122,7 @@ export default function Home() {
       </section>
 
       {/* ===== ABOUT ===== */}
-      <section className="relative z-10 bg-black py-20 md:py-32">
+      <section className="relative z-10 bg-black py-10 md:py-16">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <div className="grid items-center gap-12 md:grid-cols-2 md:gap-20">
             <div>
