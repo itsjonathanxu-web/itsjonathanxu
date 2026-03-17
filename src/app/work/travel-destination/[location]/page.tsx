@@ -68,6 +68,72 @@ function GalleryImage({ src, alt, index }: { src: string; alt: string; index: nu
 }
 
 // ============================================
+// EDITORIAL GALLERY IMAGE — varied sizes
+// ============================================
+
+// Deterministic size pattern for editorial layout
+// Pattern repeats: full, half+half, third+third+third, half+half, full, etc.
+const LAYOUT_PATTERN = [
+  "full",      // 0
+  "half",      // 1
+  "half",      // 2
+  "third",     // 3
+  "third",     // 4
+  "third",     // 5
+  "two-third", // 6
+  "third",     // 7
+  "full",      // 8
+  "half",      // 9
+  "half",      // 10
+  "third",     // 11
+  "two-third", // 12
+] as const;
+
+function getImageSize(index: number): string {
+  return LAYOUT_PATTERN[index % LAYOUT_PATTERN.length];
+}
+
+function EditorialGalleryImage({ src, alt, index, size }: { src: string; alt: string; index: number; size: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.95", "start 0.6"],
+  });
+  const rawScale = useTransform(scrollYProgress, [0, 1], [0.94, 1]);
+  const scale = useSpring(rawScale, smoothSpring);
+  const rawOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const opacity = useSpring(rawOpacity, smoothSpring);
+
+  const aspectClass = size === "full" ? "aspect-[21/9]" : size === "two-third" ? "aspect-[16/10]" : "aspect-[4/5]";
+  const colSpan = size === "full" ? "col-span-1 md:col-span-6" : size === "two-third" ? "col-span-1 md:col-span-4" : size === "half" ? "col-span-1 md:col-span-3" : "col-span-1 md:col-span-2";
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ scale, opacity }}
+      className={colSpan}
+    >
+      <div className={`group relative overflow-hidden rounded-xl ${aspectClass}`}>
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          className="object-cover"
+          sizes={size === "full" ? "100vw" : size === "two-third" ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
+          loading={index < 3 ? "eager" : "lazy"}
+        />
+        <div
+          className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          style={{
+            background: "linear-gradient(135deg, rgba(255,255,255,0.03), transparent, rgba(100,140,255,0.02))",
+          }}
+        />
+      </div>
+    </motion.div>
+  );
+}
+
+// ============================================
 // MAIN PAGE
 // ============================================
 
@@ -156,17 +222,31 @@ export default function TravelLocationPage() {
               </ScrollReveal>
             )}
 
-            {/* Masonry Gallery */}
-            <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
-              {area.images.map((img, i) => (
-                <GalleryImage
-                  key={img}
-                  src={img}
-                  alt={`${location.title} — ${area.name} ${i + 1}`}
-                  index={areaIndex === 0 ? i : i + 10}
-                />
-              ))}
-            </div>
+            {/* Gallery — editorial grid for Japan, masonry for others */}
+            {slug === "japan" ? (
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
+                {area.images.map((img, i) => (
+                  <EditorialGalleryImage
+                    key={img}
+                    src={img}
+                    alt={`${location.title} — ${area.name} ${i + 1}`}
+                    index={areaIndex === 0 ? i : i + 10}
+                    size={getImageSize(i)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
+                {area.images.map((img, i) => (
+                  <GalleryImage
+                    key={img}
+                    src={img}
+                    alt={`${location.title} — ${area.name} ${i + 1}`}
+                    index={areaIndex === 0 ? i : i + 10}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </section>
       ))}

@@ -104,13 +104,22 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* Screen 2: Production company statement — left/right offset */}
+          {/* Screen 2: Videographer statement — left intro, right categories */}
           <div className="flex min-h-screen shrink-0 items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
-              <StaggerWords text="A travel production" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
-              <StaggerWords text="company focused on" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white md:ml-auto md:text-right md:justify-end" />
-              <StaggerWords text="travel, architecture" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
-              <StaggerWords text="and hospitality" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white md:ml-auto md:text-right md:justify-end" />
+              {/* Left-aligned intro */}
+              <StaggerWords text="A Videographer and" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
+              <StaggerWords text="Photographer focused on" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
+
+              {/* Gap */}
+              <div className="h-[clamp(40px,6vw,80px)]" />
+
+              {/* Right-aligned categories — each in a unique font */}
+              <div className="flex flex-col items-end gap-2 md:gap-3">
+                <StaggerWords text="Travel" className="font-playfair text-[clamp(36px,7vw,90px)] font-medium italic leading-[1] tracking-[-0.01em] text-white/85 md:justify-end" />
+                <StaggerWords text="Architecture" className="font-space-grotesk text-[clamp(36px,7vw,90px)] font-bold leading-[1] tracking-[-0.04em] text-white/85 md:justify-end" />
+                <StaggerWords text="Hospitality" className="font-cormorant text-[clamp(36px,7vw,90px)] font-semibold italic leading-[1] tracking-[0.01em] text-white/85 md:justify-end" />
+              </div>
             </div>
           </div>
 

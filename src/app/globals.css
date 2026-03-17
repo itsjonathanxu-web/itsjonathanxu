@@ -17,6 +17,17 @@
   font-family: var(--font-display);
 }
 
+/* Category-specific fonts */
+.font-playfair {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+.font-space-grotesk {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+}
+.font-cormorant {
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
 /* Grain texture overlay */
 .grain-overlay {
   position: relative;
