@@ -179,13 +179,13 @@ export default function Home() {
 
       {/* ===== FEATURED PROJECTS - full-width immersive ===== */}
       <section ref={featuredRef} className="relative z-10 bg-black" style={{ marginTop: "-1px" }}>
-        <div className="mx-auto max-w-[1400px] px-6 pt-20 pb-6 md:px-20 md:pt-32 md:pb-8">
+        <div className="mx-auto max-w-[1400px] px-6 pt-28 pb-6 md:px-20 md:pt-44 md:pb-8">
           <motion.div
             style={{ opacity: featuredTitleOpacity, y: featuredTitleY }}
             className="mb-12 md:mb-16"
           >
             <h2
-              className="font-display whitespace-nowrap text-center text-[clamp(56px,10vw,140px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
+              className="font-display whitespace-nowrap text-center text-[clamp(40px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
               style={{
                 background: "linear-gradient(to bottom, rgba(255,255,255,1) 30%, rgba(255,255,255,0.15) 100%)",
                 WebkitBackgroundClip: "text",
