@@ -114,19 +114,19 @@ export default function Home() {
               {/* Gap */}
               <div className="h-[clamp(24px,4vw,56px)]" />
 
-              {/* Categories - each on its own line, large */}
-              <div className="flex flex-col gap-1 md:gap-2">
+              {/* Categories - right aligned, each on its own line */}
+              <div className="flex flex-col items-end gap-1 md:gap-2">
                 <CharacterReveal
                   text="Travel"
-                  className="font-display text-[clamp(44px,8vw,110px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display whitespace-nowrap text-[clamp(44px,8vw,110px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
                   text="Architecture and Interiors"
-                  className="font-display text-[clamp(44px,8vw,110px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display whitespace-nowrap text-[clamp(28px,5.2vw,110px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
                   text="Hospitality"
-                  className="font-display text-[clamp(44px,8vw,110px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display whitespace-nowrap text-[clamp(44px,8vw,110px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
               </div>
             </div>
@@ -192,9 +192,12 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Full-width project images with gradient blending */}
+        {/* Full-width project images with black breaks between */}
         {featured.map((project, i) => (
-          <FullWidthProjectCard key={project.slug} project={project} index={i} />
+          <div key={project.slug}>
+            {i > 0 && <div className="h-24 bg-black md:h-32" />}
+            <FullWidthProjectCard project={project} index={i} />
+          </div>
         ))}
 
         <div className="bg-black py-12">
