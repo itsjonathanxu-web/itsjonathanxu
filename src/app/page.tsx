@@ -141,7 +141,7 @@ export default function Home() {
 
       {/* ===== ABOUT - full-width photo with text overlay ===== */}
       <section className="relative z-10 bg-black">
-        <div className="relative w-full bg-black" style={{ minHeight: "85vh" }}>
+        <div className="relative w-full overflow-hidden bg-black" style={{ minHeight: "85vh" }}>
           {/* Full-width background photo */}
           <AboutParallaxBg src="/about/DSC01568.jpg" alt="Jonathan Xu" />
 
@@ -413,7 +413,7 @@ function FullWidthProjectCard({
   const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
 
   return (
-    <div ref={ref} className="relative w-full bg-black" style={{ minHeight: "100vh" }}>
+    <div ref={ref} className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
       {/* Parallax background image */}
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
         <Image
