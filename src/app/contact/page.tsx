@@ -1,23 +1,7 @@
 "use client";
 
-import { useRef, useState, FormEvent } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-
-function ScrollRevealLine({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 0.95", "start 0.65"],
-  });
-  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [30, 0]);
-
-  return (
-    <motion.div ref={ref} style={{ opacity, y }}>
-      {children}
-    </motion.div>
-  );
-}
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -27,7 +11,7 @@ export default function ContactPage() {
     message: "",
   });
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const subject = `Project Inquiry from ${formData.name}`;
     const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
@@ -60,21 +44,9 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
             >
-              <h1 className="font-display text-[clamp(40px,8vw,72px)] font-extrabold leading-[1] tracking-[-0.03em] text-white">
-                Let&apos;s work
-                <br />
-                together.
+              <h1 className="font-display whitespace-nowrap text-[clamp(32px,8vw,80px)] font-extrabold leading-[1] tracking-[-0.03em] text-white">
+                LET&apos;S WORK TOGETHER
               </h1>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <p className="mx-auto mt-6 max-w-md text-[15px] leading-[1.8] text-white/40">
-                Have a project in mind? I&apos;d love to hear about it. Fill
-                out the form and I&apos;ll get back to you within 48 hours.
-              </p>
             </motion.div>
           </div>
 
