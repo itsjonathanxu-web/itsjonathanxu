@@ -118,15 +118,15 @@ export default function Home() {
               <div className="flex flex-col items-end gap-1 md:gap-2">
                 <CharacterReveal
                   text="Travel"
-                  className="font-display whitespace-nowrap text-[clamp(44px,8vw,110px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display whitespace-nowrap text-[clamp(40px,7vw,100px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
                   text="Architecture and Interiors"
-                  className="font-display whitespace-nowrap text-[clamp(28px,5.2vw,110px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display whitespace-nowrap text-[clamp(24px,4.5vw,100px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
                   text="Hospitality"
-                  className="font-display whitespace-nowrap text-[clamp(44px,8vw,110px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display whitespace-nowrap text-[clamp(40px,7vw,100px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
               </div>
             </div>
@@ -182,9 +182,17 @@ export default function Home() {
         <div className="mx-auto max-w-[1400px] px-6 py-20 md:px-20 md:py-32">
           <motion.div
             style={{ opacity: featuredTitleOpacity, y: featuredTitleY }}
-            className="mb-12 md:mb-16"
+            className="mb-12 text-center md:mb-16"
           >
-            <h2 className="font-display text-[clamp(44px,7vw,100px)] font-extrabold leading-[0.9] tracking-[-0.04em] text-white">
+            <h2
+              className="font-display text-[clamp(56px,10vw,140px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
+              style={{
+                background: "linear-gradient(to bottom, rgba(255,255,255,1) 30%, rgba(255,255,255,0.15) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
               FEATURED
               <br />
               PROJECTS

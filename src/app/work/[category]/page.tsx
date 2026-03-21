@@ -10,6 +10,7 @@ import {
   getProjectsByCategory,
   travelLocations,
   categories,
+  type Project,
 } from "@/lib/data";
 
 const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
@@ -136,6 +137,57 @@ function LocationCard({ location }: { location: (typeof travelLocations)[0] }) {
 }
 
 // ============================================
+// HOSPITALITY PROJECT CARD
+// ============================================
+
+function HospitalityProjectCard({ project }: { project: Project }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.95", "start 0.5"],
+  });
+  const rawScale = useTransform(scrollYProgress, [0, 0.5], [0.93, 1]);
+  const scale = useSpring(rawScale, smoothSpring);
+  const rawOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
+  const opacity = useSpring(rawOpacity, smoothSpring);
+  const rawY = useTransform(scrollYProgress, [0, 0.5], [60, 0]);
+  const y = useSpring(rawY, smoothSpring);
+
+  return (
+    <motion.div ref={ref} style={{ scale, opacity, y }}>
+      <Link
+        href={`/work/hospitality/${project.slug}`}
+        className="glass-panel group relative block overflow-hidden rounded-2xl"
+      >
+        <div className="relative aspect-[16/10] overflow-hidden">
+          <Image
+            src={project.coverImage}
+            alt={project.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-700 group-hover:from-black/90 group-hover:via-black/30" />
+
+          {/* Content overlay */}
+          <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
+            <span className="font-display text-[10px] font-bold tracking-[0.3em] text-white/30 uppercase">
+              {project.images.length} photos{project.location && ` · ${project.location}`}
+            </span>
+            <h3 className="font-display mt-2 text-[clamp(24px,3vw,40px)] font-extrabold leading-[0.95] tracking-[-0.02em] text-white transition-transform duration-700 ease-out group-hover:translate-x-1">
+              {project.title}
+            </h3>
+            <p className="mt-2 max-w-md text-[13px] leading-[1.7] text-white/35 transition-colors duration-500 group-hover:text-white/55">
+              {project.description}
+            </p>
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
+
+// ============================================
 // MAIN PAGE
 // ============================================
 
@@ -161,6 +213,7 @@ export default function CategoryPage() {
   }
 
   const isTravel = slug === "travel-destination";
+  const isHospitality = slug === "hospitality";
   const projects = getProjectsByCategory(slug);
   const otherCategories = categories.filter((c) => c.slug !== slug);
 
@@ -207,13 +260,23 @@ export default function CategoryPage() {
         </div>
       </section>
 
-      {/* ===== CONTENT -Travel locations OR Project gallery ===== */}
+      {/* ===== CONTENT -Travel locations, Hospitality venues, OR Project gallery ===== */}
       {isTravel ? (
         <section className="bg-black pb-24 md:pb-40">
           <div className="mx-auto max-w-[1400px] px-6 md:px-20">
             <div className="grid gap-6 md:grid-cols-2">
               {travelLocations.map((location) => (
                 <LocationCard key={location.slug} location={location} />
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : isHospitality ? (
+        <section className="bg-black pb-24 md:pb-40">
+          <div className="mx-auto max-w-[1400px] px-6 md:px-20">
+            <div className="grid gap-6 md:grid-cols-2">
+              {projects.map((project) => (
+                <HospitalityProjectCard key={project.slug} project={project} />
               ))}
             </div>
           </div>

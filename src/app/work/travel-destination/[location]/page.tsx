@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -95,6 +95,7 @@ function getImageSize(index: number): string {
 
 function EditorialGalleryImage({ src, alt, index, size }: { src: string; alt: string; index: number; size: string }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [isHorizontal, setIsHorizontal] = useState<boolean | null>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.95", "start 0.6"],
@@ -104,7 +105,9 @@ function EditorialGalleryImage({ src, alt, index, size }: { src: string; alt: st
   const rawOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const opacity = useSpring(rawOpacity, smoothSpring);
 
-  const colSpan = size === "full" ? "col-span-1 md:col-span-6" : size === "two-third" ? "col-span-1 md:col-span-4" : size === "half" ? "col-span-1 md:col-span-3" : "col-span-1 md:col-span-2";
+  // Horizontal images always span full width; vertical images use the layout pattern
+  const effectiveSize = isHorizontal ? "full" : size;
+  const colSpan = effectiveSize === "full" ? "col-span-1 md:col-span-6" : effectiveSize === "two-third" ? "col-span-1 md:col-span-4" : effectiveSize === "half" ? "col-span-1 md:col-span-3" : "col-span-1 md:col-span-2";
 
   return (
     <motion.div
@@ -119,8 +122,12 @@ function EditorialGalleryImage({ src, alt, index, size }: { src: string; alt: st
           width={1200}
           height={800}
           className="h-auto w-full object-cover"
-          sizes={size === "full" ? "100vw" : size === "two-third" ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
+          sizes={effectiveSize === "full" ? "100vw" : effectiveSize === "two-third" ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
           loading={index < 3 ? "eager" : "lazy"}
+          onLoad={(e) => {
+            const img = e.currentTarget;
+            setIsHorizontal(img.naturalWidth > img.naturalHeight);
+          }}
         />
         <div
           className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
