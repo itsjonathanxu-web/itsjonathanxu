@@ -145,11 +145,11 @@ export default function Home() {
           {/* Full-width background photo */}
           <AboutParallaxBg src="/about/DSC01568.jpg" alt="Jonathan Xu" />
 
-          {/* Top gradient - solid black then fade into image */}
-          <div className="absolute inset-x-0 top-0 z-[1] h-[45%]" style={{ background: "linear-gradient(to bottom, black 10%, transparent 100%)" }} />
+          {/* Top gradient - deep fade from black into image */}
+          <div className="absolute inset-x-0 top-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to bottom, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
 
-          {/* Bottom gradient - image fades to solid black */}
-          <div className="absolute inset-x-0 bottom-0 z-[1] h-[45%]" style={{ background: "linear-gradient(to top, black 10%, transparent 100%)" }} />
+          {/* Bottom gradient - deep fade from image to black */}
+          <div className="absolute inset-x-0 bottom-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to top, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
 
           {/* Text content overlaid */}
           <div className="relative z-10 flex min-h-[85vh] flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
@@ -425,11 +425,11 @@ function FullWidthProjectCard({
         />
       </motion.div>
 
-      {/* Top gradient - solid black then fade to image */}
-      <div className="absolute inset-x-0 top-0 z-[1] h-[45%]" style={{ background: "linear-gradient(to bottom, black 10%, transparent 100%)" }} />
+      {/* Top gradient - deep fade from black into image */}
+      <div className="absolute inset-x-0 top-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to bottom, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
 
-      {/* Bottom gradient - image fades to solid black */}
-      <div className="absolute inset-x-0 bottom-0 z-[1] h-[45%]" style={{ background: "linear-gradient(to top, black 10%, transparent 100%)" }} />
+      {/* Bottom gradient - deep fade from image to black */}
+      <div className="absolute inset-x-0 bottom-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to top, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
 
       {/* Clickable overlay */}
       <Link
