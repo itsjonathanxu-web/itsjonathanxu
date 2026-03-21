@@ -249,7 +249,7 @@ export const travelLocations: TravelLocation[] = [
   {
     slug: "united-states",
     title: "United States",
-    coverImage: "/work/travel-destination/united-states/chicago/dsc06764-enhanced-nr.jpg",
+    coverImage: "/work/travel-destination/united-states/chicago/dsc06819-enhanced-nr.jpg",
     description: "Architectural grandeur and urban energy across Boston, Chicago, and Detroit.",
     areas: [
       {
@@ -412,19 +412,19 @@ const travelFeaturedProjects: Project[] = [
     images: [],
   },
   {
+    slug: "united-kingdom",
+    title: "United Kingdom",
+    categorySlug: "travel-destination",
+    description: "From the streets of London to the cliffs of Seven Sisters and the wild beauty of Northern Ireland.",
+    coverImage: "/work/travel-destination/united-kingdom/london/0.jpg",
+    images: [],
+  },
+  {
     slug: "chile",
     title: "Chile",
     categorySlug: "travel-destination",
     description: "Glacial waters, jagged peaks, and the raw grandeur of Patagonia.",
-    coverImage: "/work/travel-destination/chile/dsc08349.jpg",
-    images: [],
-  },
-  {
-    slug: "japan",
-    title: "Japan",
-    categorySlug: "travel-destination",
-    description: "A cinematic journey through Tokyo, Kyoto, Osaka, and Nara, capturing the contrast of tradition and modernity.",
-    coverImage: "/work/travel-destination/japan/nara/dsc06565-min.jpg",
+    coverImage: "/work/travel-destination/chile/dsc08376.jpg",
     images: [],
   },
 ];
