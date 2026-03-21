@@ -107,20 +107,18 @@ export default function Home() {
           {/* Screen 2: Videographer statement + categories */}
           <div className="flex min-h-screen shrink-0 items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
-              {/* Left-aligned intro */}
-              <StaggerWords text="A Videographer and" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
-              <StaggerWords text="Photographer focused on" className="font-display text-[clamp(36px,7vw,90px)] font-extrabold leading-[1] tracking-[-0.03em] text-white" />
+              {/* Smaller intro line */}
+              <StaggerWords text="A Videographer and" className="font-display text-[clamp(20px,3.5vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
+              <StaggerWords text="Photographer focused on" className="font-display text-[clamp(20px,3.5vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
 
               {/* Gap */}
-              <div className="h-[clamp(40px,6vw,80px)]" />
+              <div className="h-[clamp(24px,4vw,56px)]" />
 
-              {/* Categories in one line with character-by-character reveal */}
-              <div className="flex justify-end">
-                <CharacterReveal
-                  text="Travel  ·  Architecture and Interiors  ·  Hospitality"
-                  className="font-display text-[clamp(16px,3.2vw,42px)] font-bold leading-[1.2] tracking-[-0.01em] text-white/80"
-                />
-              </div>
+              {/* Categories - larger, same font, character reveal */}
+              <CharacterReveal
+                text="Travel  ·  Architecture and Interiors  ·  Hospitality"
+                className="font-display text-[clamp(28px,5.5vw,72px)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white"
+              />
             </div>
           </div>
 
@@ -131,40 +129,42 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== ABOUT ===== */}
-      <section className="relative z-10 bg-black py-10 md:py-16">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-          <div className="grid items-center gap-12 md:grid-cols-2 md:gap-20">
-            <div>
+      {/* ===== ABOUT - full-width photo with text overlay ===== */}
+      <section className="relative z-10 bg-black">
+        <div className="relative w-full overflow-hidden" style={{ minHeight: "85vh" }}>
+          {/* Full-width background photo */}
+          <AboutParallaxBg src="/about/DSC01568.jpg" alt="Jonathan Xu" />
+
+          {/* Dark overlay for text legibility */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+
+          {/* Text content overlaid */}
+          <div className="relative z-10 flex min-h-[85vh] flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
+            <div className="mx-auto w-full max-w-[1400px]">
               <ScrollRevealLine>
-                <p className="font-display mb-4 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
+                <p className="font-display mb-4 text-[11px] font-bold tracking-[0.3em] text-white/40 uppercase">
                   About
                 </p>
               </ScrollRevealLine>
               <ScrollRevealLine>
-                <h2 className="font-display text-[clamp(26px,3.5vw,48px)] font-extrabold leading-[1.15] tracking-[-0.02em] text-white">
+                <h2 className="font-display max-w-4xl text-[clamp(22px,3vw,40px)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
                   I make cinematic visuals for places that deserve to be seen differently. To transcend the norm, not in a way that supersedes the ordinary, but one that brings new perspectives.
                 </h2>
               </ScrollRevealLine>
               <ScrollRevealLine>
-                <p className="mt-5 text-[16px] leading-[1.8] text-white/60">
+                <p className="mt-5 max-w-2xl text-[15px] leading-[1.8] text-white/55">
                   I come from a design background, years spent in architecture studios studying how space, light, and material shape the way we feel. That lens never left. Now I see the world through craft, culture, and an appreciation for the things that stop you in your tracks. Every frame I capture is rooted in that instinct, the belief that the most powerful visuals come from truly understanding what makes a place extraordinary.
                 </p>
               </ScrollRevealLine>
               <ScrollRevealLine>
                 <Link
                   href="/about"
-                  className="font-display mt-7 inline-block text-[12px] font-bold tracking-[0.15em] text-white/70 uppercase transition-opacity duration-300 hover:opacity-50"
+                  className="glass-btn mt-8 inline-block px-8 py-3 text-[12px] font-bold tracking-[0.15em] text-white uppercase"
                 >
-                  More About Me &rarr;
+                  More About My Journey
                 </Link>
               </ScrollRevealLine>
             </div>
-
-            <ParallaxImage
-              src="/about/DSC01568.jpg"
-              alt="Jonathan Xu"
-            />
           </div>
         </div>
       </section>
@@ -364,28 +364,25 @@ function CharRevealUnit({
   );
 }
 
-/** Parallax image with scroll-driven scale + reveal */
-function ParallaxImage({ src, alt }: { src: string; alt: string }) {
+/** Full-width parallax background for about section */
+function AboutParallaxBg({ src, alt }: { src: string; alt: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.08, 1, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 0.25], [0, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
 
   return (
-    <motion.div ref={ref} style={{ opacity }} className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl">
-      <motion.div style={{ y, scale }} className="absolute inset-0 will-change-transform">
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 600px"
-        />
-      </motion.div>
+    <motion.div ref={ref} style={{ y, scale }} className="absolute inset-0 will-change-transform">
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className="object-cover"
+        sizes="100vw"
+      />
     </motion.div>
   );
 }
@@ -471,7 +468,7 @@ function ExpertiseCard({
     >
       <Link
         href={`/work/${cat.slug}`}
-        className="glass-panel group block p-8 text-left md:p-10"
+        className="glass-panel group flex h-full flex-col p-8 text-left md:p-10"
       >
         <span className="font-display text-[11px] font-bold tracking-[0.25em] text-white/30 uppercase transition-colors duration-500 group-hover:text-white/50">
           0{index + 1}
@@ -479,7 +476,7 @@ function ExpertiseCard({
         <h3 className="font-display mt-3 text-[clamp(20px,2.5vw,32px)] font-extrabold text-white transition-all duration-500 group-hover:translate-x-1">
           {cat.title}
         </h3>
-        <p className="mt-2 text-sm leading-relaxed text-white/50 transition-colors duration-500 group-hover:text-white/70">
+        <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-white/50 transition-colors duration-500 group-hover:text-white/70">
           {cat.description}
         </p>
       </Link>
