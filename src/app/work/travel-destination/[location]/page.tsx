@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -68,34 +68,87 @@ function GalleryImage({ src, alt, index }: { src: string; alt: string; index: nu
 }
 
 // ============================================
-// EDITORIAL GALLERY IMAGE -varied sizes
+// RANDOMIZED ORGANIC GALLERY (Japan)
 // ============================================
 
-// Deterministic size pattern for editorial layout
-// Pattern repeats: full, half+half, third+third+third, half+half, full, etc.
-const LAYOUT_PATTERN = [
-  "full",      // 0
-  "half",      // 1
-  "half",      // 2
-  "third",     // 3
-  "third",     // 4
-  "third",     // 5
-  "two-third", // 6
-  "third",     // 7
-  "full",      // 8
-  "half",      // 9
-  "half",      // 10
-  "third",     // 11
-  "two-third", // 12
-] as const;
-
-function getImageSize(index: number): string {
-  return LAYOUT_PATTERN[index % LAYOUT_PATTERN.length];
+// Seeded pseudo-random for deterministic layouts
+function seededRandom(seed: number): number {
+  const x = Math.sin(seed * 9301 + 49297) * 49297;
+  return x - Math.floor(x);
 }
 
-function EditorialGalleryImage({ src, alt, index, size }: { src: string; alt: string; index: number; size: string }) {
+interface LayoutItem {
+  src: string;
+  alt: string;
+  index: number;
+  widthPercent: number;   // 25-80%
+  marginLeft: number;     // 0-20% offset
+}
+
+function generateOrganicLayout(images: { src: string; alt: string }[], areaSeed: number): LayoutItem[][] {
+  const rows: LayoutItem[][] = [];
+  let i = 0;
+
+  while (i < images.length) {
+    const rand = seededRandom(i + areaSeed);
+    // Decide how many images in this row: 1, 2, or 3
+    const remaining = images.length - i;
+    let count: number;
+    if (remaining === 1) {
+      count = 1;
+    } else if (remaining === 2) {
+      count = 2;
+    } else {
+      // Weighted: 20% chance of 1, 45% chance of 2, 35% chance of 3
+      count = rand < 0.2 ? 1 : rand < 0.65 ? 2 : 3;
+    }
+
+    const row: LayoutItem[] = [];
+
+    if (count === 1) {
+      // Single image: 60-80% width, random horizontal offset
+      const w = 60 + seededRandom(i + areaSeed + 100) * 20;
+      const maxOffset = 100 - w;
+      const ml = seededRandom(i + areaSeed + 200) * maxOffset;
+      row.push({ ...images[i], index: i, widthPercent: w, marginLeft: ml });
+    } else if (count === 2) {
+      // Two images: each 30-45%, with gap between
+      const w1 = 30 + seededRandom(i + areaSeed + 300) * 15;
+      const w2 = 30 + seededRandom(i + 1 + areaSeed + 300) * 15;
+      const totalW = w1 + w2;
+      const maxGap = Math.max(0, 100 - totalW);
+      const gap = 2 + seededRandom(i + areaSeed + 400) * Math.min(maxGap - 2, 15);
+      const totalUsed = totalW + gap;
+      const maxOffset = Math.max(0, 100 - totalUsed);
+      const ml = seededRandom(i + areaSeed + 500) * maxOffset;
+      row.push({ ...images[i], index: i, widthPercent: w1, marginLeft: ml });
+      row.push({ ...images[i + 1], index: i + 1, widthPercent: w2, marginLeft: gap });
+    } else {
+      // Three images: each 22-32%
+      const w1 = 22 + seededRandom(i + areaSeed + 600) * 10;
+      const w2 = 22 + seededRandom(i + 1 + areaSeed + 600) * 10;
+      const w3 = 22 + seededRandom(i + 2 + areaSeed + 600) * 10;
+      const totalW = w1 + w2 + w3;
+      const remaining100 = Math.max(0, 100 - totalW);
+      const g1 = 1.5 + seededRandom(i + areaSeed + 700) * Math.min(remaining100 / 3, 4);
+      const g2 = 1.5 + seededRandom(i + 1 + areaSeed + 700) * Math.min(remaining100 / 3, 4);
+      const totalUsed = totalW + g1 + g2;
+      const maxOffset = Math.max(0, 100 - totalUsed);
+      const ml = seededRandom(i + areaSeed + 800) * maxOffset;
+      row.push({ ...images[i], index: i, widthPercent: w1, marginLeft: ml });
+      row.push({ ...images[i + 1], index: i + 1, widthPercent: w2, marginLeft: g1 });
+      row.push({ ...images[i + 2], index: i + 2, widthPercent: w3, marginLeft: g2 });
+    }
+
+    rows.push(row);
+    i += count;
+  }
+
+  return rows;
+}
+
+function OrganicGalleryImage({ item }: { item: LayoutItem }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [isHorizontal, setIsHorizontal] = useState<boolean | null>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.95", "start 0.6"],
@@ -105,29 +158,26 @@ function EditorialGalleryImage({ src, alt, index, size }: { src: string; alt: st
   const rawOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const opacity = useSpring(rawOpacity, smoothSpring);
 
-  // Horizontal images always span full width; vertical images use the layout pattern
-  const effectiveSize = isHorizontal ? "full" : size;
-  const colSpan = effectiveSize === "full" ? "col-span-1 md:col-span-6" : effectiveSize === "two-third" ? "col-span-1 md:col-span-4" : effectiveSize === "half" ? "col-span-1 md:col-span-3" : "col-span-1 md:col-span-2";
-
   return (
     <motion.div
       ref={ref}
-      style={{ scale, opacity }}
-      className={colSpan}
+      style={{
+        scale,
+        opacity,
+        width: `${item.widthPercent}%`,
+        marginLeft: `${item.marginLeft}%`,
+        flexShrink: 0,
+      }}
     >
       <div className="group relative overflow-hidden rounded-xl">
         <Image
-          src={src}
-          alt={alt}
+          src={item.src}
+          alt={item.alt}
           width={1200}
           height={800}
           className="h-auto w-full object-cover"
-          sizes={effectiveSize === "full" ? "100vw" : effectiveSize === "two-third" ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
-          loading={index < 3 ? "eager" : "lazy"}
-          onLoad={(e) => {
-            const img = e.currentTarget;
-            setIsHorizontal(img.naturalWidth > img.naturalHeight);
-          }}
+          sizes={`${Math.round(item.widthPercent)}vw`}
+          loading={item.index < 3 ? "eager" : "lazy"}
         />
         <div
           className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
@@ -137,6 +187,26 @@ function EditorialGalleryImage({ src, alt, index, size }: { src: string; alt: st
         />
       </div>
     </motion.div>
+  );
+}
+
+function OrganicGallery({ images, areaName, locationTitle, areaSeed }: { images: string[]; areaName: string; locationTitle: string; areaSeed: number }) {
+  const imageData = images.map((src, i) => ({
+    src,
+    alt: `${locationTitle} - ${areaName} ${i + 1}`,
+  }));
+  const rows = generateOrganicLayout(imageData, areaSeed);
+
+  return (
+    <div className="flex flex-col gap-4">
+      {rows.map((row, rowIndex) => (
+        <div key={rowIndex} className="flex items-start">
+          {row.map((item) => (
+            <OrganicGalleryImage key={item.src} item={item} />
+          ))}
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -226,19 +296,14 @@ export default function TravelLocationPage() {
               </ScrollReveal>
             )}
 
-            {/* Gallery -editorial grid for Japan, masonry for others */}
+            {/* Gallery -organic layout for Japan, masonry for others */}
             {slug === "japan" ? (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
-                {area.images.map((img, i) => (
-                  <EditorialGalleryImage
-                    key={img}
-                    src={img}
-                    alt={`${location.title} - ${area.name} ${i + 1}`}
-                    index={areaIndex === 0 ? i : i + 10}
-                    size={getImageSize(i)}
-                  />
-                ))}
-              </div>
+              <OrganicGallery
+                images={area.images}
+                areaName={area.name}
+                locationTitle={location.title}
+                areaSeed={areaIndex * 100}
+              />
             ) : (
               <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
                 {area.images.map((img, i) => (
