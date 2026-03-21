@@ -141,15 +141,15 @@ export default function Home() {
 
       {/* ===== ABOUT - full-width photo with text overlay ===== */}
       <section className="relative z-10 bg-black">
-        <div className="relative w-full overflow-hidden" style={{ minHeight: "85vh" }}>
+        <div className="relative w-full" style={{ minHeight: "85vh" }}>
           {/* Full-width background photo */}
           <AboutParallaxBg src="/about/DSC01568.jpg" alt="Jonathan Xu" />
 
-          {/* Top gradient - image emerges from full black */}
-          <div className="absolute inset-x-0 top-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to bottom, black 0%, black 15%, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.2) 75%, transparent 100%)" }} />
+          {/* Top gradient - black fading into image */}
+          <div className="absolute inset-x-0 top-0 z-[1] h-[40%] bg-gradient-to-b from-black to-transparent" />
 
-          {/* Bottom gradient - fades back to black */}
-          <div className="absolute inset-x-0 bottom-0 z-[1] h-[55%]" style={{ background: "linear-gradient(to top, black 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.2) 65%, transparent 100%)" }} />
+          {/* Bottom gradient - image fading to black */}
+          <div className="absolute inset-x-0 bottom-0 z-[1] h-[40%] bg-gradient-to-t from-black to-transparent" />
 
           {/* Text content overlaid */}
           <div className="relative z-10 flex min-h-[85vh] flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
@@ -192,14 +192,10 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Full-width project images - overlapping for seamless crossfade */}
-        <div className="flex flex-col">
-          {featured.map((project, i) => (
-            <div key={project.slug} className={`relative ${i > 0 ? "-mt-[35vh]" : ""}`} style={{ zIndex: featured.length - i }}>
-              <FullWidthProjectCard project={project} index={i} />
-            </div>
-          ))}
-        </div>
+        {/* Full-width project images with black-to-image-to-black per card */}
+        {featured.map((project, i) => (
+          <FullWidthProjectCard key={project.slug} project={project} index={i} />
+        ))}
 
         <div className="bg-black py-12">
           <ScrollRevealLine>
@@ -429,11 +425,11 @@ function FullWidthProjectCard({
         />
       </motion.div>
 
-      {/* Top gradient - long fade from black, covers the overlap zone */}
-      <div className="absolute inset-x-0 top-0 z-[1] h-[55%]" style={{ background: "linear-gradient(to bottom, black 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.2) 65%, transparent 100%)" }} />
+      {/* Top gradient - black to image */}
+      <div className="absolute inset-x-0 top-0 z-[1] h-[40%] bg-gradient-to-b from-black to-transparent" />
 
-      {/* Bottom gradient - long fade to black */}
-      <div className="absolute inset-x-0 bottom-0 z-[1] h-[55%]" style={{ background: "linear-gradient(to top, black 0%, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.2) 65%, transparent 100%)" }} />
+      {/* Bottom gradient - image to black */}
+      <div className="absolute inset-x-0 bottom-0 z-[1] h-[40%] bg-gradient-to-t from-black to-transparent" />
 
       {/* Clickable overlay */}
       <Link
