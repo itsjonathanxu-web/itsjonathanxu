@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function Footer() {
   return (
     <footer className="relative z-10 bg-black">
@@ -15,28 +13,7 @@ export default function Footer() {
               </span>
             </div>
 
-            <div className="flex items-center gap-10">
-              <Link
-                href="/work"
-                className="font-display text-[13px] font-medium tracking-[0.08em] text-white/50 uppercase transition-opacity duration-300 hover:opacity-50"
-              >
-                Work
-              </Link>
-              <Link
-                href="/about"
-                className="font-display text-[13px] font-medium tracking-[0.08em] text-white/50 uppercase transition-opacity duration-300 hover:opacity-50"
-              >
-                About
-              </Link>
-              <Link
-                href="/contact"
-                className="font-display text-[13px] font-medium tracking-[0.08em] text-white/50 uppercase transition-opacity duration-300 hover:opacity-50"
-              >
-                Contact
-              </Link>
-            </div>
-
-            <div className="flex flex-col items-center gap-2 md:items-end">
+<div className="flex flex-col items-center gap-2 md:items-end">
               <a
                 href="https://instagram.com/itsjonathanxu"
                 target="_blank"
