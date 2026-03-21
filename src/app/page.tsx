@@ -182,7 +182,7 @@ export default function Home() {
         <div className="mx-auto max-w-[1400px] px-6 py-20 md:px-20 md:py-32">
           <motion.div
             style={{ opacity: featuredTitleOpacity, y: featuredTitleY }}
-            className="mb-12 text-center md:mb-16"
+            className="mb-12 md:mb-16"
           >
             <h2
               className="font-display text-[clamp(56px,10vw,140px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
@@ -193,9 +193,7 @@ export default function Home() {
                 backgroundClip: "text",
               }}
             >
-              FEATURED
-              <br />
-              PROJECTS
+              FEATURED PROJECTS
             </h2>
           </motion.div>
         </div>
