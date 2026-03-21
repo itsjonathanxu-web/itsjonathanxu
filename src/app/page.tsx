@@ -141,15 +141,15 @@ export default function Home() {
 
       {/* ===== ABOUT - full-width photo with text overlay ===== */}
       <section className="relative z-10 bg-black">
-        <div className="relative w-full" style={{ minHeight: "85vh" }}>
+        <div className="relative w-full bg-black" style={{ minHeight: "85vh" }}>
           {/* Full-width background photo */}
           <AboutParallaxBg src="/about/DSC01568.jpg" alt="Jonathan Xu" />
 
-          {/* Top gradient - black fading into image */}
-          <div className="absolute inset-x-0 top-0 z-[1] h-[40%] bg-gradient-to-b from-black to-transparent" />
+          {/* Top gradient - solid black then fade into image */}
+          <div className="absolute inset-x-0 top-0 z-[1] h-[45%]" style={{ background: "linear-gradient(to bottom, black 10%, transparent 100%)" }} />
 
-          {/* Bottom gradient - image fading to black */}
-          <div className="absolute inset-x-0 bottom-0 z-[1] h-[40%] bg-gradient-to-t from-black to-transparent" />
+          {/* Bottom gradient - image fades to solid black */}
+          <div className="absolute inset-x-0 bottom-0 z-[1] h-[45%]" style={{ background: "linear-gradient(to top, black 10%, transparent 100%)" }} />
 
           {/* Text content overlaid */}
           <div className="relative z-10 flex min-h-[85vh] flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
@@ -413,7 +413,7 @@ function FullWidthProjectCard({
   const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
 
   return (
-    <div ref={ref} className="relative w-full" style={{ minHeight: "100vh" }}>
+    <div ref={ref} className="relative w-full bg-black" style={{ minHeight: "100vh" }}>
       {/* Parallax background image */}
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
         <Image
@@ -425,11 +425,11 @@ function FullWidthProjectCard({
         />
       </motion.div>
 
-      {/* Top gradient - black to image */}
-      <div className="absolute inset-x-0 top-0 z-[1] h-[40%] bg-gradient-to-b from-black to-transparent" />
+      {/* Top gradient - solid black then fade to image */}
+      <div className="absolute inset-x-0 top-0 z-[1] h-[45%]" style={{ background: "linear-gradient(to bottom, black 10%, transparent 100%)" }} />
 
-      {/* Bottom gradient - image to black */}
-      <div className="absolute inset-x-0 bottom-0 z-[1] h-[40%] bg-gradient-to-t from-black to-transparent" />
+      {/* Bottom gradient - image fades to solid black */}
+      <div className="absolute inset-x-0 bottom-0 z-[1] h-[45%]" style={{ background: "linear-gradient(to top, black 10%, transparent 100%)" }} />
 
       {/* Clickable overlay */}
       <Link
