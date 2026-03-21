@@ -140,8 +140,8 @@ export default function Home() {
       </section>
 
       {/* ===== ABOUT - full-width photo with text overlay ===== */}
-      <section className="relative z-10 bg-black">
-        <div className="relative w-full overflow-hidden bg-black" style={{ minHeight: "85vh" }}>
+      <section className="relative z-10 bg-black" style={{ marginTop: "-1px" }}>
+        <div className="relative w-full overflow-hidden bg-black" style={{ minHeight: "60vh" }}>
           {/* Full-width background photo */}
           <AboutParallaxBg src="/about/DSC01568.jpg" alt="Jonathan Xu" />
 
@@ -152,7 +152,7 @@ export default function Home() {
           <div className="absolute inset-x-0 bottom-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to top, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
 
           {/* Text content overlaid */}
-          <div className="relative z-10 flex min-h-[85vh] flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
+          <div className="relative z-10 flex min-h-[60vh] flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
             <div className="mx-auto w-full max-w-[1400px]">
               <ScrollRevealLine>
                 <p className="font-display mb-4 text-[11px] font-bold tracking-[0.3em] text-white/40 uppercase">
@@ -178,8 +178,8 @@ export default function Home() {
       </section>
 
       {/* ===== FEATURED PROJECTS - full-width immersive ===== */}
-      <section ref={featuredRef} className="relative z-10 bg-black">
-        <div className="mx-auto max-w-[1400px] px-6 py-20 md:px-20 md:py-32">
+      <section ref={featuredRef} className="relative z-10 bg-black" style={{ marginTop: "-1px" }}>
+        <div className="mx-auto max-w-[1400px] px-6 py-28 md:px-20 md:py-40">
           <motion.div
             style={{ opacity: featuredTitleOpacity, y: featuredTitleY }}
             className="mb-12 md:mb-16"
@@ -218,7 +218,7 @@ export default function Home() {
       </section>
 
       {/* ===== EXPERTISE -liquid glass panels ===== */}
-      <section className="relative z-10 bg-black py-20 md:py-32">
+      <section className="relative z-10 bg-black py-20 md:py-32" style={{ marginTop: "-1px" }}>
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <ScrollRevealLine>
             <h2 className="font-display mb-10 text-[clamp(32px,5vw,64px)] font-extrabold tracking-[-0.03em] text-white">
@@ -234,7 +234,7 @@ export default function Home() {
       </section>
 
       {/* ===== CTA ===== */}
-      <section className="relative z-10 overflow-hidden bg-black py-28 md:py-40">
+      <section className="relative z-10 overflow-hidden bg-black py-28 md:py-40" style={{ marginTop: "-1px" }}>
         <ScrollRevealLine>
           <div className="mx-auto max-w-[1400px] px-6 text-center md:px-20">
             <h2 className="font-display mx-auto max-w-3xl text-[clamp(32px,5.5vw,72px)] font-extrabold tracking-[-0.03em] text-white">

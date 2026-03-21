@@ -108,7 +108,7 @@ export default function AboutPage() {
       </section>
 
       {/* ===== BACKGROUND & STORY ===== */}
-      <section className="relative z-10 bg-black py-20 md:py-32">
+      <section className="relative z-10 bg-black py-20 md:py-32" style={{ marginTop: "-1px" }}>
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <div className="grid items-start gap-12 md:grid-cols-2 md:gap-20">
             {/* Photo */}
@@ -131,30 +131,17 @@ export default function AboutPage() {
                   Background
                 </p>
                 <p className="text-[16px] leading-[1.8] text-white/60">
-                  My background is in interior design and architecture. I spent
-                  years at Partisans, one of Canada&apos;s most innovative
-                  architecture studios. That trained my eye for space, light,
-                  materiality, and the way a place makes you feel before you
-                  can explain why.
+                  I studied interior design and architecture, which shaped the
+                  way I see everything. Understanding form, light, materiality,
+                  and spatial composition taught me how a place can move you
+                  before you can explain why. That foundation lives in every
+                  frame I capture.
                 </p>
               </ScrollRevealLine>
 
               <ScrollRevealLine>
                 <p className="font-display mb-3 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
-                  The Transition
-                </p>
-                <p className="text-[16px] leading-[1.8] text-white/60">
-                  I carried that sensibility into visual storytelling. Now I
-                  work with hotels, restaurants, real estate developers,
-                  architects, and tourism brands, creating content that
-                  doesn&apos;t just show a space, but makes you feel like
-                  you&apos;re already there.
-                </p>
-              </ScrollRevealLine>
-
-              <ScrollRevealLine>
-                <p className="font-display mb-3 text-[11px] font-bold tracking-[0.3em] text-white/30 uppercase">
-                  The Approach
+                  Approach
                 </p>
                 <p className="text-[16px] leading-[1.8] text-white/60">
                   My work is cinematic, moody, and intentional. Every frame is
@@ -170,7 +157,7 @@ export default function AboutPage() {
       </section>
 
       {/* ===== FULL-WIDTH STATEMENT ===== */}
-      <section className="relative z-10 bg-black py-20 md:py-32">
+      <section className="relative z-10 bg-black py-20 md:py-32" style={{ marginTop: "-1px" }}>
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <ScrollRevealLine>
             <h2 className="font-display mx-auto max-w-4xl text-[clamp(24px,4vw,52px)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
@@ -183,7 +170,7 @@ export default function AboutPage() {
       </section>
 
       {/* ===== CTA ===== */}
-      <section className="relative z-10 overflow-hidden bg-black py-28 md:py-40">
+      <section className="relative z-10 overflow-hidden bg-black py-28 md:py-40" style={{ marginTop: "-1px" }}>
         <ScrollRevealLine>
           <div className="mx-auto max-w-[1400px] px-6 text-center md:px-20">
             <h2 className="font-display mx-auto max-w-3xl text-[clamp(32px,5.5vw,72px)] font-extrabold tracking-[-0.03em] text-white">
