@@ -61,7 +61,7 @@ export default function AboutPage() {
 
         <div className="relative z-10 flex flex-col" style={{ minHeight: "280vh" }}>
           {/* Screen 1: ABOUT title */}
-          <div className="grain-overlay flex h-screen shrink-0 items-center justify-center overflow-hidden">
+          <div className="flex h-screen shrink-0 items-center justify-center overflow-hidden">
             <motion.div
               style={{ opacity: titleOpacity, scale: titleScale }}
               className="flex w-full items-center justify-center"
