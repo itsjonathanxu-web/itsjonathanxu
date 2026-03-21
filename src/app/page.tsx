@@ -145,11 +145,11 @@ export default function Home() {
           {/* Full-width background photo */}
           <AboutParallaxBg src="/about/DSC01568.jpg" alt="Jonathan Xu" />
 
-          {/* Top gradient - black to transparent (blends with section above) */}
-          <div className="absolute inset-x-0 top-0 z-[1] h-[35%] bg-gradient-to-b from-black via-black/60 to-transparent" />
+          {/* Top gradient - image emerges gradually from black */}
+          <div className="absolute inset-x-0 top-0 z-[1] h-[50%] bg-gradient-to-b from-black via-black/70 via-[40%] to-transparent" />
 
-          {/* Bottom gradient - transparent to black (blends with section below) */}
-          <div className="absolute inset-x-0 bottom-0 z-[1] h-[45%] bg-gradient-to-t from-black via-black/80 via-[40%] to-transparent" />
+          {/* Bottom gradient - fades back to black */}
+          <div className="absolute inset-x-0 bottom-0 z-[1] h-[50%] bg-gradient-to-t from-black via-black/80 via-[35%] to-transparent" />
 
           {/* Text content overlaid */}
           <div className="relative z-10 flex min-h-[85vh] flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
@@ -192,13 +192,14 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Full-width project images with black breaks between */}
-        {featured.map((project, i) => (
-          <div key={project.slug}>
-            {i > 0 && <div className="h-24 bg-black md:h-32" />}
-            <FullWidthProjectCard project={project} index={i} />
-          </div>
-        ))}
+        {/* Full-width project images - overlapping for crossfade */}
+        <div className="flex flex-col">
+          {featured.map((project, i) => (
+            <div key={project.slug} className={`relative ${i > 0 ? "-mt-[20vh]" : ""}`} style={{ zIndex: featured.length - i }}>
+              <FullWidthProjectCard project={project} index={i} />
+            </div>
+          ))}
+        </div>
 
         <div className="bg-black py-12">
           <ScrollRevealLine>
@@ -416,7 +417,7 @@ function FullWidthProjectCard({
   const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
 
   return (
-    <div ref={ref} className="relative w-full overflow-hidden" style={{ minHeight: "80vh" }}>
+    <div ref={ref} className="relative w-full overflow-hidden" style={{ minHeight: "90vh" }}>
       {/* Parallax background image */}
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
         <Image
@@ -428,11 +429,11 @@ function FullWidthProjectCard({
         />
       </motion.div>
 
-      {/* Top gradient - black to transparent */}
-      <div className="absolute inset-x-0 top-0 z-[1] h-[35%] bg-gradient-to-b from-black via-black/60 to-transparent" />
+      {/* Top gradient - generous fade from black */}
+      <div className="absolute inset-x-0 top-0 z-[1] h-[45%] bg-gradient-to-b from-black via-black/50 via-[35%] to-transparent" />
 
-      {/* Bottom gradient - transparent to black */}
-      <div className="absolute inset-x-0 bottom-0 z-[1] h-[45%] bg-gradient-to-t from-black via-black/80 via-[40%] to-transparent" />
+      {/* Bottom gradient - generous fade to black */}
+      <div className="absolute inset-x-0 bottom-0 z-[1] h-[50%] bg-gradient-to-t from-black via-black/70 via-[35%] to-transparent" />
 
       {/* Clickable overlay */}
       <Link
