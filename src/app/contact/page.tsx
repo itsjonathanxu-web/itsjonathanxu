@@ -20,14 +20,14 @@ export default function ContactPage() {
   };
 
   const inputClasses =
-    "w-full bg-transparent border-b border-white/10 py-3 text-[15px] text-white placeholder:text-white/20 outline-none transition-colors focus:border-white/40";
+    "w-full bg-transparent border-b border-white/10 py-3 text-[15px] text-white/80 placeholder:text-white/30 outline-none transition-colors focus:border-white/40";
   const labelClasses =
-    "font-display text-[11px] font-bold tracking-[0.2em] text-white/30 uppercase";
+    "font-display text-[11px] font-bold tracking-[0.2em] text-white/80 uppercase";
 
   return (
     <>
       <section className="bg-black pt-32 pb-24 md:pt-40 md:pb-40">
-        <div className="mx-auto max-w-[600px] px-6">
+        <div className="mx-auto px-6">
           {/* Header */}
           <div className="text-center">
             <motion.div
@@ -51,7 +51,7 @@ export default function ContactPage() {
           </div>
 
           {/* Form */}
-          <div className="mt-12">
+          <div className="mx-auto mt-12 max-w-[600px]">
             {submitted ? (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
