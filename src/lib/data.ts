@@ -57,7 +57,7 @@ export const categories: Category[] = [
     title: "Architecture & Interiors",
     description:
       "Visual storytelling for real estate developers, interior designers, and architects. Highlighting form, light, and material.",
-    image: "/work/architecture-interiors/gardiner-museum/dsc01648-enhanced-nr.jpg",
+    image: "/work/architecture-interiors/gardiner-museum/dsc01657-enhanced-nr.jpg",
   },
 ];
 

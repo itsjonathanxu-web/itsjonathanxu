@@ -100,8 +100,6 @@ function LocationCard({ location }: { location: (typeof travelLocations)[0] }) {
   const rawY = useTransform(scrollYProgress, [0, 0.5], [60, 0]);
   const y = useSpring(rawY, smoothSpring);
 
-  const totalImages = location.areas.reduce((sum, a) => sum + a.images.length, 0);
-
   return (
     <motion.div ref={ref} style={{ scale, opacity, y }}>
       <Link
@@ -114,15 +112,12 @@ function LocationCard({ location }: { location: (typeof travelLocations)[0] }) {
             alt={location.title}
             fill
             className="object-cover"
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-700 group-hover:from-black/90 group-hover:via-black/30" />
 
           {/* Content overlay */}
           <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-            <span className="font-display text-[10px] font-bold tracking-[0.3em] text-white/30 uppercase">
-              {totalImages} photos · {location.areas.length} {location.areas.length === 1 ? "area" : "areas"}
-            </span>
             <h3 className="font-display mt-2 text-[clamp(24px,3vw,40px)] font-extrabold leading-[0.95] tracking-[-0.02em] text-white transition-transform duration-700 ease-out group-hover:translate-x-1">
               {location.title}
             </h3>
@@ -171,10 +166,7 @@ function HospitalityProjectCard({ project }: { project: Project }) {
 
           {/* Content overlay */}
           <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-            <span className="font-display text-[10px] font-bold tracking-[0.3em] text-white/30 uppercase">
-              {project.images.length} photos{project.location && ` · ${project.location}`}
-            </span>
-            <h3 className="font-display mt-2 text-[clamp(24px,3vw,40px)] font-extrabold leading-[0.95] tracking-[-0.02em] text-white transition-transform duration-700 ease-out group-hover:translate-x-1">
+            <h3 className="font-display text-[clamp(24px,3vw,40px)] font-extrabold leading-[0.95] tracking-[-0.02em] text-white transition-transform duration-700 ease-out group-hover:translate-x-1">
               {project.title}
             </h3>
             <p className="mt-2 max-w-md text-[13px] leading-[1.7] text-white/35 transition-colors duration-500 group-hover:text-white/55">
@@ -264,7 +256,7 @@ export default function CategoryPage() {
       {isTravel ? (
         <section className="bg-black pb-24 md:pb-40">
           <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="flex flex-col gap-6">
               {travelLocations.map((location) => (
                 <LocationCard key={location.slug} location={location} />
               ))}
@@ -274,7 +266,7 @@ export default function CategoryPage() {
       ) : isHospitality ? (
         <section className="bg-black pb-24 md:pb-40">
           <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="flex flex-col gap-6">
               {projects.map((project) => (
                 <HospitalityProjectCard key={project.slug} project={project} />
               ))}
