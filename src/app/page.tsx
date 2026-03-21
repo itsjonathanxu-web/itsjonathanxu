@@ -114,11 +114,21 @@ export default function Home() {
               {/* Gap */}
               <div className="h-[clamp(24px,4vw,56px)]" />
 
-              {/* Categories - larger, single line */}
-              <CharacterReveal
-                text="Travel  ·  Architecture and Interiors  ·  Hospitality"
-                className="font-display whitespace-nowrap text-[clamp(28px,5.5vw,72px)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white"
-              />
+              {/* Categories - each on its own line, large */}
+              <div className="flex flex-col gap-1 md:gap-2">
+                <CharacterReveal
+                  text="Travel"
+                  className="font-display text-[clamp(44px,8vw,110px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                />
+                <CharacterReveal
+                  text="Architecture and Interiors"
+                  className="font-display text-[clamp(44px,8vw,110px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                />
+                <CharacterReveal
+                  text="Hospitality"
+                  className="font-display text-[clamp(44px,8vw,110px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                />
+              </div>
             </div>
           </div>
 
@@ -136,10 +146,10 @@ export default function Home() {
           <AboutParallaxBg src="/about/DSC01568.jpg" alt="Jonathan Xu" />
 
           {/* Top gradient - black to transparent (blends with section above) */}
-          <div className="absolute inset-x-0 top-0 z-[1] h-48 bg-gradient-to-b from-black to-transparent" />
+          <div className="absolute inset-x-0 top-0 z-[1] h-[35%] bg-gradient-to-b from-black via-black/60 to-transparent" />
 
           {/* Bottom gradient - transparent to black (blends with section below) */}
-          <div className="absolute inset-x-0 bottom-0 z-[1] h-64 bg-gradient-to-t from-black via-black/70 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 z-[1] h-[45%] bg-gradient-to-t from-black via-black/80 via-[40%] to-transparent" />
 
           {/* Text content overlaid */}
           <div className="relative z-10 flex min-h-[85vh] flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
@@ -167,9 +177,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== FEATURED PROJECTS -centered, one per row ===== */}
-      <section ref={featuredRef} className="relative z-10 bg-black py-20 md:py-32">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-20">
+      {/* ===== FEATURED PROJECTS - full-width immersive ===== */}
+      <section ref={featuredRef} className="relative z-10 bg-black">
+        <div className="mx-auto max-w-[1400px] px-6 py-20 md:px-20 md:py-32">
           <motion.div
             style={{ opacity: featuredTitleOpacity, y: featuredTitleY }}
             className="mb-12 md:mb-16"
@@ -180,15 +190,16 @@ export default function Home() {
               PROJECTS
             </h2>
           </motion.div>
+        </div>
 
-          <div className="flex w-full flex-col gap-8">
-            {featured.map((project, i) => (
-              <ProjectCard key={project.slug} project={project} index={i} />
-            ))}
-          </div>
+        {/* Full-width project images with gradient blending */}
+        {featured.map((project, i) => (
+          <FullWidthProjectCard key={project.slug} project={project} index={i} />
+        ))}
 
+        <div className="bg-black py-12">
           <ScrollRevealLine>
-            <div className="mt-12 text-center">
+            <div className="text-center">
               <Link
                 href="/work"
                 className="glass-btn inline-block px-9 py-3.5 text-[12px] font-bold tracking-[0.15em] text-white uppercase"
@@ -385,8 +396,8 @@ function AboutParallaxBg({ src, alt }: { src: string; alt: string }) {
   );
 }
 
-/** Project card with staggered entrance + hover reveal */
-function ProjectCard({
+/** Full-width project card with gradient blending between black sections */
+function FullWidthProjectCard({
   project,
   index,
 }: {
@@ -396,48 +407,56 @@ function ProjectCard({
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "start 0.35"],
+    offset: ["start end", "end start"],
   });
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 0.5], [60, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [0.96, 1]);
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+  const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
 
   return (
-    <motion.div
-      ref={ref}
-      style={{ opacity, y, scale }}
-      className="w-full will-change-transform"
-      transition={{ delay: index * 0.08 }}
-    >
+    <div ref={ref} className="relative w-full overflow-hidden" style={{ minHeight: "80vh" }}>
+      {/* Parallax background image */}
+      <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
+        <Image
+          src={project.coverImage}
+          alt={project.title}
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
+      </motion.div>
+
+      {/* Top gradient - black to transparent */}
+      <div className="absolute inset-x-0 top-0 z-[1] h-[35%] bg-gradient-to-b from-black via-black/60 to-transparent" />
+
+      {/* Bottom gradient - transparent to black */}
+      <div className="absolute inset-x-0 bottom-0 z-[1] h-[45%] bg-gradient-to-t from-black via-black/80 via-[40%] to-transparent" />
+
+      {/* Clickable overlay */}
       <Link
         href={project.categorySlug === "travel-destination" ? `/work/travel-destination/${project.slug}` : `/work/${project.categorySlug}`}
-        className="group relative block overflow-hidden rounded-2xl"
+        className="group absolute inset-0 z-[2]"
       >
-        <div className="relative aspect-[4/3] w-full">
-          <Image
-            src={project.coverImage}
-            alt={project.title}
-            fill
-            className="object-cover"
-            sizes="100vw"
-          />
-          {/* Darken overlay on hover */}
-          <div className="absolute inset-0 bg-black/10 transition-all duration-500 group-hover:bg-black/40" />
+        {/* Hover darken */}
+        <div className="absolute inset-0 bg-black/0 transition-all duration-700 group-hover:bg-black/30" />
 
-          {/* Text revealed on hover */}
-          <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-            <div className="translate-y-4 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-              <h3 className="font-display text-[clamp(18px,2.5vw,28px)] font-extrabold tracking-[-0.01em] text-white">
-                {project.title}
-              </h3>
-              <p className="mt-1.5 max-w-sm text-sm leading-relaxed text-white/60">
-                {project.description}
+        {/* Text content at bottom */}
+        <div className="absolute inset-0 flex flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
+          <div className="mx-auto w-full max-w-[1400px]">
+            <div className="translate-y-2 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+              <p className="font-display text-[11px] font-bold tracking-[0.3em] text-white/40 uppercase">
+                {project.categorySlug === "travel-destination" ? "Travel & Destination" : project.categorySlug}
               </p>
             </div>
+            <h3 className="font-display mt-2 text-[clamp(28px,4vw,56px)] font-extrabold tracking-[-0.02em] text-white transition-transform duration-500 group-hover:translate-x-2">
+              {project.title}
+            </h3>
+            <p className="mt-2 max-w-lg text-[14px] leading-[1.7] text-white/50 transition-all duration-500 group-hover:text-white/70">
+              {project.description}
+            </p>
           </div>
         </div>
       </Link>
-    </motion.div>
+    </div>
   );
 }
 
