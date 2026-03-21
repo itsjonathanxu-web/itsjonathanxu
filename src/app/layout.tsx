@@ -38,11 +38,11 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "XSEN — Cinematic Visual Storytelling",
+  title: "XSEN | Cinematic Visual Storytelling",
   description:
     "Premium videography and photography for hospitality, architecture, travel, and commercial brands. Based in Toronto.",
   openGraph: {
-    title: "XSEN — Cinematic Visual Storytelling",
+    title: "XSEN | Cinematic Visual Storytelling",
     description:
       "Premium videography and photography for hospitality, architecture, travel, and commercial brands.",
     type: "website",

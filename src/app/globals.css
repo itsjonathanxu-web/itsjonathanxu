@@ -69,16 +69,16 @@ img {
   transition: opacity 0.4s ease;
 }
 
-/* Force hide default cursor everywhere — custom cursor replaces it */
+/* Force hide default cursor everywhere -custom cursor replaces it */
 * {
   cursor: none !important;
 }
 
 /* ============================================
-   APPLE LIQUID GLASS — Refractive Design System
+   APPLE LIQUID GLASS -Refractive Design System
    ============================================ */
 
-/* Glass card — refractive border with color tint */
+/* Glass card -refractive border with color tint */
 .glass-card {
   position: relative;
   background: rgba(255, 255, 255, 0.03);
@@ -99,7 +99,7 @@ img {
     0 0 0 0.5px rgba(255, 255, 255, 0.05);
 }
 
-/* Glass button — refractive, color-tinted on hover */
+/* Glass button -refractive, color-tinted on hover */
 .glass-btn {
   position: relative;
   background: rgba(255, 255, 255, 0.06);
@@ -144,7 +144,7 @@ img {
   opacity: 0;
 }
 
-/* Glass panel — refractive borders with color-tinted transparency */
+/* Glass panel -refractive borders with color-tinted transparency */
 .glass-panel {
   position: relative;
   background: linear-gradient(
@@ -161,7 +161,7 @@ img {
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Refractive border effect — multi-color gradient border */
+/* Refractive border effect -multi-color gradient border */
 .glass-panel::before {
   content: "";
   position: absolute;
@@ -217,7 +217,7 @@ img {
   transform: translateY(-2px);
 }
 
-/* Glass panel hover — border brightens */
+/* Glass panel hover -border brightens */
 .glass-panel:hover::before {
   background: linear-gradient(
     135deg,

@@ -1,5 +1,5 @@
 // ============================================
-// PORTFOLIO DATA — 3 Categories
+// PORTFOLIO DATA -3 Categories
 // ============================================
 
 export interface Category {
@@ -72,7 +72,7 @@ export const hospitalityProjects: Project[] = [
     categorySlug: "hospitality",
     location: "Newmarket, Ontario",
     description:
-      "A cinematic visual story capturing the warmth, craft, and atmosphere of Joia — from intimate dining moments to aerial perspectives of the space.",
+      "A cinematic visual story capturing the warmth, craft, and atmosphere of Joia, from intimate dining moments to aerial perspectives of the space.",
     coverImage: "/work/hospitality/joia-newmarket/dsc08589.jpg",
     year: "2026",
     images: [
@@ -190,7 +190,7 @@ export const travelLocations: TravelLocation[] = [
     slug: "japan",
     title: "Japan",
     coverImage: "/work/travel-destination/japan/tokyo/dsc05832-min.jpg",
-    description: "A cinematic journey through Tokyo, Kyoto, Osaka, and Nara — capturing the contrast of tradition and modernity.",
+    description: "A cinematic journey through Tokyo, Kyoto, Osaka, and Nara, capturing the contrast of tradition and modernity.",
     areas: [
       {
         name: "Tokyo",
@@ -423,7 +423,7 @@ const travelFeaturedProjects: Project[] = [
     slug: "japan",
     title: "Japan",
     categorySlug: "travel-destination",
-    description: "A cinematic journey through Tokyo, Kyoto, Osaka, and Nara — capturing the contrast of tradition and modernity.",
+    description: "A cinematic journey through Tokyo, Kyoto, Osaka, and Nara, capturing the contrast of tradition and modernity.",
     coverImage: "/work/travel-destination/japan/nara/dsc06565-min.jpg",
     images: [],
   },

@@ -166,7 +166,7 @@ export default function CategoryPage() {
 
   return (
     <>
-      {/* ===== HERO — Big Title ===== */}
+      {/* ===== HERO -Big Title ===== */}
       <section className="relative bg-black pt-32 pb-6 md:pt-44 md:pb-10">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <motion.div
@@ -207,7 +207,7 @@ export default function CategoryPage() {
         </div>
       </section>
 
-      {/* ===== CONTENT — Travel locations OR Project gallery ===== */}
+      {/* ===== CONTENT -Travel locations OR Project gallery ===== */}
       {isTravel ? (
         <section className="bg-black pb-24 md:pb-40">
           <div className="mx-auto max-w-[1400px] px-6 md:px-20">

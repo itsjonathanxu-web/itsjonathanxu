@@ -27,7 +27,7 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Always transparent — no scroll-triggered background */}
+      {/* Always transparent -no scroll-triggered background */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5 md:px-20">
           <Link

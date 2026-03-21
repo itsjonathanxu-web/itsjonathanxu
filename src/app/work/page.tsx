@@ -110,7 +110,7 @@ export default function WorkPage() {
         </div>
       </section>
 
-      {/* Category Cards — stacked full-width */}
+      {/* Category Cards -stacked full-width */}
       <section className="bg-black pb-24 md:pb-40">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <div className="flex flex-col gap-6 md:gap-8">

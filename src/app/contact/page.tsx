@@ -33,7 +33,7 @@ export default function ContactPage() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const subject = `Project Inquiry from ${formData.name}${formData.company ? ` — ${formData.company}` : ""}`;
+    const subject = `Project Inquiry from ${formData.name}${formData.company ? ` - ${formData.company}` : ""}`;
     const body = `Name: ${formData.name}\nEmail: ${formData.email}\nCompany: ${formData.company || "N/A"}\nProject Type: ${formData.projectType || "N/A"}\nBudget: ${formData.budget || "N/A"}\n\nMessage:\n${formData.message}`;
     window.location.href = `mailto:jonathanxu02@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSubmitted(true);
@@ -49,7 +49,7 @@ export default function ContactPage() {
       <section className="bg-black pt-32 pb-24 md:pt-40 md:pb-40">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <div className="grid gap-16 md:grid-cols-2 md:gap-24">
-            {/* Left side — info */}
+            {/* Left side -info */}
             <div>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -118,7 +118,7 @@ export default function ContactPage() {
               </motion.div>
             </div>
 
-            {/* Right side — form */}
+            {/* Right side -form */}
             <div>
               {submitted ? (
                 <motion.div
@@ -257,10 +257,10 @@ export default function ContactPage() {
                           Under $2,000
                         </option>
                         <option value="2k-5k" className="bg-black">
-                          $2,000 — $5,000
+                          $2,000 - $5,000
                         </option>
                         <option value="5k-10k" className="bg-black">
-                          $5,000 — $10,000
+                          $5,000 - $10,000
                         </option>
                         <option value="10k-plus" className="bg-black">
                           $10,000+
@@ -273,7 +273,7 @@ export default function ContactPage() {
                       <textarea
                         required
                         rows={4}
-                        placeholder="Tell me about your project — what are you looking for, timeline, any references..."
+                        placeholder="Tell me about your project, what are you looking for, timeline, any references..."
                         value={formData.message}
                         onChange={(e) =>
                           setFormData({ ...formData, message: e.target.value })

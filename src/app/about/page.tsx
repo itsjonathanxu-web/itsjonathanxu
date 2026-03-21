@@ -37,9 +37,9 @@ export default function AboutPage() {
 
   return (
     <>
-      {/* ===== HERO SECTION — parallax background like home page ===== */}
+      {/* ===== HERO SECTION -parallax background like home page ===== */}
       <section ref={heroSectionRef} className="relative" style={{ height: "280vh" }}>
-        {/* Fixed parallax background — stays visible, covered by scrolling gradient */}
+        {/* Fixed parallax background -stays visible, covered by scrolling gradient */}
         <div className="fixed inset-0 z-0">
           <motion.div style={{ y: bgY }} className="absolute inset-0">
             <div className="absolute -top-[12%] left-0 right-0" style={{ height: "125%" }}>
@@ -87,7 +87,7 @@ export default function AboutPage() {
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               <ScrollRevealLine>
                 <h2 className="font-display max-w-5xl text-[clamp(28px,5vw,64px)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white">
-                  I&apos;m Jonathan Xu — a videographer and photographer based in
+                  I&apos;m Jonathan Xu, a videographer and photographer based in
                   Toronto, creating cinematic content for brands that care about
                   how their story is told.
                 </h2>
@@ -100,7 +100,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Gradient fills all remaining space — no gap possible on any screen */}
+          {/* Gradient fills all remaining space -no gap possible on any screen */}
           <div className="relative flex-1">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/70 via-[40%] to-black" />
           </div>
@@ -131,7 +131,7 @@ export default function AboutPage() {
                   Background
                 </p>
                 <p className="text-[16px] leading-[1.8] text-white/60">
-                  My background is in interior design and architecture — I spent
+                  My background is in interior design and architecture. I spent
                   years at Partisans, one of Canada&apos;s most innovative
                   architecture studios. That trained my eye for space, light,
                   materiality, and the way a place makes you feel before you
@@ -146,7 +146,7 @@ export default function AboutPage() {
                 <p className="text-[16px] leading-[1.8] text-white/60">
                   I carried that sensibility into visual storytelling. Now I
                   work with hotels, restaurants, real estate developers,
-                  architects, and tourism brands — creating content that
+                  architects, and tourism brands, creating content that
                   doesn&apos;t just show a space, but makes you feel like
                   you&apos;re already there.
                 </p>
@@ -158,8 +158,8 @@ export default function AboutPage() {
                 </p>
                 <p className="text-[16px] leading-[1.8] text-white/60">
                   My work is cinematic, moody, and intentional. Every frame is
-                  considered. I shoot both photography and video — often both
-                  in a single project — to give clients a complete visual
+                  considered. I shoot both photography and video, often both
+                  in a single project, to give clients a complete visual
                   identity that works across their website, social media, and
                   marketing.
                 </p>
@@ -175,7 +175,7 @@ export default function AboutPage() {
           <ScrollRevealLine>
             <h2 className="font-display mx-auto max-w-4xl text-[clamp(24px,4vw,52px)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
               When I&apos;m not behind the camera, I&apos;m planning my next
-              destination. Travel isn&apos;t just a subject I shoot — it&apos;s
+              destination. Travel isn&apos;t just a subject I shoot, it&apos;s
               how I see the world and find the stories worth telling.
             </h2>
           </ScrollRevealLine>

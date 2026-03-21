@@ -11,7 +11,7 @@ import {
 } from "framer-motion";
 import { getFeaturedProjects, categories } from "@/lib/data";
 
-/* ===== SPRING CONFIG — Apple-style fluid feel ===== */
+/* ===== SPRING CONFIG -Apple-style fluid feel ===== */
 const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
 
 export default function Home() {
@@ -23,7 +23,7 @@ export default function Home() {
     offset: ["start start", "end start"],
   });
 
-  // Parallax on background image — spring smoothed
+  // Parallax on background image -spring smoothed
   const bgYRaw = useTransform(heroProgress, [0, 1], [0, -25]);
   const bgYSmooth = useSpring(bgYRaw, smoothSpring);
 
@@ -69,7 +69,7 @@ export default function Home() {
         <div className="pointer-events-none fixed inset-x-0 top-0 z-[5] h-40 bg-gradient-to-b from-black/60 to-transparent" />
 
         <div className="relative z-10 flex flex-col" style={{ minHeight: "320vh" }}>
-          {/* Screen 1: XSEN — fills entire screen */}
+          {/* Screen 1: XSEN -fills entire screen */}
           <div className="grain-overlay flex h-screen shrink-0 items-center justify-center overflow-hidden">
             <motion.div
               style={{
@@ -104,7 +104,7 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* Screen 2: Videographer statement — left intro, right categories */}
+          {/* Screen 2: Videographer statement + categories */}
           <div className="flex min-h-screen shrink-0 items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               {/* Left-aligned intro */}
@@ -114,11 +114,12 @@ export default function Home() {
               {/* Gap */}
               <div className="h-[clamp(40px,6vw,80px)]" />
 
-              {/* Right-aligned categories — each in a unique font */}
-              <div className="flex flex-col items-end gap-2 md:gap-3">
-                <StaggerWords text="Travel" className="font-playfair text-[clamp(36px,7vw,90px)] font-medium italic leading-[1] tracking-[-0.01em] text-white/85 md:justify-end" />
-                <StaggerWords text="Architecture" className="font-space-grotesk text-[clamp(36px,7vw,90px)] font-bold leading-[1] tracking-[-0.04em] text-white/85 md:justify-end" />
-                <StaggerWords text="Hospitality" className="font-cormorant text-[clamp(36px,7vw,90px)] font-semibold italic leading-[1] tracking-[0.01em] text-white/85 md:justify-end" />
+              {/* Categories in one line with character-by-character reveal */}
+              <div className="flex justify-end">
+                <CharacterReveal
+                  text="Travel  ·  Architecture and Interiors  ·  Hospitality"
+                  className="font-display text-[clamp(16px,3.2vw,42px)] font-bold leading-[1.2] tracking-[-0.01em] text-white/80"
+                />
               </div>
             </div>
           </div>
@@ -142,15 +143,12 @@ export default function Home() {
               </ScrollRevealLine>
               <ScrollRevealLine>
                 <h2 className="font-display text-[clamp(26px,3.5vw,48px)] font-extrabold leading-[1.15] tracking-[-0.02em] text-white">
-                  I help brands tell their story through cinematic visuals.
+                  I make cinematic visuals for places that deserve to be seen differently. To transcend the norm, not in a way that supersedes the ordinary, but one that brings new perspectives.
                 </h2>
               </ScrollRevealLine>
               <ScrollRevealLine>
                 <p className="mt-5 text-[16px] leading-[1.8] text-white/60">
-                  With a background in interior design and architecture, I bring a
-                  spatial awareness and compositional eye to every project. Whether
-                  it&apos;s a boutique hotel, a travel destination, or a commercial
-                  brand — I create content that captures the feeling of being there.
+                  I come from a design background, years spent in architecture studios studying how space, light, and material shape the way we feel. That lens never left. Now I see the world through craft, culture, and an appreciation for the things that stop you in your tracks. Every frame I capture is rooted in that instinct, the belief that the most powerful visuals come from truly understanding what makes a place extraordinary.
                 </p>
               </ScrollRevealLine>
               <ScrollRevealLine>
@@ -171,7 +169,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== FEATURED PROJECTS — centered, one per row ===== */}
+      {/* ===== FEATURED PROJECTS -centered, one per row ===== */}
       <section ref={featuredRef} className="relative z-10 bg-black py-20 md:py-32">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <motion.div
@@ -204,7 +202,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== EXPERTISE — liquid glass panels ===== */}
+      {/* ===== EXPERTISE -liquid glass panels ===== */}
       <section className="relative z-10 bg-black py-20 md:py-32">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <ScrollRevealLine>
@@ -261,7 +259,7 @@ function ScrollRevealLine({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Word-by-word stagger on scroll — each word fades/slides in individually */
+/** Word-by-word stagger on scroll -each word fades/slides in individually */
 function StaggerWords({ text, className }: { text: string; className: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -309,6 +307,59 @@ function StaggerWord({
       className="inline-block will-change-transform"
     >
       {word}
+    </motion.span>
+  );
+}
+
+/** Character-by-character reveal with wave animation on scroll */
+function CharacterReveal({ text, className }: { text: string; className: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.95", "start 0.45"],
+  });
+
+  const chars = text.split("");
+
+  return (
+    <div ref={ref} className={className} style={{ display: "flex", flexWrap: "wrap" }}>
+      {chars.map((char, i) => {
+        const start = i / (chars.length + 5);
+        const end = (i + 8) / (chars.length + 5);
+        return (
+          <CharRevealUnit key={i} char={char} progress={scrollYProgress} start={start} end={Math.min(end, 1)} />
+        );
+      })}
+    </div>
+  );
+}
+
+function CharRevealUnit({
+  char,
+  progress,
+  start,
+  end,
+}: {
+  char: string;
+  progress: ReturnType<typeof useScroll>["scrollYProgress"];
+  start: number;
+  end: number;
+}) {
+  const opacity = useTransform(progress, [start, end], [0, 1]);
+  const y = useTransform(progress, [start, end], [20, 0]);
+  const blur = useTransform(progress, [start, end], [8, 0]);
+  const smoothY = useSpring(y, { stiffness: 120, damping: 20, mass: 0.5 });
+
+  return (
+    <motion.span
+      style={{
+        opacity,
+        y: smoothY,
+        filter: useTransform(blur, (v) => `blur(${v}px)`),
+      }}
+      className="inline-block will-change-transform"
+    >
+      {char === " " ? "\u00A0" : char}
     </motion.span>
   );
 }

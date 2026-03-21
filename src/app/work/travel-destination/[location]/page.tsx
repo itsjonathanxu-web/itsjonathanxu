@@ -68,7 +68,7 @@ function GalleryImage({ src, alt, index }: { src: string; alt: string; index: nu
 }
 
 // ============================================
-// EDITORIAL GALLERY IMAGE — varied sizes
+// EDITORIAL GALLERY IMAGE -varied sizes
 // ============================================
 
 // Deterministic size pattern for editorial layout
@@ -104,7 +104,6 @@ function EditorialGalleryImage({ src, alt, index, size }: { src: string; alt: st
   const rawOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const opacity = useSpring(rawOpacity, smoothSpring);
 
-  const aspectClass = size === "full" ? "aspect-[21/9]" : size === "two-third" ? "aspect-[16/10]" : "aspect-[4/5]";
   const colSpan = size === "full" ? "col-span-1 md:col-span-6" : size === "two-third" ? "col-span-1 md:col-span-4" : size === "half" ? "col-span-1 md:col-span-3" : "col-span-1 md:col-span-2";
 
   return (
@@ -113,12 +112,13 @@ function EditorialGalleryImage({ src, alt, index, size }: { src: string; alt: st
       style={{ scale, opacity }}
       className={colSpan}
     >
-      <div className={`group relative overflow-hidden rounded-xl ${aspectClass}`}>
+      <div className="group relative overflow-hidden rounded-xl">
         <Image
           src={src}
           alt={alt}
-          fill
-          className="object-cover"
+          width={1200}
+          height={800}
+          className="h-auto w-full object-cover"
           sizes={size === "full" ? "100vw" : size === "two-third" ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
           loading={index < 3 ? "eager" : "lazy"}
         />
@@ -162,7 +162,7 @@ export default function TravelLocationPage() {
 
   return (
     <>
-      {/* ===== HERO — Big Location Title ===== */}
+      {/* ===== HERO -Big Location Title ===== */}
       <section className="relative bg-black pt-32 pb-6 md:pt-44 md:pb-10">
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
           <motion.div
@@ -207,7 +207,7 @@ export default function TravelLocationPage() {
       {location.areas.map((area, areaIndex) => (
         <section key={area.name} className="bg-black pb-20 md:pb-32">
           <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-            {/* Area Header — only show if more than 1 area */}
+            {/* Area Header -only show if more than 1 area */}
             {location.areas.length > 1 && (
               <ScrollReveal className="mb-10 md:mb-14">
                 <div className="flex items-center gap-6">
@@ -215,21 +215,18 @@ export default function TravelLocationPage() {
                     {area.name}
                   </h2>
                   <div className="h-px flex-1 bg-white/8" />
-                  <span className="font-display text-[11px] font-bold tracking-[0.2em] text-white/20 uppercase">
-                    {area.images.length} photos
-                  </span>
                 </div>
               </ScrollReveal>
             )}
 
-            {/* Gallery — editorial grid for Japan, masonry for others */}
+            {/* Gallery -editorial grid for Japan, masonry for others */}
             {slug === "japan" ? (
               <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
                 {area.images.map((img, i) => (
                   <EditorialGalleryImage
                     key={img}
                     src={img}
-                    alt={`${location.title} — ${area.name} ${i + 1}`}
+                    alt={`${location.title} - ${area.name} ${i + 1}`}
                     index={areaIndex === 0 ? i : i + 10}
                     size={getImageSize(i)}
                   />
@@ -241,7 +238,7 @@ export default function TravelLocationPage() {
                   <GalleryImage
                     key={img}
                     src={img}
-                    alt={`${location.title} — ${area.name} ${i + 1}`}
+                    alt={`${location.title} - ${area.name} ${i + 1}`}
                     index={areaIndex === 0 ? i : i + 10}
                   />
                 ))}
