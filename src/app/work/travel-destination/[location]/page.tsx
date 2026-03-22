@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -72,7 +72,7 @@ function GalleryImage({ src, alt, index }: { src: string; alt: string; index: nu
 // ============================================
 
 // Simple scroll-reveal image (no orientation detection needed)
-function JapanImg({ src, alt, index, className }: { src: string; alt: string; index: number; className?: string }) {
+function JapanImg({ src, alt, index, className, onHorizontalDetected }: { src: string; alt: string; index: number; className?: string; onHorizontalDetected?: (isH: boolean) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -94,6 +94,10 @@ function JapanImg({ src, alt, index, className }: { src: string; alt: string; in
           className="h-full w-full object-cover"
           sizes="(max-width: 768px) 100vw, 50vw"
           loading={index < 3 ? "eager" : "lazy"}
+          onLoad={onHorizontalDetected ? (e) => {
+            const img = e.currentTarget;
+            onHorizontalDetected(img.naturalWidth > img.naturalHeight);
+          } : undefined}
         />
         <div
           className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
@@ -106,29 +110,40 @@ function JapanImg({ src, alt, index, className }: { src: string; alt: string; in
   );
 }
 
-// Render images in explicit rows (max 3 per row)
+// Wrapper that detects horizontal and spans full width
+function JapanGridImg({ src, alt, index }: { src: string; alt: string; index: number }) {
+  const [isHorizontal, setIsHorizontal] = useState(false);
+  return (
+    <JapanImg
+      src={src}
+      alt={alt}
+      index={index}
+      className={isHorizontal ? "col-span-1 md:col-span-3" : "col-span-1"}
+      onHorizontalDetected={setIsHorizontal}
+    />
+  );
+}
+
+// Render images in explicit rows (max 3 per row), horizontal images auto-span full width
 function RowGallery({ images, rows, locationTitle, areaName }: { images: string[]; rows: number[][]; locationTitle: string; areaName: string }) {
   return (
     <div className="flex flex-col gap-4">
-      {rows.map((row, rowIdx) => {
-        const gridCols = row.length === 1 ? "md:grid-cols-1" : row.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
-        return (
-          <div key={rowIdx} className={`grid grid-cols-1 gap-4 ${gridCols}`}>
-            {row.map((imgIdx) => {
-              const img = images[imgIdx];
-              if (!img) return null;
-              return (
-                <JapanImg
-                  key={img}
-                  src={img}
-                  alt={`${locationTitle} - ${areaName} ${imgIdx + 1}`}
-                  index={imgIdx}
-                />
-              );
-            })}
-          </div>
-        );
-      })}
+      {rows.map((row, rowIdx) => (
+        <div key={rowIdx} className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {row.map((imgIdx) => {
+            const img = images[imgIdx];
+            if (!img) return null;
+            return (
+              <JapanGridImg
+                key={img}
+                src={img}
+                alt={`${locationTitle} - ${areaName} ${imgIdx + 1}`}
+                index={imgIdx}
+              />
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
 }
@@ -174,8 +189,8 @@ function OsakaGallery({ images, locationTitle }: { images: string[]; locationTit
   );
 }
 
-// Kyoto row config: [1,2], [3,4], [5,6,7], [8,9], [10,11]
-const KYOTO_ROWS = [[0, 1], [2, 3], [4, 5, 6], [7, 8], [9, 10]];
+// Kyoto row config: [1,2], [3,4], [5,6,7], [8,9]
+const KYOTO_ROWS = [[0, 1], [2, 3], [4, 5, 6], [7, 8]];
 // Tokyo/Nara: standard 3 per row
 function standardRows(count: number): number[][] {
   const rows: number[][] = [];
