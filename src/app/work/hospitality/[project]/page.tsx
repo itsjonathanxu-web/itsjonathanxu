@@ -181,26 +181,42 @@ export default function HospitalityProjectPage() {
       {/* ===== PHOTO GALLERY ===== */}
       <section className={`pb-20 md:pb-32 relative ${hasHeroBg ? "z-10" : "bg-black"}`}>
         <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-          <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
-            {galleryImages.map((img, i) => (
-              <GalleryImage
-                key={img}
-                src={img}
-                alt={`${project.title} ${i + 1}`}
-                index={i}
-              />
-            ))}
-          </div>
-
-          {/* Drone shot - full width */}
-          {droneImage && (
-            <div className="mt-4">
-              <GalleryImage
-                src={droneImage}
-                alt={`${project.title} aerial`}
-                index={galleryImages.length}
-                className=""
-              />
+          {slug === "joia-newmarket" ? (
+            <div className="flex flex-col gap-4">
+              {/* 2,3 */}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 auto-rows-[1fr]">
+                {galleryImages.slice(0, 2).map((img, i) => (
+                  <GalleryImage key={img} src={img} alt={`${project.title} ${i + 1}`} index={i} className="h-full" />
+                ))}
+              </div>
+              {/* 4,5,6 */}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3 auto-rows-[1fr]">
+                {galleryImages.slice(2, 5).map((img, i) => (
+                  <GalleryImage key={img} src={img} alt={`${project.title} ${i + 3}`} index={i + 2} className="h-full" />
+                ))}
+              </div>
+              {/* 7,8,9 */}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3 auto-rows-[1fr]">
+                {galleryImages.slice(5, 8).map((img, i) => (
+                  <GalleryImage key={img} src={img} alt={`${project.title} ${i + 6}`} index={i + 5} className="h-full" />
+                ))}
+              </div>
+              {/* 10,11,12 */}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3 auto-rows-[1fr]">
+                {galleryImages.slice(8, 11).map((img, i) => (
+                  <GalleryImage key={img} src={img} alt={`${project.title} ${i + 9}`} index={i + 8} className="h-full" />
+                ))}
+              </div>
+              {/* Drone - full width */}
+              {droneImage && (
+                <GalleryImage src={droneImage} alt={`${project.title} aerial`} index={11} className="" />
+              )}
+            </div>
+          ) : (
+            <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
+              {project.images.map((img, i) => (
+                <GalleryImage key={img} src={img} alt={`${project.title} ${i + 1}`} index={i} />
+              ))}
             </div>
           )}
         </div>
