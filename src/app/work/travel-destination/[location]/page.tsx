@@ -233,6 +233,31 @@ const DEATH_VALLEY_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [10, 11], cols: 2 },
   { imgs: [12, 13], cols: 2 },
 ];
+// UK - London: 3-col rows
+const UK_LONDON_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0, 1, 2], cols: 3 },
+  { imgs: [3, 4, 5], cols: 3 },
+];
+// UK - Seven Sisters: mixed
+const UK_SEVEN_SISTERS_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0], cols: 1 },
+  { imgs: [1, 2], cols: 2 },
+  { imgs: [3], cols: 1 },
+  { imgs: [4, 5], cols: 2 },
+];
+// UK - Oxford: 2-col rows
+const UK_OXFORD_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0, 1], cols: 2 },
+  { imgs: [2, 3], cols: 2 },
+  { imgs: [4, 5], cols: 2 },
+  { imgs: [6, 7], cols: 2 },
+];
+// UK - Northern Ireland: 2-col rows
+const UK_NORTHERN_IRELAND_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0, 1], cols: 2 },
+  { imgs: [2, 3], cols: 2 },
+  { imgs: [4, 5], cols: 2 },
+];
 
 // ============================================
 // MAIN PAGE
@@ -259,7 +284,7 @@ export default function TravelLocationPage() {
     );
   }
 
-  const hasHeroBg = slug === "japan" || slug === "malaysia" || slug === "chile" || slug === "death-valley";
+  const hasHeroBg = slug === "japan" || slug === "malaysia" || slug === "chile" || slug === "death-valley" || slug === "united-kingdom";
   const otherLocations = travelLocations.filter((l) => l.slug !== slug).slice(0, 3);
 
   return (
@@ -275,7 +300,9 @@ export default function TravelLocationPage() {
               ? "/work/travel-destination/chile/1.jpg"
               : slug === "death-valley"
                 ? "/work/travel-destination/death-valley/1.jpg"
-                : null;
+                : slug === "united-kingdom"
+                  ? "/work/travel-destination/united-kingdom/london/0.jpg"
+                  : null;
         return (
           <section className="relative bg-black" style={hasHeroBg ? { paddingTop: 0, marginBottom: "-30vh" } : undefined}>
             {heroImage && (
@@ -336,7 +363,7 @@ export default function TravelLocationPage() {
       })()}
 
       {/* ===== SCROLL DESCRIPTION (skip for locations with hero bg) ===== */}
-      {slug !== "japan" && slug !== "malaysia" && slug !== "chile" && slug !== "death-valley" && (
+      {!hasHeroBg && (
         <section className="bg-black py-16 md:py-24">
           <div className="mx-auto max-w-[1400px] px-6 md:px-20">
             <ScrollReveal>
@@ -381,6 +408,18 @@ export default function TravelLocationPage() {
               <RowGallery images={area.images} rows={CHILE_ROWS} locationTitle={location.title} areaName={area.name} />
             ) : slug === "death-valley" ? (
               <RowGallery images={area.images} rows={DEATH_VALLEY_ROWS} locationTitle={location.title} areaName={area.name} />
+            ) : slug === "united-kingdom" ? (
+              <RowGallery
+                images={area.images}
+                rows={
+                  area.name === "London" ? UK_LONDON_ROWS
+                    : area.name === "Seven Sisters" ? UK_SEVEN_SISTERS_ROWS
+                    : area.name === "Oxford" ? UK_OXFORD_ROWS
+                    : UK_NORTHERN_IRELAND_ROWS
+                }
+                locationTitle={location.title}
+                areaName={area.name}
+              />
             ) : (
               <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
                 {area.images.map((img, i) => (
