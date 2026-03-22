@@ -57,7 +57,7 @@ export const categories: Category[] = [
     title: "Architecture & Interiors",
     description:
       "Visual storytelling for real estate developers, interior designers, and architects. Highlighting form, light, and material.",
-    image: "/work/architecture-interiors/gardiner-museum/dsc01657-enhanced-nr.jpg",
+    image: "/work/architecture-interiors/gardiner-museum/1.jpg",
   },
 ];
 
@@ -104,19 +104,16 @@ export const architectureProjects: Project[] = [
     location: "Boston",
     description:
       "Architectural photography exploring the interplay of form, light, and materiality within the Gardiner Museum.",
-    coverImage: "/work/architecture-interiors/gardiner-museum/dsc01648-enhanced-nr.jpg",
+    coverImage: "/work/architecture-interiors/gardiner-museum/1.jpg",
     year: "2025",
     images: [
-      "/work/architecture-interiors/gardiner-museum/dsc01648-enhanced-nr.jpg",
-      "/work/architecture-interiors/gardiner-museum/dsc01649-enhanced-nr.jpg",
-      "/work/architecture-interiors/gardiner-museum/dsc01657-enhanced-nr.jpg",
-      "/work/architecture-interiors/gardiner-museum/dsc01663-enhanced-nr.jpg",
-      "/work/architecture-interiors/gardiner-museum/dsc01668-enhanced-nr.jpg",
-      "/work/architecture-interiors/gardiner-museum/dsc01670-enhanced-nr.jpg",
-      "/work/architecture-interiors/gardiner-museum/dsc01678-enhanced-nr.jpg",
-      "/work/architecture-interiors/gardiner-museum/dsc01681-enhanced-nr.jpg",
-      "/work/architecture-interiors/gardiner-museum/dsc01682-enhanced-nr.jpg",
-      "/work/architecture-interiors/gardiner-museum/dsc01684-enhanced-nr.jpg",
+      "/work/architecture-interiors/gardiner-museum/2.jpg",
+      "/work/architecture-interiors/gardiner-museum/3.jpg",
+      "/work/architecture-interiors/gardiner-museum/4.jpg",
+      "/work/architecture-interiors/gardiner-museum/5.jpg",
+      "/work/architecture-interiors/gardiner-museum/6.jpg",
+      "/work/architecture-interiors/gardiner-museum/7.jpg",
+      "/work/architecture-interiors/gardiner-museum/8.jpg",
     ],
   },
 ];

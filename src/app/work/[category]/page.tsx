@@ -49,7 +49,7 @@ function PhotoGallery({ images, projectTitle }: { images: string[]; projectTitle
   );
 }
 
-function GalleryImage({ src, alt, index }: { src: string; alt: string; index: number }) {
+function GalleryImage({ src, alt, index, className }: { src: string; alt: string; index: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -61,18 +61,17 @@ function GalleryImage({ src, alt, index }: { src: string; alt: string; index: nu
   const opacity = useSpring(rawOpacity, smoothSpring);
 
   return (
-    <motion.div ref={ref} style={{ scale, opacity }} className="mb-4 break-inside-avoid">
-      <div className="group relative overflow-hidden rounded-xl">
+    <motion.div ref={ref} style={{ scale, opacity }} className={className || "mb-4 break-inside-avoid"}>
+      <div className="group relative h-full overflow-hidden rounded-xl">
         <Image
           src={src}
           alt={alt}
-          width={800}
-          height={600}
-          className="h-auto w-full object-cover"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          width={1200}
+          height={800}
+          className="h-full w-full object-cover"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
           loading={index < 3 ? "eager" : "lazy"}
         />
-        {/* Subtle glass overlay on hover */}
         <div className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           style={{
             background: "linear-gradient(135deg, rgba(255,255,255,0.03), transparent, rgba(100,140,255,0.02))",
@@ -293,8 +292,29 @@ export default function CategoryPage() {
                   </div>
                 </ScrollReveal>
 
-                {/* Photo Gallery */}
-                <PhotoGallery images={project.images} projectTitle={project.title} />
+                {/* Photo Gallery - custom layout for Gardiner */}
+                {project.slug === "gardiner-museum" ? (
+                  <div className="flex flex-col gap-4">
+                    {/* 2,3,4 */}
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-3 auto-rows-[1fr]">
+                      {project.images.slice(0, 3).map((img, i) => (
+                        <GalleryImage key={img} src={img} alt={`${project.title} ${i + 1}`} index={i} className="h-full" />
+                      ))}
+                    </div>
+                    {/* 5 */}
+                    <GalleryImage src={project.images[3]} alt={`${project.title} 4`} index={3} className="" />
+                    {/* 6 */}
+                    <GalleryImage src={project.images[4]} alt={`${project.title} 5`} index={4} className="" />
+                    {/* 7,8 */}
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 auto-rows-[1fr]">
+                      {project.images.slice(5, 7).map((img, i) => (
+                        <GalleryImage key={img} src={img} alt={`${project.title} ${i + 6}`} index={i + 5} className="h-full" />
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <PhotoGallery images={project.images} projectTitle={project.title} />
+                )}
               </div>
             </section>
           ))}
