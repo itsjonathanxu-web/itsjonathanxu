@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -68,12 +68,12 @@ function GalleryImage({ src, alt, index }: { src: string; alt: string; index: nu
 }
 
 // ============================================
-// JAPAN GALLERY IMAGE (3-col grid, horizontal spans full)
+// JAPAN GALLERY - Custom layouts per area
 // ============================================
 
-function JapanGalleryImage({ src, alt, index }: { src: string; alt: string; index: number }) {
+// Simple scroll-reveal image (no orientation detection needed)
+function JapanImg({ src, alt, index, className }: { src: string; alt: string; index: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [isHorizontal, setIsHorizontal] = useState<boolean | null>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.95", "start 0.6"],
@@ -84,24 +84,16 @@ function JapanGalleryImage({ src, alt, index }: { src: string; alt: string; inde
   const opacity = useSpring(rawOpacity, smoothSpring);
 
   return (
-    <motion.div
-      ref={ref}
-      style={{ scale, opacity }}
-      className={isHorizontal ? "col-span-1 md:col-span-3" : "col-span-1"}
-    >
-      <div className="group relative overflow-hidden rounded-xl">
+    <motion.div ref={ref} style={{ scale, opacity }} className={className}>
+      <div className="group relative h-full overflow-hidden rounded-xl">
         <Image
           src={src}
           alt={alt}
           width={1200}
           height={800}
-          className="h-auto w-full object-cover"
-          sizes={isHorizontal ? "100vw" : "(max-width: 768px) 100vw, 33vw"}
+          className="h-full w-full object-cover"
+          sizes="(max-width: 768px) 100vw, 50vw"
           loading={index < 3 ? "eager" : "lazy"}
-          onLoad={(e) => {
-            const img = e.currentTarget;
-            setIsHorizontal(img.naturalWidth > img.naturalHeight);
-          }}
         />
         <div
           className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
@@ -112,6 +104,87 @@ function JapanGalleryImage({ src, alt, index }: { src: string; alt: string; inde
       </div>
     </motion.div>
   );
+}
+
+// Render images in explicit rows (max 3 per row)
+function RowGallery({ images, rows, locationTitle, areaName }: { images: string[]; rows: number[][]; locationTitle: string; areaName: string }) {
+  return (
+    <div className="flex flex-col gap-4">
+      {rows.map((row, rowIdx) => {
+        const gridCols = row.length === 1 ? "md:grid-cols-1" : row.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
+        return (
+          <div key={rowIdx} className={`grid grid-cols-1 gap-4 ${gridCols}`}>
+            {row.map((imgIdx) => {
+              const img = images[imgIdx];
+              if (!img) return null;
+              return (
+                <JapanImg
+                  key={img}
+                  src={img}
+                  alt={`${locationTitle} - ${areaName} ${imgIdx + 1}`}
+                  index={imgIdx}
+                />
+              );
+            })}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// Osaka special layout: image 1 full width, then image 4 left spanning 2 rows, images 2+3 stacked right
+function OsakaGallery({ images, locationTitle }: { images: string[]; locationTitle: string }) {
+  return (
+    <div className="flex flex-col gap-4">
+      {/* Image 1: horizontal full width */}
+      <JapanImg
+        src={images[0]}
+        alt={`${locationTitle} - Osaka 1`}
+        index={0}
+      />
+      {/* Image 4 left (2 rows), Images 2+3 stacked right */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2" style={{ minHeight: "600px" }}>
+        <JapanImg
+          src={images[3]}
+          alt={`${locationTitle} - Osaka 4`}
+          index={3}
+          className="h-full"
+        />
+        <div className="flex flex-col gap-4">
+          <div className="relative flex-1 overflow-hidden rounded-xl">
+            <JapanImg
+              src={images[1]}
+              alt={`${locationTitle} - Osaka 2`}
+              index={1}
+              className="h-full"
+            />
+          </div>
+          <div className="relative flex-1 overflow-hidden rounded-xl">
+            <JapanImg
+              src={images[2]}
+              alt={`${locationTitle} - Osaka 3`}
+              index={2}
+              className="h-full"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Kyoto row config: [1,2], [3,4], [5,6,7], [8,9], [10,11]
+const KYOTO_ROWS = [[0, 1], [2, 3], [4, 5, 6], [7, 8], [9, 10]];
+// Tokyo/Nara: standard 3 per row
+function standardRows(count: number): number[][] {
+  const rows: number[][] = [];
+  for (let i = 0; i < count; i += 3) {
+    const row: number[] = [];
+    for (let j = i; j < Math.min(i + 3, count); j++) row.push(j);
+    rows.push(row);
+  }
+  return rows;
 }
 
 // ============================================
@@ -202,16 +275,13 @@ export default function TravelLocationPage() {
 
             {/* Gallery -organic layout for Japan, masonry for others */}
             {slug === "japan" ? (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                {area.images.map((img, i) => (
-                  <JapanGalleryImage
-                    key={img}
-                    src={img}
-                    alt={`${location.title} - ${area.name} ${i + 1}`}
-                    index={areaIndex === 0 ? i : i + 10}
-                  />
-                ))}
-              </div>
+              area.name === "Osaka" ? (
+                <OsakaGallery images={area.images} locationTitle={location.title} />
+              ) : area.name === "Kyoto" ? (
+                <RowGallery images={area.images} rows={KYOTO_ROWS} locationTitle={location.title} areaName={area.name} />
+              ) : (
+                <RowGallery images={area.images} rows={standardRows(area.images.length)} locationTitle={location.title} areaName={area.name} />
+              )
             ) : (
               <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
                 {area.images.map((img, i) => (
