@@ -274,7 +274,7 @@ export default function TravelLocationPage() {
               </>
             )}
 
-            <div className={`relative z-10 mx-auto max-w-[1400px] px-6 md:px-20 ${hasHeroBg ? "flex flex-col justify-end pb-16 md:pb-24 pt-24 md:pt-32" : "pt-32 md:pt-44 pb-6 md:pb-10"}`}>
+            <div className={`relative z-10 mx-auto max-w-[1400px] px-6 md:px-20 ${hasHeroBg ? "flex flex-col justify-end pb-[45vh] pt-24 md:pt-32" : "pt-32 md:pt-44 pb-6 md:pb-10"}`}>
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
