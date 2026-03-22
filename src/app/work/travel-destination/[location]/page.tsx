@@ -212,6 +212,12 @@ const NARA_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [3], cols: 1 },
 ];
 
+// Malaysia: 1 full width, 2+3+4 on 3-grid
+const MALAYSIA_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0], cols: 1 },
+  { imgs: [1, 2, 3], cols: 3 },
+];
+
 // ============================================
 // MAIN PAGE
 // ============================================
@@ -242,66 +248,85 @@ export default function TravelLocationPage() {
   return (
     <>
       {/* ===== HERO -Big Location Title ===== */}
-      <section className="relative bg-black overflow-hidden" style={{ minHeight: slug === "japan" ? "85vh" : undefined, paddingTop: slug === "japan" ? undefined : undefined }}>
-        {/* Hero background image for Japan */}
-        {slug === "japan" && (
-          <>
-            <div className="absolute inset-0">
-              <Image
-                src="/work/travel-destination/japan/tokyo/4.jpg"
-                alt="Japan hero"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-            {/* Dark overlay for text readability */}
-            <div className="absolute inset-0 bg-black/40" />
-            {/* Bottom fade to black */}
-            <div className="absolute inset-x-0 bottom-0 h-[40%]" style={{ background: "linear-gradient(to bottom, transparent, black)" }} />
-          </>
-        )}
+      {/* ===== HERO with optional background image ===== */}
+      {(() => {
+        const hasHeroBg = slug === "japan" || slug === "malaysia";
+        const heroImage = slug === "japan"
+          ? "/work/travel-destination/japan/tokyo/4.jpg"
+          : slug === "malaysia"
+            ? "/work/travel-destination/malaysia/1.jpg"
+            : null;
+        return (
+          <section className="relative bg-black overflow-hidden" style={hasHeroBg ? { paddingTop: 0 } : undefined}>
+            {heroImage && (
+              <>
+                <div className="absolute inset-0">
+                  <Image
+                    src={heroImage}
+                    alt={`${location.title} hero`}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+                <div className="absolute inset-0 bg-black/40" />
+                <div className="absolute inset-x-0 bottom-0 h-[50%]" style={{ background: "linear-gradient(to bottom, transparent, black)" }} />
+              </>
+            )}
 
-        <div className={`relative z-10 mx-auto max-w-[1400px] px-6 md:px-20 ${slug === "japan" ? "flex flex-col justify-end pb-16 md:pb-24" : ""}`} style={slug === "japan" ? { minHeight: "85vh" } : undefined}>
-          <div className={slug === "japan" ? "" : "pt-32 md:pt-44 pb-6 md:pb-10"}>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-            >
-              <Link
-                href="/work/travel-destination"
-                className={`font-display mb-8 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.15em] uppercase transition-colors duration-300 ${slug === "japan" ? "text-white/50 hover:text-white/80" : "text-white/30 hover:text-white/70"}`}
+            <div className={`relative z-10 mx-auto max-w-[1400px] px-6 md:px-20 ${hasHeroBg ? "flex flex-col justify-end pb-16 md:pb-24 pt-24 md:pt-32" : "pt-32 md:pt-44 pb-6 md:pb-10"}`}>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8 }}
               >
-                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-                </svg>
-                Travel & Destination
-              </Link>
-            </motion.div>
+                <Link
+                  href="/work/travel-destination"
+                  className={`font-display mb-8 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.15em] uppercase transition-colors duration-300 ${hasHeroBg ? "text-white/50 hover:text-white/80" : "text-white/30 hover:text-white/70"}`}
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                  </svg>
+                  Travel & Destination
+                </Link>
+              </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 0.9, y: 0 }}
-              transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-[clamp(56px,14vw,200px)] font-extrabold leading-[0.85] tracking-[-0.05em] text-white/90"
-            >
-              {location.title.toUpperCase()}
-            </motion.h1>
+              <motion.h1
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 0.9, y: 0 }}
+                transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                className="font-display text-[clamp(56px,14vw,200px)] font-extrabold leading-[0.85] tracking-[-0.05em] text-white/90"
+              >
+                {location.title.toUpperCase()}
+              </motion.h1>
+
+              {hasHeroBg && (
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.5 }}
+                  className="mt-6 max-w-xl text-[clamp(15px,1.8vw,20px)] leading-[1.6] font-light text-white/60"
+                >
+                  {location.description}
+                </motion.p>
+              )}
+            </div>
+          </section>
+        );
+      })()}
+
+      {/* ===== SCROLL DESCRIPTION (skip for locations with hero bg) ===== */}
+      {slug !== "japan" && slug !== "malaysia" && (
+        <section className="bg-black py-16 md:py-24">
+          <div className="mx-auto max-w-[1400px] px-6 md:px-20">
+            <ScrollReveal>
+              <p className="max-w-2xl text-[clamp(18px,2.5vw,28px)] leading-[1.5] font-light text-white/50">
+                {location.description}
+              </p>
+            </ScrollReveal>
           </div>
-        </div>
-      </section>
-
-      {/* ===== SCROLL DESCRIPTION ===== */}
-      <section className="bg-black py-16 md:py-24">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-          <ScrollReveal>
-            <p className="max-w-2xl text-[clamp(18px,2.5vw,28px)] leading-[1.5] font-light text-white/50">
-              {location.description}
-            </p>
-          </ScrollReveal>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ===== AREAS WITH HEADERS + PHOTO GALLERIES ===== */}
       {location.areas.map((area, areaIndex) => (
@@ -319,7 +344,7 @@ export default function TravelLocationPage() {
               </ScrollReveal>
             )}
 
-            {/* Gallery -organic layout for Japan, masonry for others */}
+            {/* Gallery - custom layouts for Japan/Malaysia, masonry for others */}
             {slug === "japan" ? (
               area.name === "Osaka" ? (
                 <OsakaGallery images={area.images} locationTitle={location.title} />
@@ -330,6 +355,8 @@ export default function TravelLocationPage() {
               ) : area.name === "Nara" ? (
                 <RowGallery images={area.images} rows={NARA_ROWS} locationTitle={location.title} areaName={area.name} />
               ) : null
+            ) : slug === "malaysia" ? (
+              <RowGallery images={area.images} rows={MALAYSIA_ROWS} locationTitle={location.title} areaName={area.name} />
             ) : (
               <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
                 {area.images.map((img, i) => (
