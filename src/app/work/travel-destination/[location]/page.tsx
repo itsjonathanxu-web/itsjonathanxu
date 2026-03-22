@@ -199,12 +199,11 @@ const KYOTO_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [4, 5, 6], cols: 3 },
   { imgs: [7, 8], cols: 2 },
 ];
-// Tokyo: 1,2,3 | 4,5 (h-detect) | 5,6,7 | 8,9,10
+// Tokyo: 1,2,3 | 4,5,6 | 7,8,9 (image 4 removed — used as hero)
 const TOKYO_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [0, 1, 2], cols: 3 },
-  { imgs: [3], cols: 1 },
-  { imgs: [4, 5, 6], cols: 3 },
-  { imgs: [7, 8, 9], cols: 3 },
+  { imgs: [3, 4, 5], cols: 3 },
+  { imgs: [6, 7, 8], cols: 3 },
 ];
 // Nara: 1 full, 2+3, 4
 const NARA_ROWS: { imgs: number[]; cols: number }[] = [
@@ -243,32 +242,53 @@ export default function TravelLocationPage() {
   return (
     <>
       {/* ===== HERO -Big Location Title ===== */}
-      <section className="relative bg-black pt-32 pb-6 md:pt-44 md:pb-10">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            <Link
-              href="/work/travel-destination"
-              className="font-display mb-8 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.15em] text-white/30 uppercase transition-colors duration-300 hover:text-white/70"
-            >
-              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-              </svg>
-              Travel & Destination
-            </Link>
-          </motion.div>
+      <section className="relative bg-black overflow-hidden" style={{ minHeight: slug === "japan" ? "85vh" : undefined, paddingTop: slug === "japan" ? undefined : undefined }}>
+        {/* Hero background image for Japan */}
+        {slug === "japan" && (
+          <>
+            <div className="absolute inset-0">
+              <Image
+                src="/work/travel-destination/japan/tokyo/4.jpg"
+                alt="Japan hero"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-black/40" />
+            {/* Bottom fade to black */}
+            <div className="absolute inset-x-0 bottom-0 h-[40%]" style={{ background: "linear-gradient(to bottom, transparent, black)" }} />
+          </>
+        )}
 
-          <motion.h1
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 0.9, y: 0 }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-[clamp(56px,14vw,200px)] font-extrabold leading-[0.85] tracking-[-0.05em] text-white/90"
-          >
-            {location.title.toUpperCase()}
-          </motion.h1>
+        <div className={`relative z-10 mx-auto max-w-[1400px] px-6 md:px-20 ${slug === "japan" ? "flex flex-col justify-end pb-16 md:pb-24" : ""}`} style={slug === "japan" ? { minHeight: "85vh" } : undefined}>
+          <div className={slug === "japan" ? "" : "pt-32 md:pt-44 pb-6 md:pb-10"}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
+              <Link
+                href="/work/travel-destination"
+                className={`font-display mb-8 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.15em] uppercase transition-colors duration-300 ${slug === "japan" ? "text-white/50 hover:text-white/80" : "text-white/30 hover:text-white/70"}`}
+              >
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                </svg>
+                Travel & Destination
+              </Link>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 0.9, y: 0 }}
+              transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+              className="font-display text-[clamp(56px,14vw,200px)] font-extrabold leading-[0.85] tracking-[-0.05em] text-white/90"
+            >
+              {location.title.toUpperCase()}
+            </motion.h1>
+          </div>
         </div>
       </section>
 

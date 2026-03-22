@@ -189,7 +189,7 @@ export const travelLocations: TravelLocation[] = [
   {
     slug: "japan",
     title: "Japan",
-    coverImage: "/work/travel-destination/japan/tokyo/1.jpg",
+    coverImage: "/work/travel-destination/japan/tokyo/4.jpg",
     description: "A cinematic journey through Tokyo, Kyoto, Osaka, and Nara, capturing the contrast of tradition and modernity.",
     areas: [
       {
@@ -198,7 +198,6 @@ export const travelLocations: TravelLocation[] = [
           "/work/travel-destination/japan/tokyo/1.jpg",
           "/work/travel-destination/japan/tokyo/2.jpg",
           "/work/travel-destination/japan/tokyo/3.jpg",
-          "/work/travel-destination/japan/tokyo/4.jpg",
           "/work/travel-destination/japan/tokyo/5.jpg",
           "/work/travel-destination/japan/tokyo/6.jpg",
           "/work/travel-destination/japan/tokyo/7.jpg",
