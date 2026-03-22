@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -110,19 +110,6 @@ function JapanImg({ src, alt, index, className, onHorizontalDetected }: { src: s
   );
 }
 
-// Wrapper that detects horizontal and spans full width
-function JapanGridImg({ src, alt, index }: { src: string; alt: string; index: number }) {
-  const [isHorizontal, setIsHorizontal] = useState(false);
-  return (
-    <JapanImg
-      src={src}
-      alt={alt}
-      index={index}
-      className={isHorizontal ? "col-span-1 md:col-span-3" : "col-span-1"}
-      onHorizontalDetected={setIsHorizontal}
-    />
-  );
-}
 
 // Render images in explicit rows with specified column counts
 function RowGallery({ images, rows, locationTitle, areaName }: { images: string[]; rows: { imgs: number[]; cols: number }[]; locationTitle: string; areaName: string }) {
@@ -131,16 +118,17 @@ function RowGallery({ images, rows, locationTitle, areaName }: { images: string[
       {rows.map((row, rowIdx) => {
         const gridCols = row.cols === 1 ? "md:grid-cols-1" : row.cols === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
         return (
-          <div key={rowIdx} className={`grid grid-cols-1 gap-4 ${gridCols}`}>
+          <div key={rowIdx} className={`grid grid-cols-1 gap-4 ${gridCols} ${row.cols > 1 ? "auto-rows-[1fr]" : ""}`}>
             {row.imgs.map((imgIdx) => {
               const img = images[imgIdx];
               if (!img) return null;
               return (
-                <JapanGridImg
+                <JapanImg
                   key={img}
                   src={img}
                   alt={`${locationTitle} - ${areaName} ${imgIdx + 1}`}
                   index={imgIdx}
+                  className="h-full"
                 />
               );
             })}
@@ -245,6 +233,29 @@ const UK_SEVEN_SISTERS_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [3], cols: 1 },
   { imgs: [4, 5], cols: 2 },
 ];
+// USA - Chicago
+const USA_CHICAGO_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0, 1], cols: 2 },
+  { imgs: [2], cols: 1 },
+  { imgs: [3], cols: 1 },
+  { imgs: [4, 5], cols: 2 },
+  { imgs: [6], cols: 1 },
+  { imgs: [7, 8, 9], cols: 3 },
+  { imgs: [10, 11, 12], cols: 3 },
+  { imgs: [13, 14], cols: 2 },
+];
+// USA - Detroit
+const USA_DETROIT_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0], cols: 1 },
+  { imgs: [1, 2, 3], cols: 3 },
+  { imgs: [4, 5], cols: 2 },
+  { imgs: [6, 7, 8], cols: 3 },
+];
+// USA - Boston
+const USA_BOSTON_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0, 1, 2], cols: 3 },
+  { imgs: [3, 4, 5], cols: 3 },
+];
 // UK - Oxford: 2-col rows
 const UK_OXFORD_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [0, 1], cols: 2 },
@@ -284,7 +295,7 @@ export default function TravelLocationPage() {
     );
   }
 
-  const hasHeroBg = slug === "japan" || slug === "malaysia" || slug === "chile" || slug === "death-valley" || slug === "united-kingdom";
+  const hasHeroBg = slug === "japan" || slug === "malaysia" || slug === "chile" || slug === "death-valley" || slug === "united-kingdom" || slug === "united-states";
   const otherLocations = travelLocations.filter((l) => l.slug !== slug).slice(0, 3);
 
   return (
@@ -302,7 +313,9 @@ export default function TravelLocationPage() {
                 ? "/work/travel-destination/death-valley/1.jpg"
                 : slug === "united-kingdom"
                   ? "/work/travel-destination/united-kingdom/london/0.jpg"
-                  : null;
+                  : slug === "united-states"
+                    ? "/work/travel-destination/united-states/chicago/1.jpg"
+                    : null;
         return (
           <section className="relative bg-black" style={hasHeroBg ? { paddingTop: 0, marginBottom: "-30vh" } : undefined}>
             {heroImage && (
@@ -416,6 +429,17 @@ export default function TravelLocationPage() {
                     : area.name === "Seven Sisters" ? UK_SEVEN_SISTERS_ROWS
                     : area.name === "Oxford" ? UK_OXFORD_ROWS
                     : UK_NORTHERN_IRELAND_ROWS
+                }
+                locationTitle={location.title}
+                areaName={area.name}
+              />
+            ) : slug === "united-states" ? (
+              <RowGallery
+                images={area.images}
+                rows={
+                  area.name === "Chicago" ? USA_CHICAGO_ROWS
+                    : area.name === "Detroit" ? USA_DETROIT_ROWS
+                    : USA_BOSTON_ROWS
                 }
                 locationTitle={location.title}
                 areaName={area.name}
