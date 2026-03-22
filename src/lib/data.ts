@@ -159,8 +159,8 @@ export const travelLocations: TravelLocation[] = [
         images: [
           "/work/travel-destination/japan/tokyo/1.jpg",
           "/work/travel-destination/japan/tokyo/2.jpg",
-          "/work/travel-destination/japan/tokyo/5.jpg",
           "/work/travel-destination/japan/tokyo/6.jpg",
+          "/work/travel-destination/japan/tokyo/5.jpg",
           "/work/travel-destination/japan/tokyo/7.jpg",
           "/work/travel-destination/japan/tokyo/8.jpg",
           "/work/travel-destination/japan/tokyo/9.jpg",
