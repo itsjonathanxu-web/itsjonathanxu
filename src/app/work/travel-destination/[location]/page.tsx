@@ -124,26 +124,29 @@ function JapanGridImg({ src, alt, index }: { src: string; alt: string; index: nu
   );
 }
 
-// Render images in explicit rows (max 3 per row), horizontal images auto-span full width
-function RowGallery({ images, rows, locationTitle, areaName }: { images: string[]; rows: number[][]; locationTitle: string; areaName: string }) {
+// Render images in explicit rows with specified column counts
+function RowGallery({ images, rows, locationTitle, areaName }: { images: string[]; rows: { imgs: number[]; cols: number }[]; locationTitle: string; areaName: string }) {
   return (
     <div className="flex flex-col gap-4">
-      {rows.map((row, rowIdx) => (
-        <div key={rowIdx} className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {row.map((imgIdx) => {
-            const img = images[imgIdx];
-            if (!img) return null;
-            return (
-              <JapanGridImg
-                key={img}
-                src={img}
-                alt={`${locationTitle} - ${areaName} ${imgIdx + 1}`}
-                index={imgIdx}
-              />
-            );
-          })}
-        </div>
-      ))}
+      {rows.map((row, rowIdx) => {
+        const gridCols = row.cols === 1 ? "md:grid-cols-1" : row.cols === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
+        return (
+          <div key={rowIdx} className={`grid grid-cols-1 gap-4 ${gridCols}`}>
+            {row.imgs.map((imgIdx) => {
+              const img = images[imgIdx];
+              if (!img) return null;
+              return (
+                <JapanGridImg
+                  key={img}
+                  src={img}
+                  alt={`${locationTitle} - ${areaName} ${imgIdx + 1}`}
+                  index={imgIdx}
+                />
+              );
+            })}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -189,18 +192,26 @@ function OsakaGallery({ images, locationTitle }: { images: string[]; locationTit
   );
 }
 
-// Kyoto row config: [1,2], [3,4], [5,6,7], [8,9]
-const KYOTO_ROWS = [[0, 1], [2, 3], [4, 5, 6], [7, 8]];
-// Tokyo/Nara: standard 3 per row
-function standardRows(count: number): number[][] {
-  const rows: number[][] = [];
-  for (let i = 0; i < count; i += 3) {
-    const row: number[] = [];
-    for (let j = i; j < Math.min(i + 3, count); j++) row.push(j);
-    rows.push(row);
-  }
-  return rows;
-}
+// Kyoto: [1,2], [3,4], [5,6,7], [8,9]
+const KYOTO_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0, 1], cols: 2 },
+  { imgs: [2, 3], cols: 2 },
+  { imgs: [4, 5, 6], cols: 3 },
+  { imgs: [7, 8], cols: 2 },
+];
+// Tokyo: 1,2,3 | 4,5 (h-detect) | 5,6,7 | 8,9,10
+const TOKYO_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0, 1, 2], cols: 3 },
+  { imgs: [3], cols: 1 },
+  { imgs: [4, 5, 6], cols: 3 },
+  { imgs: [7, 8, 9], cols: 3 },
+];
+// Nara: 1 full, 2+3, 4
+const NARA_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0], cols: 1 },
+  { imgs: [1, 2], cols: 2 },
+  { imgs: [3], cols: 1 },
+];
 
 // ============================================
 // MAIN PAGE
@@ -294,9 +305,11 @@ export default function TravelLocationPage() {
                 <OsakaGallery images={area.images} locationTitle={location.title} />
               ) : area.name === "Kyoto" ? (
                 <RowGallery images={area.images} rows={KYOTO_ROWS} locationTitle={location.title} areaName={area.name} />
-              ) : (
-                <RowGallery images={area.images} rows={standardRows(area.images.length)} locationTitle={location.title} areaName={area.name} />
-              )
+              ) : area.name === "Tokyo" ? (
+                <RowGallery images={area.images} rows={TOKYO_ROWS} locationTitle={location.title} areaName={area.name} />
+              ) : area.name === "Nara" ? (
+                <RowGallery images={area.images} rows={NARA_ROWS} locationTitle={location.title} areaName={area.name} />
+              ) : null
             ) : (
               <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
                 {area.images.map((img, i) => (
