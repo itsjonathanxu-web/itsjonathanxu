@@ -257,10 +257,10 @@ export default function TravelLocationPage() {
             ? "/work/travel-destination/malaysia/1.jpg"
             : null;
         return (
-          <section className="relative bg-black overflow-hidden" style={hasHeroBg ? { paddingTop: 0 } : undefined}>
+          <section className="relative bg-black" style={hasHeroBg ? { paddingTop: 0, marginBottom: "-30vh" } : undefined}>
             {heroImage && (
               <>
-                <div className="absolute inset-0">
+                <div className="absolute inset-0" style={{ bottom: "-30vh" }}>
                   <Image
                     src={heroImage}
                     alt={`${location.title} hero`}
@@ -269,8 +269,8 @@ export default function TravelLocationPage() {
                     priority
                   />
                 </div>
-                <div className="absolute inset-0 bg-black/40" />
-                <div className="absolute inset-x-0 bottom-0 h-[50%]" style={{ background: "linear-gradient(to bottom, transparent, black)" }} />
+                <div className="absolute inset-0" style={{ bottom: "-30vh", background: "rgba(0,0,0,0.4)" }} />
+                <div className="absolute inset-x-0" style={{ bottom: "-30vh", height: "60%", background: "linear-gradient(to bottom, transparent 0%, black 100%)" }} />
               </>
             )}
 
@@ -330,7 +330,7 @@ export default function TravelLocationPage() {
 
       {/* ===== AREAS WITH HEADERS + PHOTO GALLERIES ===== */}
       {location.areas.map((area, areaIndex) => (
-        <section key={area.name} className="bg-black pb-20 md:pb-32">
+        <section key={area.name} className={`pb-20 md:pb-32 relative ${areaIndex === 0 && (slug === "japan" || slug === "malaysia") ? "z-10" : "bg-black"}`}>
           <div className="mx-auto max-w-[1400px] px-6 md:px-20">
             {/* Area Header -only show if more than 1 area */}
             {location.areas.length > 1 && (
