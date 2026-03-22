@@ -187,11 +187,13 @@ const KYOTO_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [4, 5, 6], cols: 3 },
   { imgs: [7, 8], cols: 2 },
 ];
-// Tokyo: 1,2,3 | 4,5,6 | 7,8,9 (image 4 removed — used as hero)
+// Tokyo: 1,2 | 5 | 6,7,8 | 9 | 10
 const TOKYO_ROWS: { imgs: number[]; cols: number }[] = [
-  { imgs: [0, 1, 2], cols: 3 },
+  { imgs: [0, 1], cols: 2 },
+  { imgs: [2], cols: 1 },
   { imgs: [3, 4, 5], cols: 3 },
-  { imgs: [6, 7, 8], cols: 3 },
+  { imgs: [6], cols: 1 },
+  { imgs: [7], cols: 1 },
 ];
 // Nara: 1 full, 2+3, 4
 const NARA_ROWS: { imgs: number[]; cols: number }[] = [
