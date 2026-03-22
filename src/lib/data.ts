@@ -132,21 +132,18 @@ export const travelLocations: TravelLocation[] = [
   {
     slug: "chile",
     title: "Chile",
-    coverImage: "/work/travel-destination/chile/dsc08349.jpg",
+    coverImage: "/work/travel-destination/chile/1.jpg",
     description: "Glacial waters, jagged peaks, and the raw grandeur of Patagonia.",
     areas: [
       {
         name: "Patagonia",
         images: [
-          "/work/travel-destination/chile/dsc08349.jpg",
-          "/work/travel-destination/chile/dsc08354.jpg",
-          "/work/travel-destination/chile/dsc08373.jpg",
-          "/work/travel-destination/chile/dsc08376.jpg",
-          "/work/travel-destination/chile/dsc08379.jpg",
-          "/work/travel-destination/chile/dsc08383.jpg",
-          "/work/travel-destination/chile/dsc08389.jpg",
-          "/work/travel-destination/chile/dsc08390.jpg",
-          "/work/travel-destination/chile/dsc08408.jpg",
+          "/work/travel-destination/chile/2.jpg",
+          "/work/travel-destination/chile/3.jpg",
+          "/work/travel-destination/chile/4.jpg",
+          "/work/travel-destination/chile/5.jpg",
+          "/work/travel-destination/chile/6.jpg",
+          "/work/travel-destination/chile/7.jpg",
         ],
       },
     ],
