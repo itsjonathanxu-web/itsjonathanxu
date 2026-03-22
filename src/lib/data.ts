@@ -54,7 +54,7 @@ export const categories: Category[] = [
   },
   {
     slug: "architecture-interiors",
-    title: "Architecture & Interiors",
+    title: "Architecture/Interiors",
     description:
       "Visual storytelling for real estate developers, interior designers, and architects. Highlighting form, light, and material.",
     image: "/work/architecture-interiors/gardiner-museum/1.jpg",

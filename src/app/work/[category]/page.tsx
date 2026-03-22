@@ -205,14 +205,35 @@ export default function CategoryPage() {
 
   const isTravel = slug === "travel-destination";
   const isHospitality = slug === "hospitality";
+  const isArchitecture = slug === "architecture-interiors";
   const projects = getProjectsByCategory(slug);
   const otherCategories = categories.filter((c) => c.slug !== slug);
 
+  // Hero background for architecture (uses first project's cover)
+  const hasHeroBg = isArchitecture;
+  const heroImage = isArchitecture && projects.length > 0 ? projects[0].coverImage : null;
+
   return (
     <>
-      {/* ===== HERO -Big Title ===== */}
-      <section className="relative bg-black pt-32 pb-6 md:pt-44 md:pb-10">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-20">
+      {/* ===== HERO ===== */}
+      <section className="relative bg-black" style={hasHeroBg ? { paddingTop: 0, marginBottom: "-30vh" } : undefined}>
+        {heroImage && (
+          <>
+            <div className="absolute inset-0" style={{ bottom: "-30vh" }}>
+              <Image
+                src={heroImage}
+                alt={`${category.title} hero`}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+            <div className="absolute inset-0" style={{ bottom: "-30vh", background: "rgba(0,0,0,0.4)" }} />
+            <div className="absolute inset-x-0" style={{ bottom: "-30vh", height: "60%", background: "linear-gradient(to bottom, transparent 0%, black 100%)" }} />
+          </>
+        )}
+
+        <div className={`relative z-10 mx-auto max-w-[1400px] px-6 md:px-20 ${hasHeroBg ? "flex flex-col justify-end pb-[45vh] pt-24 md:pt-32" : "pt-32 md:pt-44 pb-6 md:pb-10"}`}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -220,7 +241,7 @@ export default function CategoryPage() {
           >
             <Link
               href="/work"
-              className="font-display mb-8 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.15em] text-white/30 uppercase transition-colors duration-300 hover:text-white/70"
+              className={`font-display mb-8 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.15em] uppercase transition-colors duration-300 ${hasHeroBg ? "text-white/50 hover:text-white/80" : "text-white/30 hover:text-white/70"}`}
             >
               <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
@@ -233,23 +254,36 @@ export default function CategoryPage() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 0.9, y: 0 }}
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-[clamp(64px,16vw,220px)] font-extrabold leading-[0.85] tracking-[-0.05em] text-white/90"
+            className={`font-display font-extrabold leading-[0.85] tracking-[-0.05em] text-white/90 ${isArchitecture ? "whitespace-nowrap text-[clamp(40px,10vw,140px)]" : "text-[clamp(64px,16vw,220px)]"}`}
           >
             {category.title.toUpperCase()}
           </motion.h1>
+
+          {hasHeroBg && (
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="mt-10 md:mt-14 max-w-xl text-[clamp(15px,1.8vw,20px)] leading-[1.6] font-light text-white/60"
+            >
+              {category.description}
+            </motion.p>
+          )}
         </div>
       </section>
 
-      {/* ===== SCROLL DESCRIPTION ===== */}
-      <section className="bg-black py-16 md:py-24">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-          <ScrollReveal>
-            <p className="max-w-2xl text-[clamp(18px,2.5vw,28px)] leading-[1.5] font-light text-white/50">
-              {category.description}
-            </p>
-          </ScrollReveal>
-        </div>
-      </section>
+      {/* ===== SCROLL DESCRIPTION (skip for hero bg) ===== */}
+      {!hasHeroBg && (
+        <section className="bg-black py-16 md:py-24">
+          <div className="mx-auto max-w-[1400px] px-6 md:px-20">
+            <ScrollReveal>
+              <p className="max-w-2xl text-[clamp(18px,2.5vw,28px)] leading-[1.5] font-light text-white/50">
+                {category.description}
+              </p>
+            </ScrollReveal>
+          </div>
+        </section>
+      )}
 
       {/* ===== CONTENT -Travel locations, Hospitality venues, OR Project gallery ===== */}
       {isTravel ? (
@@ -274,8 +308,8 @@ export default function CategoryPage() {
         </section>
       ) : (
         <>
-          {projects.map((project) => (
-            <section key={project.slug} className="bg-black pb-24 md:pb-40">
+          {projects.map((project, projIdx) => (
+            <section key={project.slug} className={`pb-24 md:pb-40 relative ${projIdx === 0 && hasHeroBg ? "z-10" : "bg-black"}`}>
               <div className="mx-auto max-w-[1400px] px-6 md:px-20">
                 {/* Project info */}
                 <ScrollReveal>
