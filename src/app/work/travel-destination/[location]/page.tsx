@@ -223,6 +223,16 @@ const CHILE_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [2, 3], cols: 2 },
   { imgs: [4, 5], cols: 2 },
 ];
+// Death Valley: all 2-col rows
+const DEATH_VALLEY_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0, 1], cols: 2 },
+  { imgs: [2, 3], cols: 2 },
+  { imgs: [4, 5], cols: 2 },
+  { imgs: [6, 7], cols: 2 },
+  { imgs: [8, 9], cols: 2 },
+  { imgs: [10, 11], cols: 2 },
+  { imgs: [12, 13], cols: 2 },
+];
 
 // ============================================
 // MAIN PAGE
@@ -249,6 +259,7 @@ export default function TravelLocationPage() {
     );
   }
 
+  const hasHeroBg = slug === "japan" || slug === "malaysia" || slug === "chile" || slug === "death-valley";
   const otherLocations = travelLocations.filter((l) => l.slug !== slug).slice(0, 3);
 
   return (
@@ -256,14 +267,15 @@ export default function TravelLocationPage() {
       {/* ===== HERO -Big Location Title ===== */}
       {/* ===== HERO with optional background image ===== */}
       {(() => {
-        const hasHeroBg = slug === "japan" || slug === "malaysia" || slug === "chile";
         const heroImage = slug === "japan"
           ? "/work/travel-destination/japan/tokyo/4.jpg"
           : slug === "malaysia"
             ? "/work/travel-destination/malaysia/1.jpg"
             : slug === "chile"
               ? "/work/travel-destination/chile/1.jpg"
-              : null;
+              : slug === "death-valley"
+                ? "/work/travel-destination/death-valley/1.jpg"
+                : null;
         return (
           <section className="relative bg-black" style={hasHeroBg ? { paddingTop: 0, marginBottom: "-30vh" } : undefined}>
             {heroImage && (
@@ -313,7 +325,7 @@ export default function TravelLocationPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: 0.5 }}
-                  className="mt-6 max-w-xl text-[clamp(15px,1.8vw,20px)] leading-[1.6] font-light text-white/60"
+                  className="mt-10 md:mt-14 max-w-xl text-[clamp(15px,1.8vw,20px)] leading-[1.6] font-light text-white/60"
                 >
                   {location.description}
                 </motion.p>
@@ -324,7 +336,7 @@ export default function TravelLocationPage() {
       })()}
 
       {/* ===== SCROLL DESCRIPTION (skip for locations with hero bg) ===== */}
-      {slug !== "japan" && slug !== "malaysia" && slug !== "chile" && (
+      {slug !== "japan" && slug !== "malaysia" && slug !== "chile" && slug !== "death-valley" && (
         <section className="bg-black py-16 md:py-24">
           <div className="mx-auto max-w-[1400px] px-6 md:px-20">
             <ScrollReveal>
@@ -338,7 +350,7 @@ export default function TravelLocationPage() {
 
       {/* ===== AREAS WITH HEADERS + PHOTO GALLERIES ===== */}
       {location.areas.map((area, areaIndex) => (
-        <section key={area.name} className={`pb-20 md:pb-32 relative ${areaIndex === 0 && (slug === "japan" || slug === "malaysia" || slug === "chile") ? "z-10" : "bg-black"}`}>
+        <section key={area.name} className={`pb-20 md:pb-32 relative ${areaIndex === 0 && hasHeroBg ? "z-10" : "bg-black"}`}>
           <div className="mx-auto max-w-[1400px] px-6 md:px-20">
             {/* Area Header -only show if more than 1 area */}
             {location.areas.length > 1 && (
@@ -367,6 +379,8 @@ export default function TravelLocationPage() {
               <RowGallery images={area.images} rows={MALAYSIA_ROWS} locationTitle={location.title} areaName={area.name} />
             ) : slug === "chile" ? (
               <RowGallery images={area.images} rows={CHILE_ROWS} locationTitle={location.title} areaName={area.name} />
+            ) : slug === "death-valley" ? (
+              <RowGallery images={area.images} rows={DEATH_VALLEY_ROWS} locationTitle={location.title} areaName={area.name} />
             ) : (
               <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
                 {area.images.map((img, i) => (
