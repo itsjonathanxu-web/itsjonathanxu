@@ -120,9 +120,6 @@ function LocationCard({ location }: { location: (typeof travelLocations)[0] }) {
             <h3 className="font-display mt-2 text-[clamp(24px,3vw,40px)] font-extrabold leading-[0.95] tracking-[-0.02em] text-white transition-transform duration-700 ease-out group-hover:translate-x-1">
               {location.title}
             </h3>
-            <p className="mt-2 max-w-md text-[13px] leading-[1.7] text-white/35 transition-colors duration-500 group-hover:text-white/55">
-              {location.description}
-            </p>
           </div>
         </div>
       </Link>
@@ -168,9 +165,6 @@ function HospitalityProjectCard({ project }: { project: Project }) {
             <h3 className="font-display text-[clamp(24px,3vw,40px)] font-extrabold leading-[0.95] tracking-[-0.02em] text-white transition-transform duration-700 ease-out group-hover:translate-x-1">
               {project.title}
             </h3>
-            <p className="mt-2 max-w-md text-[13px] leading-[1.7] text-white/35 transition-colors duration-500 group-hover:text-white/55">
-              {project.description}
-            </p>
           </div>
         </div>
       </Link>

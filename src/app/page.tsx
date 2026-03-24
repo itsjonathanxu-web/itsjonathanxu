@@ -83,7 +83,7 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 1.08 }}
                 animate={{ opacity: 0.9, scale: 1 }}
                 transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
-                className="font-display w-full text-center text-[clamp(100px,42vw,600px)] font-extrabold leading-[0.75] tracking-[-0.06em] text-white/90"
+                className="font-display w-full text-center text-[75px] md:text-[clamp(100px,42vw,600px)] font-extrabold leading-[0.75] tracking-[-0.06em] text-white/90"
               >
                 XSEN
               </motion.h1>
@@ -118,15 +118,15 @@ export default function Home() {
               <div className="flex flex-col items-end gap-1 md:gap-2">
                 <CharacterReveal
                   text="Travel"
-                  className="font-display text-[clamp(20px,5.5vw,80px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display text-[clamp(30px,8vw,120px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
                   text="Architecture and Interiors"
-                  className="font-display text-[clamp(20px,5.5vw,80px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display text-[clamp(30px,8vw,120px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
                   text="Hospitality"
-                  className="font-display text-[clamp(20px,5.5vw,80px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display text-[clamp(30px,8vw,120px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
               </div>
             </div>

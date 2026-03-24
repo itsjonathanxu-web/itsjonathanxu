@@ -54,9 +54,6 @@ function FullWidthCategoryCard({ cat, index }: { cat: (typeof categories)[0]; in
             <h2 className="font-display mt-2 text-[clamp(28px,4vw,56px)] font-extrabold tracking-[-0.02em] text-white transition-transform duration-500 group-hover:translate-x-2">
               {cat.title}
             </h2>
-            <p className="mt-2 max-w-lg text-[14px] leading-[1.7] text-white/50 transition-all duration-500 group-hover:text-white/70">
-              {cat.description}
-            </p>
           </div>
         </div>
       </Link>
