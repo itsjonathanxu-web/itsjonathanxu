@@ -46,18 +46,18 @@ export const categories: Category[] = [
     image: "/work/travel-destination/chile/dsc08349.jpg",
   },
   {
-    slug: "hospitality",
-    title: "Hospitality",
-    description:
-      "Cinematic content for hotels, restaurants, bars, and cafes. Capturing the atmosphere, experience, and story of every space.",
-    image: "/work/hospitality/joia-newmarket/1.jpg",
-  },
-  {
     slug: "architecture-interiors",
     title: "Architecture/Interiors",
     description:
       "Visual storytelling for real estate developers, interior designers, and architects. Highlighting form, light, and material.",
     image: "/work/architecture-interiors/gardiner-museum/1.jpg",
+  },
+  {
+    slug: "hospitality",
+    title: "Hospitality",
+    description:
+      "Cinematic content for hotels, restaurants, bars, and cafes. Capturing the atmosphere, experience, and story of every space.",
+    image: "/work/hospitality/joia-newmarket/1.jpg",
   },
 ];
 

@@ -118,15 +118,15 @@ export default function Home() {
               <div className="flex flex-col items-end gap-1 md:gap-2">
                 <CharacterReveal
                   text="Travel"
-                  className="font-display whitespace-nowrap text-[clamp(40px,7vw,100px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display whitespace-nowrap text-[clamp(32px,5.5vw,80px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
                   text="Architecture and Interiors"
-                  className="font-display whitespace-nowrap text-[clamp(24px,4.5vw,100px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display whitespace-nowrap text-[clamp(32px,5.5vw,80px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
                   text="Hospitality"
-                  className="font-display whitespace-nowrap text-[clamp(40px,7vw,100px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display whitespace-nowrap text-[clamp(32px,5.5vw,80px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
               </div>
             </div>
@@ -496,7 +496,7 @@ function ExpertiseCard({
         <span className="font-display text-[11px] font-bold tracking-[0.25em] text-white/30 uppercase transition-colors duration-500 group-hover:text-white/50">
           0{index + 1}
         </span>
-        <h3 className="font-display mt-3 text-[clamp(20px,2.5vw,32px)] font-extrabold text-white transition-all duration-500 group-hover:translate-x-1">
+        <h3 className="font-display mt-3 text-[clamp(16px,2vw,24px)] font-extrabold text-white transition-all duration-500 group-hover:translate-x-1">
           {cat.title}
         </h3>
         <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-white/50 transition-colors duration-500 group-hover:text-white/70">
