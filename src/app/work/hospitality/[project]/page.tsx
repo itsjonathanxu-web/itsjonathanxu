@@ -141,7 +141,7 @@ export default function HospitalityProjectPage() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 0.9, y: 0 }}
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-[clamp(56px,14vw,200px)] font-extrabold leading-[0.85] tracking-[-0.05em] text-white/90"
+            className="font-display text-[clamp(48px,12vw,160px)] font-extrabold leading-[0.85] tracking-[-0.05em] text-white/90"
           >
             {project.title.toUpperCase()}
           </motion.h1>
@@ -151,7 +151,7 @@ export default function HospitalityProjectPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5 }}
-              className="mt-10 md:mt-14 max-w-xl text-[clamp(15px,1.8vw,20px)] leading-[1.6] font-light text-white/60"
+              className="mt-10 md:mt-14 max-w-xl text-[clamp(15px,1.8vw,20px)] leading-[1.6] font-normal text-white/60"
             >
               {project.description}
             </motion.p>

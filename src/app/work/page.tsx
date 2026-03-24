@@ -94,14 +94,6 @@ export default function WorkPage() {
           >
             WORK
           </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display mt-4 text-[clamp(12px,1.2vw,16px)] font-medium tracking-[0.2em] text-white/30 uppercase"
-          >
-            Cinematic visual storytelling
-          </motion.p>
         </div>
       </section>
 

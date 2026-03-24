@@ -257,7 +257,7 @@ export default function CategoryPage() {
             className={`font-display font-extrabold leading-[0.85] tracking-[-0.05em] text-white/90 ${isArchitecture ? "text-[clamp(48px,12vw,160px)]" : "text-[clamp(64px,16vw,220px)]"}`}
           >
             {isArchitecture ? (
-              <>ARCHITECTURE &<br />INTERIORS</>
+              <>ARCHITECTURE<br />& INTERIORS</>
             ) : (
               category.title.toUpperCase()
             )}
@@ -322,7 +322,7 @@ export default function CategoryPage() {
                       {project.title}
                     </h2>
                     {project.location && (
-                      <p className="font-display text-[11px] font-bold tracking-[0.3em] text-white/25 uppercase">
+                      <p className="font-display text-[13px] font-extrabold tracking-[0.3em] text-white/40 uppercase">
                         {project.location}
                         {project.year && ` · ${project.year}`}
                       </p>
