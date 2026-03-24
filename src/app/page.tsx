@@ -83,7 +83,7 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 1.08 }}
                 animate={{ opacity: 0.9, scale: 1 }}
                 transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
-                className="font-display w-full text-center text-[clamp(200px,42vw,600px)] font-extrabold leading-[0.75] tracking-[-0.06em] text-white/90"
+                className="font-display w-full text-center text-[clamp(100px,42vw,600px)] font-extrabold leading-[0.75] tracking-[-0.06em] text-white/90"
               >
                 XSEN
               </motion.h1>
@@ -118,15 +118,15 @@ export default function Home() {
               <div className="flex flex-col items-end gap-1 md:gap-2">
                 <CharacterReveal
                   text="Travel"
-                  className="font-display whitespace-nowrap text-[clamp(32px,5.5vw,80px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display text-[clamp(20px,5.5vw,80px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
                   text="Architecture and Interiors"
-                  className="font-display whitespace-nowrap text-[clamp(32px,5.5vw,80px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display text-[clamp(20px,5.5vw,80px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
                   text="Hospitality"
-                  className="font-display whitespace-nowrap text-[clamp(32px,5.5vw,80px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display text-[clamp(20px,5.5vw,80px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
               </div>
             </div>
@@ -185,7 +185,7 @@ export default function Home() {
             className="mb-12 md:mb-16"
           >
             <h2
-              className="font-display whitespace-nowrap text-center text-[clamp(40px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
+              className="font-display text-center text-[clamp(28px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
               style={{
                 background: "linear-gradient(to bottom, rgba(255,255,255,1) 30%, rgba(255,255,255,0.15) 100%)",
                 WebkitBackgroundClip: "text",

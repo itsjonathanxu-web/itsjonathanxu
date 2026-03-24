@@ -90,7 +90,7 @@ export default function WorkPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 0.9, y: 0 }}
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-[clamp(80px,18vw,240px)] font-extrabold leading-[0.85] tracking-[-0.05em] text-white/90"
+            className="font-display text-[clamp(60px,18vw,240px)] font-extrabold leading-[0.85] tracking-[-0.05em] text-white/90"
           >
             WORK
           </motion.h1>
