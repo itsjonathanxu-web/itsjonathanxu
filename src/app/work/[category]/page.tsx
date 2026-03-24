@@ -254,7 +254,7 @@ export default function CategoryPage() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 0.9, y: 0 }}
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className={`font-display font-extrabold leading-[0.85] tracking-[-0.05em] text-white/90 ${isArchitecture ? "text-[clamp(48px,12vw,160px)]" : "text-[clamp(64px,16vw,220px)]"}`}
+            className="font-display text-[clamp(48px,12vw,160px)] font-extrabold leading-[0.85] tracking-[-0.05em] text-white/90"
           >
             {isArchitecture ? (
               <>ARCHITECTURE<br />& INTERIORS</>
@@ -281,7 +281,7 @@ export default function CategoryPage() {
         <section className="bg-black py-16 md:py-24">
           <div className="mx-auto max-w-[1400px] px-6 md:px-20">
             <ScrollReveal>
-              <p className="max-w-2xl text-[clamp(18px,2.5vw,28px)] leading-[1.5] font-light text-white/50">
+              <p className="max-w-2xl text-[clamp(15px,1.8vw,20px)] leading-[1.6] font-normal text-white/60">
                 {category.description}
               </p>
             </ScrollReveal>
