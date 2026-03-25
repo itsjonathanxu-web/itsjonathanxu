@@ -108,8 +108,8 @@ export default function Home() {
           <div className="flex min-h-screen shrink-0 items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               {/* Intro line */}
-              <StaggerWords text="A Videographer and" className="font-display text-[clamp(24px,4.2vw,56px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
-              <StaggerWords text="Photographer focused on" className="font-display text-[clamp(24px,4.2vw,56px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
+              <StaggerWords text="A Videographer and" className="font-display text-[clamp(20px,3.6vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
+              <StaggerWords text="Photographer focused on" className="font-display text-[clamp(20px,3.6vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
 
               {/* Gap */}
               <div className="h-[clamp(24px,4vw,56px)]" />
@@ -118,15 +118,15 @@ export default function Home() {
               <div className="flex flex-col items-end gap-1 md:gap-2">
                 <CharacterReveal
                   text="Travel"
-                  className="font-display text-[clamp(30px,8vw,120px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display text-[clamp(26px,6.8vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
-                  text="Architecture and Interiors"
-                  className="font-display text-[clamp(30px,8vw,120px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  text="Architecture/Interiors"
+                  className="font-display text-[clamp(26px,6.8vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
                   text="Hospitality"
-                  className="font-display text-[clamp(30px,8vw,120px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display text-[clamp(26px,6.8vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
               </div>
             </div>
@@ -140,42 +140,7 @@ export default function Home() {
       </section>
 
       {/* ===== ABOUT - full-width photo with text overlay ===== */}
-      <section className="relative z-10 bg-black" style={{ marginTop: "-1px" }}>
-        <div className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
-          {/* Full-width background photo */}
-          <AboutParallaxBg src="/about/DSC01568.jpg" alt="Jonathan Xu" />
-
-          {/* Top gradient - deep fade from black into image */}
-          <div className="absolute inset-x-0 top-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to bottom, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
-
-          {/* Bottom gradient - deep fade from image to black */}
-          <div className="absolute inset-x-0 bottom-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to top, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
-
-          {/* Text content overlaid */}
-          <div className="relative z-10 flex min-h-[100vh] flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
-            <div className="mx-auto w-full max-w-[1400px]">
-              <ScrollRevealLine>
-                <p className="font-display mb-4 text-[11px] font-bold tracking-[0.3em] text-white/40 uppercase">
-                  About
-                </p>
-              </ScrollRevealLine>
-              <ScrollRevealLine>
-                <h2 className="font-display max-w-4xl text-[clamp(22px,3vw,40px)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
-                  I make cinematic visuals for places that deserve to be seen differently. To transcend the norm, not in a way that supersedes the ordinary, but one that brings new perspectives.
-                </h2>
-              </ScrollRevealLine>
-              <ScrollRevealLine>
-                <Link
-                  href="/about"
-                  className="glass-btn mt-8 inline-block px-8 py-3 text-[12px] font-bold tracking-[0.15em] text-white uppercase"
-                >
-                  More About My Journey
-                </Link>
-              </ScrollRevealLine>
-            </div>
-          </div>
-        </div>
-      </section>
+      <AboutSectionWithFade />
 
       {/* ===== FEATURED PROJECTS - full-width immersive ===== */}
       <section ref={featuredRef} className="relative z-10 bg-black" style={{ marginTop: "-1px" }}>
@@ -379,8 +344,8 @@ function CharRevealUnit({
   );
 }
 
-/** Full-width parallax background for about section */
-function AboutParallaxBg({ src, alt }: { src: string; alt: string }) {
+/** About section with scroll fade-from-black on the background image */
+function AboutSectionWithFade() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -388,18 +353,57 @@ function AboutParallaxBg({ src, alt }: { src: string; alt: string }) {
   });
   const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
+  const blackOverlay = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
   return (
-    <motion.div ref={ref} style={{ y, scale }} className="absolute inset-0 will-change-transform">
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        className="object-cover"
-        sizes="100vw"
-        quality={100}
-      />
-    </motion.div>
+    <section className="relative z-10 bg-black" style={{ marginTop: "-1px" }}>
+      <div ref={ref} className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
+        {/* Parallax background photo */}
+        <motion.div style={{ y, scale }} className="absolute inset-0 will-change-transform">
+          <Image
+            src="/about/DSC01568.jpg"
+            alt="Jonathan Xu"
+            fill
+            className="object-cover"
+            sizes="100vw"
+            quality={100}
+          />
+        </motion.div>
+
+        {/* Scroll fade-from-black overlay */}
+        <motion.div className="absolute inset-0 z-[1] bg-black pointer-events-none" style={{ opacity: blackOverlay }} />
+
+        {/* Top gradient */}
+        <div className="absolute inset-x-0 top-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to bottom, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
+
+        {/* Bottom gradient */}
+        <div className="absolute inset-x-0 bottom-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to top, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
+
+        {/* Text content overlaid */}
+        <div className="relative z-10 flex min-h-[100vh] flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
+          <div className="mx-auto w-full max-w-[1400px]">
+            <ScrollRevealLine>
+              <p className="font-display mb-4 text-[11px] font-bold tracking-[0.3em] text-white/40 uppercase">
+                About
+              </p>
+            </ScrollRevealLine>
+            <ScrollRevealLine>
+              <h2 className="font-display max-w-4xl text-[clamp(22px,3vw,40px)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
+                I make cinematic visuals for places that deserve to be seen differently. To transcend the norm, not in a way that supersedes the ordinary, but one that brings new perspectives.
+              </h2>
+            </ScrollRevealLine>
+            <ScrollRevealLine>
+              <Link
+                href="/about"
+                className="glass-btn mt-8 inline-block px-8 py-3 text-[12px] font-bold tracking-[0.15em] text-white uppercase"
+              >
+                More About My Journey
+              </Link>
+            </ScrollRevealLine>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -418,6 +422,8 @@ function FullWidthProjectCard({
   });
   const imgY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
+  // Fade from black: overlay starts fully opaque, fades out as card scrolls into view
+  const blackOverlay = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
   return (
     <div ref={ref} className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
@@ -431,6 +437,9 @@ function FullWidthProjectCard({
           sizes="100vw"
         />
       </motion.div>
+
+      {/* Scroll fade-from-black overlay */}
+      <motion.div className="absolute inset-0 z-[1] bg-black pointer-events-none" style={{ opacity: blackOverlay }} />
 
       {/* Top gradient - deep fade from black into image */}
       <div className="absolute inset-x-0 top-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to bottom, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
@@ -467,7 +476,7 @@ function FullWidthProjectCard({
   );
 }
 
-/** Expertise card with staggered entrance */
+/** Expertise card with staggered entrance + blur */
 function ExpertiseCard({
   cat,
   index,
@@ -478,16 +487,19 @@ function ExpertiseCard({
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "start 0.5"],
+    offset: ["start end", "start 0.55"],
   });
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 0.5], [40, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [0.97, 1]);
+  // Stagger each card by index
+  const staggerStart = index * 0.1;
+  const opacity = useTransform(scrollYProgress, [staggerStart, staggerStart + 0.5], [0, 1]);
+  const y = useTransform(scrollYProgress, [staggerStart, staggerStart + 0.5], [60, 0]);
+  const scale = useTransform(scrollYProgress, [staggerStart, staggerStart + 0.5], [0.92, 1]);
+  const blur = useTransform(scrollYProgress, [staggerStart, staggerStart + 0.4], [8, 0]);
 
   return (
     <motion.div
       ref={ref}
-      style={{ opacity, y, scale }}
+      style={{ opacity, y, scale, filter: useTransform(blur, (v) => `blur(${v}px)`) }}
       className="will-change-transform"
     >
       <Link
