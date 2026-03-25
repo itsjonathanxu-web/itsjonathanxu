@@ -53,7 +53,7 @@ export default function Home() {
           >
             <div className="absolute -top-[15%] left-0 right-0" style={{ height: "130%" }}>
               <Image
-                src="/work/travel-destination/death-valley/itsjonathanxu---dune-2-min.jpg"
+                src="/work/travel-destination/death-valley/hero-home.jpg"
                 alt="Cinematic background"
                 fill
                 className="object-cover"

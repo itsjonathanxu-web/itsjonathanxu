@@ -44,7 +44,7 @@ export default function AboutPage() {
           <motion.div style={{ y: bgY }} className="absolute inset-0">
             <div className="absolute -top-[12%] left-0 right-0" style={{ height: "125%" }}>
               <Image
-                src="/work/travel-destination/death-valley/dsc07177-enhanced-nr-2-min.jpg"
+                src="/about/hero-about.jpg"
                 alt="Death Valley"
                 fill
                 className="object-cover"
