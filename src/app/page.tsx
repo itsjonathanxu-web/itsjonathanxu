@@ -144,7 +144,7 @@ export default function Home() {
 
       {/* ===== FEATURED PROJECTS - full-width immersive ===== */}
       <section ref={featuredRef} className="relative z-10 bg-black" style={{ marginTop: "-1px" }}>
-        <div className="mx-auto max-w-[1400px] px-6 pt-28 pb-6 md:px-20 md:pt-44 md:pb-8">
+        <div className="mx-auto max-w-[1400px] px-6 pt-52 pb-6 md:px-20 md:pt-80 md:pb-8">
           <motion.div
             style={{ opacity: featuredTitleOpacity, y: featuredTitleY }}
             className="mb-12 md:mb-16"
