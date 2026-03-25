@@ -117,8 +117,9 @@ function RowGallery({ images, rows, locationTitle, areaName }: { images: string[
     <div className="flex flex-col gap-4">
       {rows.map((row, rowIdx) => {
         const gridCols = row.cols === 1 ? "md:grid-cols-1" : row.cols === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
+        const isMultiCol = row.cols > 1;
         return (
-          <div key={rowIdx} className={`grid grid-cols-1 gap-4 ${gridCols} ${row.cols > 1 ? "auto-rows-[1fr]" : ""}`}>
+          <div key={rowIdx} className={`grid grid-cols-1 gap-4 ${gridCols}`} style={isMultiCol ? { aspectRatio: `${row.cols * 3} / 2` } : undefined}>
             {row.imgs.map((imgIdx) => {
               const img = images[imgIdx];
               if (!img) return null;
@@ -401,7 +402,7 @@ export default function TravelLocationPage() {
                   <h2 className="font-display text-[clamp(24px,4vw,48px)] font-extrabold tracking-[-0.03em] text-white/80">
                     {area.name}
                   </h2>
-                  <div className="h-px flex-1 bg-white/[0.12]" />
+                  <div className="h-[2px] flex-1 bg-white/[0.12]" />
                 </div>
               </ScrollReveal>
             )}
