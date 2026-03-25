@@ -6,7 +6,7 @@ export default function Footer() {
           <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
             <div className="flex flex-col items-center gap-2 md:items-start">
               <span className="font-display text-sm font-extrabold tracking-[0.2em] text-white uppercase">
-                XSEN
+                JONATHAN XU
               </span>
               <span className="text-[13px] text-white/30">
                 Cinematic Visual Storytelling
@@ -23,7 +23,7 @@ export default function Footer() {
                 Instagram
               </a>
               <span className="text-[12px] text-white/20">
-                &copy; {new Date().getFullYear()} XSEN
+                &copy; {new Date().getFullYear()} Jonathan Xu
               </span>
             </div>
           </div>

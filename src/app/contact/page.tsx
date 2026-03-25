@@ -44,7 +44,7 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
             >
-              <h1 className="font-display whitespace-nowrap text-[clamp(32px,8vw,80px)] font-extrabold leading-[1] tracking-[-0.03em] text-white">
+              <h1 className="font-display text-[clamp(36px,10vw,80px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-white">
                 LET&apos;S WORK TOGETHER
               </h1>
             </motion.div>

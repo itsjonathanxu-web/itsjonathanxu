@@ -34,7 +34,7 @@ export default function Navigation() {
             href="/"
             className="font-display text-sm font-bold tracking-[0.2em] text-white uppercase transition-opacity duration-300 hover:opacity-50"
           >
-            XSEN
+            JONATHAN XU
           </Link>
 
           {/* Desktop nav */}

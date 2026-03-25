@@ -50,7 +50,7 @@ export default function AboutPage() {
                 className="object-cover"
                 priority
                 sizes="100vw"
-                quality={90}
+                quality={100}
               />
             </div>
           </motion.div>

@@ -27,7 +27,7 @@ export default function Home() {
   const bgYRaw = useTransform(heroProgress, [0, 1], [0, -25]);
   const bgYSmooth = useSpring(bgYRaw, smoothSpring);
 
-  // XSEN fades out + scales down + blurs on scroll
+  // Hero title fades out + scales down + blurs on scroll
   const xsenOpacity = useTransform(heroProgress, [0, 0.12], [1, 0]);
   const xsenScale = useTransform(heroProgress, [0, 0.12], [1, 0.95]);
   const xsenBlur = useTransform(heroProgress, [0, 0.12], [0, 12]);
@@ -59,7 +59,7 @@ export default function Home() {
                 className="object-cover"
                 priority
                 sizes="100vw"
-                quality={90}
+                quality={100}
               />
             </div>
           </motion.div>
@@ -69,7 +69,7 @@ export default function Home() {
         <div className="pointer-events-none fixed inset-x-0 top-0 z-[5] h-40 bg-gradient-to-b from-black/60 to-transparent" />
 
         <div className="relative z-10 flex flex-col" style={{ minHeight: "280vh" }}>
-          {/* Screen 1: XSEN -fills entire screen */}
+          {/* Screen 1: Hero title -fills entire screen */}
           <div className="flex h-screen shrink-0 items-center justify-center overflow-hidden">
             <motion.div
               style={{
@@ -83,9 +83,9 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 1.08 }}
                 animate={{ opacity: 0.9, scale: 1 }}
                 transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
-                className="font-display w-full text-center text-[75px] md:text-[clamp(100px,42vw,600px)] font-extrabold leading-[0.75] tracking-[-0.06em] text-white/90"
+                className="font-display w-full text-center text-[clamp(40px,14vw,75px)] md:text-[clamp(80px,18vw,280px)] font-extrabold leading-[0.85] tracking-[-0.04em] text-white/90"
               >
-                XSEN
+                JONATHAN XU
               </motion.h1>
             </motion.div>
 
@@ -397,6 +397,7 @@ function AboutParallaxBg({ src, alt }: { src: string; alt: string }) {
         fill
         className="object-cover"
         sizes="100vw"
+        quality={100}
       />
     </motion.div>
   );
