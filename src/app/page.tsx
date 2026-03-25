@@ -83,7 +83,7 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 1.08 }}
                 animate={{ opacity: 0.9, scale: 1 }}
                 transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
-                className="font-display w-full text-center text-[clamp(40px,14vw,75px)] md:text-[clamp(80px,18vw,280px)] font-extrabold leading-[0.85] tracking-[-0.04em] text-white/90"
+                className="font-display w-full text-center text-[clamp(34px,12vw,64px)] md:text-[clamp(80px,18vw,280px)] font-extrabold leading-[0.85] tracking-[-0.04em] text-white/90"
               >
                 JONATHAN XU
               </motion.h1>
@@ -118,15 +118,15 @@ export default function Home() {
               <div className="flex flex-col items-end gap-1 md:gap-2">
                 <CharacterReveal
                   text="Travel"
-                  className="font-display text-[clamp(26px,6.8vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
                   text="Architecture/Interiors"
-                  className="font-display text-[clamp(26px,6.8vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
                 <CharacterReveal
                   text="Hospitality"
-                  className="font-display text-[clamp(26px,6.8vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
                 />
               </div>
             </div>
@@ -353,7 +353,8 @@ function AboutSectionWithFade() {
   });
   const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
-  const blackOverlay = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  // Fade from black as section scrolls into view (0.15-0.45 of scroll range)
+  const blackOverlay = useTransform(scrollYProgress, [0.1, 0.4], [1, 0]);
 
   return (
     <section className="relative z-10 bg-black" style={{ marginTop: "-1px" }}>
@@ -371,7 +372,7 @@ function AboutSectionWithFade() {
         </motion.div>
 
         {/* Scroll fade-from-black overlay */}
-        <motion.div className="absolute inset-0 z-[1] bg-black pointer-events-none" style={{ opacity: blackOverlay }} />
+        <motion.div className="absolute inset-0 z-[2] bg-black pointer-events-none" style={{ opacity: blackOverlay }} />
 
         {/* Top gradient */}
         <div className="absolute inset-x-0 top-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to bottom, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
@@ -422,8 +423,8 @@ function FullWidthProjectCard({
   });
   const imgY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
-  // Fade from black: overlay starts fully opaque, fades out as card scrolls into view
-  const blackOverlay = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  // Fade from black as card scrolls into view
+  const blackOverlay = useTransform(scrollYProgress, [0.1, 0.4], [1, 0]);
 
   return (
     <div ref={ref} className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
@@ -439,7 +440,7 @@ function FullWidthProjectCard({
       </motion.div>
 
       {/* Scroll fade-from-black overlay */}
-      <motion.div className="absolute inset-0 z-[1] bg-black pointer-events-none" style={{ opacity: blackOverlay }} />
+      <motion.div className="absolute inset-0 z-[2] bg-black pointer-events-none" style={{ opacity: blackOverlay }} />
 
       {/* Top gradient - deep fade from black into image */}
       <div className="absolute inset-x-0 top-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to bottom, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
@@ -487,19 +488,21 @@ function ExpertiseCard({
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "start 0.55"],
+    offset: ["start 0.95", "start 0.5"],
   });
-  // Stagger each card by index
-  const staggerStart = index * 0.1;
-  const opacity = useTransform(scrollYProgress, [staggerStart, staggerStart + 0.5], [0, 1]);
-  const y = useTransform(scrollYProgress, [staggerStart, staggerStart + 0.5], [60, 0]);
-  const scale = useTransform(scrollYProgress, [staggerStart, staggerStart + 0.5], [0.92, 1]);
-  const blur = useTransform(scrollYProgress, [staggerStart, staggerStart + 0.4], [8, 0]);
+  // Stagger delay per card
+  const delay = index * 0.15;
+  const opacity = useTransform(scrollYProgress, [delay, delay + 0.6], [0, 1]);
+  const rawY = useTransform(scrollYProgress, [delay, delay + 0.6], [60, 0]);
+  const y = useSpring(rawY, smoothSpring);
+  const rawScale = useTransform(scrollYProgress, [delay, delay + 0.6], [0.92, 1]);
+  const scaleVal = useSpring(rawScale, smoothSpring);
+  const blur = useTransform(scrollYProgress, [delay, delay + 0.5], [8, 0]);
 
   return (
     <motion.div
       ref={ref}
-      style={{ opacity, y, scale, filter: useTransform(blur, (v) => `blur(${v}px)`) }}
+      style={{ opacity, y, scale: scaleVal, filter: useTransform(blur, (v) => `blur(${v}px)`) }}
       className="will-change-transform"
     >
       <Link
