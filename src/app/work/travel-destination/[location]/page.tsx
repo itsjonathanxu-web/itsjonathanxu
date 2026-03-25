@@ -402,7 +402,7 @@ export default function TravelLocationPage() {
                   <h2 className="font-display text-[clamp(24px,4vw,48px)] font-extrabold tracking-[-0.03em] text-white/80">
                     {area.name}
                   </h2>
-                  <div className="h-[2px] flex-1 bg-white/80" />
+                  <div className="h-[1.4px] flex-1 bg-white/45" />
                 </div>
               </ScrollReveal>
             )}
