@@ -443,10 +443,10 @@ function FullWidthProjectCard({
       <motion.div className="absolute inset-0 z-[2] bg-black pointer-events-none" style={{ opacity: blackOverlay }} />
 
       {/* Top gradient - fade from black into image */}
-      <div className="absolute inset-x-0 top-0 z-[1] h-[35%]" style={{ background: "linear-gradient(to bottom, black 0%, rgba(0,0,0,0.3) 50%, transparent 100%)" }} />
+      <div className="absolute inset-x-0 top-0 z-[1] h-[25%]" style={{ background: "linear-gradient(to bottom, black 0%, transparent 100%)" }} />
 
       {/* Bottom gradient - fade from image to black */}
-      <div className="absolute inset-x-0 bottom-0 z-[1] h-[40%]" style={{ background: "linear-gradient(to top, black 0%, rgba(0,0,0,0.4) 50%, transparent 100%)" }} />
+      <div className="absolute inset-x-0 bottom-0 z-[1] h-[30%]" style={{ background: "linear-gradient(to top, black 0%, transparent 100%)" }} />
 
       {/* Clickable overlay */}
       <Link
