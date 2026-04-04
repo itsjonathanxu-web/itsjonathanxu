@@ -27,12 +27,18 @@ export default function Home() {
     offset: ["start start", "end start"],
   });
 
-  // Drive video currentTime from scroll position
+  // Drive video currentTime from scroll — use RAF for smoother seeking
   useEffect(() => {
+    let rafId: number;
     return heroProgress.on("change", (v) => {
-      const video = videoRef.current;
-      if (!video) return;
-      video.currentTime = Math.min(v * VIDEO_DURATION, VIDEO_DURATION);
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const video = videoRef.current;
+        if (!video) return;
+        // Map first 50% of hero scroll to full video duration for faster response
+        const t = Math.min((v / 0.5) * VIDEO_DURATION, VIDEO_DURATION);
+        video.currentTime = t;
+      });
     });
   }, [heroProgress]);
 
