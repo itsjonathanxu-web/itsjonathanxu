@@ -14,7 +14,7 @@ import { getFeaturedProjects, categories } from "@/lib/data";
 /* ===== SPRING CONFIG -Apple-style fluid feel ===== */
 const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
 
-const VIDEO_DURATION = 3.336667;
+const VIDEO_DURATION = 5.745667;
 
 export default function Home() {
   const featured = getFeaturedProjects();
@@ -35,8 +35,8 @@ export default function Home() {
       rafId = requestAnimationFrame(() => {
         const video = videoRef.current;
         if (!video) return;
-        // Map first 50% of hero scroll to full video duration for faster response
-        const t = Math.min((v / 0.5) * VIDEO_DURATION, VIDEO_DURATION);
+        // Map full hero scroll to full video duration
+        const t = Math.min(v * VIDEO_DURATION, VIDEO_DURATION);
         video.currentTime = t;
       });
     });
