@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -14,18 +14,27 @@ import { getFeaturedProjects, categories } from "@/lib/data";
 /* ===== SPRING CONFIG -Apple-style fluid feel ===== */
 const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
 
+const VIDEO_DURATION = 3.336667;
+
 export default function Home() {
   const featured = getFeaturedProjects();
 
   const heroSectionRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroSectionRef,
     offset: ["start start", "end start"],
   });
 
-  // Parallax on background image -spring smoothed
-  const bgYRaw = useTransform(heroProgress, [0, 1], [0, -25]);
-  const bgYSmooth = useSpring(bgYRaw, smoothSpring);
+  // Drive video currentTime from scroll position
+  useEffect(() => {
+    return heroProgress.on("change", (v) => {
+      const video = videoRef.current;
+      if (!video) return;
+      video.currentTime = Math.min(v * VIDEO_DURATION, VIDEO_DURATION);
+    });
+  }, [heroProgress]);
 
   // Hero title fades out + scales down + blurs on scroll
   const xsenOpacity = useTransform(heroProgress, [0, 0.12], [1, 0]);
@@ -45,24 +54,19 @@ export default function Home() {
     <>
       {/* ===== HERO SECTION ===== */}
       <section ref={heroSectionRef} className="relative" style={{ height: "280vh" }}>
-        {/* Fixed parallax background */}
+        {/* Fixed scroll-driven video background */}
         <div className="fixed inset-0 z-0">
-          <motion.div
-            style={{ y: bgYSmooth }}
-            className="absolute inset-0 will-change-transform"
+          <video
+            ref={videoRef}
+            className="absolute inset-0 h-full w-full object-cover"
+            src="/hero-video.mp4"
+            muted
+            playsInline
+            preload="auto"
           >
-            <div className="absolute -top-[15%] left-0 right-0" style={{ height: "130%" }}>
-              <Image
-                src="/work/travel-destination/death-valley/hero-home.jpg"
-                alt="Cinematic background"
-                fill
-                className="object-cover"
-                priority
-                sizes="100vw"
-                quality={100}
-              />
-            </div>
-          </motion.div>
+            <source src="/hero-video.webm" type="video/webm" />
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
         </div>
 
         {/* Top gradient for header legibility */}
