@@ -14,7 +14,7 @@ import { getFeaturedProjects, categories } from "@/lib/data";
 /* ===== SPRING CONFIG -Apple-style fluid feel ===== */
 const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
 
-const VIDEO_DURATION = 5.745667;
+const VIDEO_DURATION = 6.881875;
 
 export default function Home() {
   const featured = getFeaturedProjects();
