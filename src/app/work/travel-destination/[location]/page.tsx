@@ -118,8 +118,9 @@ function RowGallery({ images, rows, locationTitle, areaName }: { images: string[
       {rows.map((row, rowIdx) => {
         const gridCols = row.cols === 1 ? "md:grid-cols-1" : row.cols === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
         const isMultiCol = row.cols > 1;
+        const aspectClass = row.cols === 2 ? "md:[aspect-ratio:6/2]" : row.cols === 3 ? "md:[aspect-ratio:9/2]" : "";
         return (
-          <div key={rowIdx} className={`grid grid-cols-1 gap-4 ${gridCols}`} style={isMultiCol ? { aspectRatio: `${row.cols * 3} / 2` } : undefined}>
+          <div key={rowIdx} className={`grid grid-cols-1 gap-4 ${gridCols} ${aspectClass}`}>
             {row.imgs.map((imgIdx) => {
               const img = images[imgIdx];
               if (!img) return null;
@@ -383,7 +384,7 @@ export default function TravelLocationPage() {
         <section className="relative z-10 px-6 pb-0 pt-16 md:px-20 md:pt-24">
           <div className="mx-auto max-w-[1400px]">
             <ScrollReveal>
-              <div className="relative overflow-hidden rounded-xl w-full md:w-2/3">
+              <div className="relative overflow-hidden rounded-xl w-full md:w-2/3 mx-auto mb-4">
                 <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
                 <iframe
                   className="absolute inset-0 h-full w-full"
