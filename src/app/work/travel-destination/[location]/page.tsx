@@ -381,8 +381,8 @@ export default function TravelLocationPage() {
 
       {/* ===== VIDEO EMBED (Chile only) ===== */}
       {slug === "chile" && (
-        <section className="relative z-10 px-6 pb-0 pt-16 md:px-20 md:pt-24">
-          <div className="mx-auto max-w-[1400px]">
+        <section className="relative z-10 pb-0 pt-16 md:pt-24">
+          <div className="mx-auto max-w-[1400px] px-6 md:px-20">
             <ScrollReveal>
               <div className="relative overflow-hidden rounded-xl w-full mx-auto mb-4">
                 <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
