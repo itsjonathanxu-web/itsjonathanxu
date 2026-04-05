@@ -27,28 +27,33 @@ export default function Home() {
     offset: ["start start", "end start"],
   });
 
-  // Drive video currentTime from scroll — use RAF for smoother seeking
-  // On mobile, seeking is blocked by iOS so we fall back to autoplay
+  // Drive video currentTime from scroll
+  // iOS requires play+pause unlock before currentTime seeking works
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-      video.play().catch(() => {});
-      return;
-    }
+    // Unlock video on iOS by playing then immediately pausing
+    const unlock = () => {
+      video.play().then(() => video.pause()).catch(() => {});
+    };
+    video.addEventListener("loadedmetadata", unlock, { once: true });
 
     let rafId: number;
-    return heroProgress.on("change", (v) => {
+    const unsubscribe = heroProgress.on("change", (v) => {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
-        const video = videoRef.current;
-        if (!video) return;
+        const vid = videoRef.current;
+        if (!vid) return;
         const t = Math.min(v * VIDEO_DURATION, VIDEO_DURATION);
-        video.currentTime = t;
+        vid.currentTime = t;
       });
     });
+
+    return () => {
+      unsubscribe();
+      cancelAnimationFrame(rafId);
+    };
   }, [heroProgress]);
 
   // Hero title fades out + scales down + blurs on scroll
@@ -76,7 +81,6 @@ export default function Home() {
             className="absolute inset-0 h-full w-full object-cover"
             muted
             playsInline
-            loop
             preload="auto"
           >
             <source src="/hero-video.webm" type="video/webm" />
