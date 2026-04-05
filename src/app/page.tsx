@@ -33,7 +33,15 @@ export default function Home() {
     const video = videoRef.current;
     if (!video) return;
 
-    // Unlock video on iOS by playing then immediately pausing
+    // Pick mobile or desktop source based on screen width
+    const isMobile = window.innerWidth < 768;
+    const src = isMobile ? "/hero-video-mobile.mp4" : "/hero-video.mp4";
+    if (video.src !== src) {
+      video.src = src;
+      video.load();
+    }
+
+    // Unlock seeking on iOS: play then immediately pause
     const unlock = () => {
       video.play().then(() => video.pause()).catch(() => {});
     };
@@ -45,8 +53,7 @@ export default function Home() {
       rafId = requestAnimationFrame(() => {
         const vid = videoRef.current;
         if (!vid) return;
-        const t = Math.min(v * VIDEO_DURATION, VIDEO_DURATION);
-        vid.currentTime = t;
+        vid.currentTime = Math.min(v * VIDEO_DURATION, VIDEO_DURATION);
       });
     });
 
