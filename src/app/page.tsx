@@ -85,7 +85,7 @@ export default function Home() {
         <div className="fixed inset-0 z-0">
           <video
             ref={videoRef}
-            className="absolute inset-0 h-full w-full object-cover object-left md:object-center"
+            className="absolute inset-0 h-full w-full object-cover [object-position:25%_center] md:[object-position:center]"
             muted
             playsInline
             preload="auto"
