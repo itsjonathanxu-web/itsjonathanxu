@@ -384,7 +384,7 @@ export default function TravelLocationPage() {
         <section className="relative z-10 px-6 pb-0 pt-16 md:px-20 md:pt-24">
           <div className="mx-auto max-w-[1400px]">
             <ScrollReveal>
-              <div className="relative overflow-hidden rounded-xl w-full md:w-2/3 mx-auto mb-4">
+              <div className="relative overflow-hidden rounded-xl w-full mx-auto mb-4">
                 <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
                 <iframe
                   className="absolute inset-0 h-full w-full"
