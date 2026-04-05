@@ -28,14 +28,23 @@ export default function Home() {
   });
 
   // Drive video currentTime from scroll — use RAF for smoother seeking
+  // On mobile, seeking is blocked by iOS so we fall back to autoplay
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      video.play().catch(() => {});
+      return;
+    }
+
     let rafId: number;
     return heroProgress.on("change", (v) => {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
         const video = videoRef.current;
         if (!video) return;
-        // Map full hero scroll to full video duration
         const t = Math.min(v * VIDEO_DURATION, VIDEO_DURATION);
         video.currentTime = t;
       });
@@ -65,9 +74,9 @@ export default function Home() {
           <video
             ref={videoRef}
             className="absolute inset-0 h-full w-full object-cover"
-            src="/hero-video.mp4"
             muted
             playsInline
+            loop
             preload="auto"
           >
             <source src="/hero-video.webm" type="video/webm" />
