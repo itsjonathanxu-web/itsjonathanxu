@@ -378,6 +378,24 @@ export default function TravelLocationPage() {
         );
       })()}
 
+      {/* ===== VIDEO EMBED (Chile only) ===== */}
+      {slug === "chile" && (
+        <section className="relative z-10 bg-black px-6 pb-0 pt-16 md:px-20 md:pt-24">
+          <div className="mx-auto max-w-[1400px]">
+            <ScrollReveal>
+              <div className="relative w-full overflow-hidden rounded-xl" style={{ paddingBottom: "56.25%" }}>
+                <iframe
+                  className="absolute inset-0 h-full w-full"
+                  src="https://www.youtube.com/embed/ToDxYCKV2xk?rel=0&modestbranding=1&controls=1&showinfo=0&iv_load_policy=3&color=white"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+      )}
+
       {/* ===== SCROLL DESCRIPTION (skip for locations with hero bg) ===== */}
       {!hasHeroBg && (
         <section className="bg-black py-16 md:py-24">
