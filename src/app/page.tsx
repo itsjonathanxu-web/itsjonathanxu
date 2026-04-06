@@ -366,6 +366,9 @@ function AboutSectionWithFade() {
   });
   const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
+  // Fade image in from black as user scrolls through the section (not on entry)
+  const imageOverlay = useTransform(scrollYProgress, [0.15, 0.45], [1, 0]);
+
   return (
     <section className="relative z-10" style={{ marginTop: "-1px" }}>
       <div ref={ref} className="relative w-full overflow-hidden" style={{ minHeight: "100vh", backgroundColor: "black" }}>
@@ -381,7 +384,10 @@ function AboutSectionWithFade() {
           />
         </motion.div>
 
-        {/* Top fade: blends with hero's bottom gradient */}
+        {/* Scroll-driven fade from black over the image */}
+        <motion.div className="absolute inset-0 z-[1] bg-black pointer-events-none" style={{ opacity: imageOverlay }} />
+
+        {/* Top fade: blends with hero's bottom gradient — sits above imageOverlay */}
         <div className="absolute inset-x-0 top-0 z-[2] h-[40%] pointer-events-none" style={{ background: "linear-gradient(to bottom, black 0%, transparent 100%)" }} />
 
         {/* Bottom gradient */}
