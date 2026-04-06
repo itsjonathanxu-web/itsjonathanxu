@@ -160,9 +160,9 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Gradient fills all remaining space */}
+          {/* Gradient fills all remaining space - single clean fade to black */}
           <div className="relative flex-1">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/70 via-[40%] to-black" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black" />
           </div>
         </div>
       </section>
@@ -387,8 +387,7 @@ function AboutSectionWithFade() {
         {/* Scroll fade-from-black overlay */}
         <motion.div className="absolute inset-0 z-[2] bg-black pointer-events-none" style={{ opacity: blackOverlay }} />
 
-        {/* Top gradient */}
-        <div className="absolute inset-x-0 top-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to bottom, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
+        {/* No top gradient — hero gradient and blackOverlay handle the entry */}
 
         {/* Bottom gradient */}
         <div className="absolute inset-x-0 bottom-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to top, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
