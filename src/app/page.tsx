@@ -366,12 +366,12 @@ function AboutSectionWithFade() {
   });
   const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
-  // Fade from black as section scrolls into view (0.15-0.45 of scroll range)
-  const blackOverlay = useTransform(scrollYProgress, [0.1, 0.4], [1, 0]);
+  // Fade from black as section scrolls into view — start at 0 so no hard edge at entry
+  const blackOverlay = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
 
   return (
-    <section className="relative z-10 bg-black" style={{ marginTop: "-1px" }}>
-      <div ref={ref} className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
+    <section className="relative z-10" style={{ marginTop: "-1px" }}>
+      <div ref={ref} className="relative w-full overflow-hidden" style={{ minHeight: "100vh", backgroundColor: "black" }}>
         {/* Parallax background photo */}
         <motion.div style={{ y, scale }} className="absolute inset-0 will-change-transform">
           <Image
@@ -387,7 +387,8 @@ function AboutSectionWithFade() {
         {/* Scroll fade-from-black overlay */}
         <motion.div className="absolute inset-0 z-[2] bg-black pointer-events-none" style={{ opacity: blackOverlay }} />
 
-        {/* No top gradient — blackOverlay handles the fade-from-black seamlessly */}
+        {/* Top gradient */}
+        <div className="absolute inset-x-0 top-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to bottom, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
 
         {/* Bottom gradient */}
         <div className="absolute inset-x-0 bottom-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to top, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
