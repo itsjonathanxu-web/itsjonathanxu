@@ -138,8 +138,19 @@ export default function Home() {
           <div className="flex min-h-screen shrink-0 items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               {/* Intro line */}
-              <StaggerWords text="A Videographer and" className="font-display text-[clamp(20px,3.6vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
-              <StaggerWords text="Photographer focused on" className="font-display text-[clamp(20px,3.6vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
+              <StaggerWords text="A Videographer and Photographer" className="font-display text-[clamp(20px,3.6vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
+              <StaggerWords text="who believes every place has" className="font-display text-[clamp(20px,3.6vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
+
+              {/* Gap */}
+              <div className="h-[clamp(24px,4vw,56px)]" />
+
+              {/* "something worth feeling" + categories - right aligned */}
+              <div className="flex flex-col items-end gap-1 md:gap-2">
+                <CharacterReveal
+                  text="something worth feeling."
+                  className="font-display text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white/70"
+                />
+              </div>
 
               {/* Gap */}
               <div className="h-[clamp(24px,4vw,56px)]" />
@@ -209,22 +220,6 @@ export default function Home() {
               </Link>
             </div>
           </ScrollRevealLine>
-        </div>
-      </section>
-
-      {/* ===== EXPERTISE -liquid glass panels ===== */}
-      <section className="relative z-10 bg-black py-20 md:py-32" style={{ marginTop: "-1px" }}>
-        <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-          <ScrollRevealLine>
-            <h2 className="font-display mb-10 text-[clamp(32px,5vw,64px)] font-extrabold tracking-[-0.03em] text-white">
-              EXPERTISE
-            </h2>
-          </ScrollRevealLine>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
-            {categories.map((cat, i) => (
-              <ExpertiseCard key={cat.slug} cat={cat} index={i} />
-            ))}
-          </div>
         </div>
       </section>
 
@@ -420,7 +415,7 @@ function AboutSectionWithFade() {
             </ScrollRevealLine>
             <ScrollRevealLine>
               <h2 className="font-display max-w-4xl text-[clamp(22px,3vw,40px)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
-                I make cinematic visuals for places that deserve to be seen differently. To transcend the norm, not in a way that supersedes the ordinary, but one that brings new perspectives.
+                I make cinematic visuals for places that deserve to be seen differently.
               </h2>
             </ScrollRevealLine>
             <ScrollRevealLine>

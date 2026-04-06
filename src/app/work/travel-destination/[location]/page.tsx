@@ -214,6 +214,9 @@ const CHILE_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [0, 1], cols: 2 },
   { imgs: [2, 3], cols: 2 },
   { imgs: [4, 5], cols: 2 },
+  { imgs: [6, 7], cols: 2 },
+  { imgs: [8, 9], cols: 2 },
+  { imgs: [10, 11], cols: 2 },
 ];
 // Death Valley: all 2-col rows
 const DEATH_VALLEY_ROWS: { imgs: number[]; cols: number }[] = [

@@ -87,9 +87,7 @@ export default function AboutPage() {
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               <ScrollRevealLine>
                 <h2 className="font-display max-w-5xl text-[clamp(28px,5vw,64px)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white">
-                  I&apos;m Jonathan Xu. I use a camera to make you feel
-                  something. Based in Toronto, I create cinematic visuals for
-                  places and brands that deserve to be experienced, not just seen.
+                  I&apos;m Jonathan Xu. I use a camera to make you feel something. Based in Toronto, I create cinematic visuals for places that deserve to be experienced, not just seen.
                 </h2>
               </ScrollRevealLine>
               <ScrollRevealLine>
@@ -131,11 +129,7 @@ export default function AboutPage() {
                   Background
                 </p>
                 <p className="text-[16px] leading-[1.8] text-white/60">
-                  I studied interior design and architecture, which shaped the
-                  way I see everything. Understanding form, light, materiality,
-                  and spatial composition taught me how a place can move you
-                  before you can explain why. That foundation lives in every
-                  frame I capture.
+                  I studied interior design. It taught me to see before I shoot: how spatial composition works, how light and shadow interact, how a place communicates something before anyone says a word. That foundation is in every frame.
                 </p>
               </ScrollRevealLine>
 
@@ -144,28 +138,11 @@ export default function AboutPage() {
                   Approach
                 </p>
                 <p className="text-[16px] leading-[1.8] text-white/60">
-                  My work is cinematic, moody, and intentional. Every frame is
-                  considered. I shoot both photography and video, often both
-                  in a single project, to give clients a complete visual
-                  identity that works across their website, social media, and
-                  marketing.
+                  My work is intentional and tells a story with every frame. I shoot with the belief that beauty is all around us. It does not announce itself. It waits in the quality of light at a certain hour, or in the expression of people walking past. I seek these moments and capture them with purpose. Not to supersede the ordinary, but to bring a new perspective to it.
                 </p>
               </ScrollRevealLine>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ===== FULL-WIDTH STATEMENT ===== */}
-      <section className="relative z-10 bg-black py-20 md:py-32" style={{ marginTop: "-1px" }}>
-        <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-          <ScrollRevealLine>
-            <h2 className="font-display mx-auto max-w-4xl text-[clamp(24px,4vw,52px)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
-              When I&apos;m not behind the camera, I&apos;m planning my next
-              destination. Travel isn&apos;t just a subject I shoot, it&apos;s
-              how I see the world and find the stories worth telling.
-            </h2>
-          </ScrollRevealLine>
         </div>
       </section>
 
