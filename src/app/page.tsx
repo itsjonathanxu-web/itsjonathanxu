@@ -396,7 +396,7 @@ function AboutSectionWithFade() {
             </ScrollRevealLine>
             <ScrollRevealLine>
               <h2 className="font-display max-w-4xl text-[clamp(22px,3vw,40px)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
-                I make cinematic visuals for places that deserve to be seen differently. Three years of shooting has only deepened my passion to capture places the way they deserve to be remembered.
+                Shooting around the world these last few years has only deepened my passion to capture places the way they deserve to be remembered.
               </h2>
             </ScrollRevealLine>
             <ScrollRevealLine>
