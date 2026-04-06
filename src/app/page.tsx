@@ -163,7 +163,7 @@ export default function Home() {
         </div>
 
         {/* Gradient - absolutely positioned from bottom, no flex boundary artifact */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10" style={{ height: "65vh", background: "linear-gradient(to top, black 0%, transparent 100%)" }} />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10" style={{ height: "130vh", background: "linear-gradient(to top, black 0%, transparent 100%)" }} />
       </section>
 
       {/* ===== ABOUT - full-width photo with text overlay ===== */}
