@@ -148,7 +148,7 @@ export default function Home() {
               <div className="flex flex-col items-end gap-1 md:gap-2">
                 <CharacterReveal
                   text="something worth feeling."
-                  className="font-display text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
+                  className="font-display text-[clamp(14px,6vw,102px)] md:text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
                 />
               </div>
             </div>
