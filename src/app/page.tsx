@@ -140,10 +140,22 @@ export default function Home() {
 
               {/* "something worth feeling" - right aligned, full white, extra letter-spacing to avoid r/t collision */}
               <div className="flex flex-col items-end gap-1 md:gap-2">
-                <CharacterReveal
-                  text="something worth feeling."
-                  className="font-display text-[clamp(14px,6vw,102px)] md:text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
-                />
+                {/* On mobile: 3 separate lines. On desktop: single line */}
+                <div className="flex flex-col items-end md:hidden">
+                  {["something", "worth", "feeling."].map((word) => (
+                    <CharacterReveal
+                      key={word}
+                      text={word}
+                      className="font-display text-[clamp(28px,12vw,102px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
+                    />
+                  ))}
+                </div>
+                <div className="hidden md:block">
+                  <CharacterReveal
+                    text="something worth feeling."
+                    className="font-display text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -166,7 +178,7 @@ export default function Home() {
             className="mb-12 md:mb-16"
           >
             <h2
-              className="font-display text-center text-[clamp(28px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
+              className="font-display text-center text-[clamp(42px,8vw,120px)] md:text-[clamp(28px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
               style={{
                 background: "linear-gradient(to bottom, rgba(255,255,255,1) 30%, rgba(255,255,255,0.15) 100%)",
                 WebkitBackgroundClip: "text",
@@ -174,7 +186,8 @@ export default function Home() {
                 backgroundClip: "text",
               }}
             >
-              FEATURED PROJECTS
+              <span className="md:hidden">FEATURED<br />PROJECTS</span>
+              <span className="hidden md:inline">FEATURED PROJECTS</span>
             </h2>
           </motion.div>
         </div>
