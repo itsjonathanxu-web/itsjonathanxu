@@ -41,12 +41,6 @@ export default function Home() {
       video.load();
     }
 
-    // Unlock seeking on iOS: play then immediately pause
-    const unlock = () => {
-      video.play().then(() => video.pause()).catch(() => {});
-    };
-    video.addEventListener("loadedmetadata", unlock, { once: true });
-
     let rafId: number;
     const unsubscribe = heroProgress.on("change", (v) => {
       cancelAnimationFrame(rafId);
