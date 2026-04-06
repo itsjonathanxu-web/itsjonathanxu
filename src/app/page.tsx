@@ -142,7 +142,7 @@ export default function Home() {
               <div className="flex flex-col items-end gap-1 md:gap-2">
                 {/* On mobile: 3 separate lines. On desktop: single line */}
                 <div className="flex flex-col items-end md:hidden">
-                  {["something", "worth", "feeling."].map((word) => (
+                  {["something", "worth", "feeling"].map((word) => (
                     <CharacterReveal
                       key={word}
                       text={word}
@@ -178,7 +178,7 @@ export default function Home() {
             className="mb-12 md:mb-16"
           >
             <h2
-              className="font-display text-center text-[clamp(42px,8vw,120px)] md:text-[clamp(28px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
+              className="font-display text-center text-[clamp(84px,8vw,120px)] md:text-[clamp(28px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
               style={{
                 background: "linear-gradient(to bottom, rgba(255,255,255,1) 30%, rgba(255,255,255,0.15) 100%)",
                 WebkitBackgroundClip: "text",
