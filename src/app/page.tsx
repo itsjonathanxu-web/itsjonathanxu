@@ -366,9 +366,6 @@ function AboutSectionWithFade() {
   });
   const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
-  // Fade from black as section scrolls into view — start at 0 so no hard edge at entry
-  const blackOverlay = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
-
   return (
     <section className="relative z-10" style={{ marginTop: "-1px" }}>
       <div ref={ref} className="relative w-full overflow-hidden" style={{ minHeight: "100vh", backgroundColor: "black" }}>
@@ -384,10 +381,8 @@ function AboutSectionWithFade() {
           />
         </motion.div>
 
-        {/* Scroll fade-from-black overlay */}
-        <motion.div className="absolute inset-0 z-[2] bg-black pointer-events-none" style={{ opacity: blackOverlay }} />
-
-        {/* No top gradient — hero gradient and blackOverlay handle the entry */}
+        {/* Top fade: blends with hero's bottom gradient */}
+        <div className="absolute inset-x-0 top-0 z-[2] h-[40%] pointer-events-none" style={{ background: "linear-gradient(to bottom, black 0%, transparent 100%)" }} />
 
         {/* Bottom gradient */}
         <div className="absolute inset-x-0 bottom-0 z-[1] h-[60%]" style={{ background: "linear-gradient(to top, black 8%, rgba(0,0,0,0.6) 40%, transparent 100%)" }} />
