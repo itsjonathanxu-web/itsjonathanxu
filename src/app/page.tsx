@@ -160,11 +160,10 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Gradient fills all remaining space - single clean fade to black */}
-          <div className="relative flex-1">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black" />
-          </div>
         </div>
+
+        {/* Gradient - absolutely positioned from bottom, no flex boundary artifact */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10" style={{ height: "65vh", background: "linear-gradient(to top, black 0%, transparent 100%)" }} />
       </section>
 
       {/* ===== ABOUT - full-width photo with text overlay ===== */}
