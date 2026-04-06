@@ -107,7 +107,7 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 1.08 }}
                 animate={{ opacity: 0.9, scale: 1 }}
                 transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
-                className="font-display w-full text-center text-[clamp(34px,12vw,64px)] md:text-[clamp(80px,18vw,280px)] font-extrabold leading-[0.85] tracking-[-0.04em] text-white/90"
+                className="font-display w-full text-center text-[clamp(34px,12vw,64px)] md:text-[clamp(40px,9vw,140px)] font-extrabold leading-[0.85] tracking-[-0.04em] text-white/90"
               >
                 JONATHAN XU
               </motion.h1>
