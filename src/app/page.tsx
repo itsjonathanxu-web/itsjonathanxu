@@ -144,30 +144,11 @@ export default function Home() {
               {/* Gap */}
               <div className="h-[clamp(24px,4vw,56px)]" />
 
-              {/* "something worth feeling" + categories - right aligned */}
+              {/* "something worth feeling" - right aligned, full white, extra letter-spacing to avoid r/t collision */}
               <div className="flex flex-col items-end gap-1 md:gap-2">
                 <CharacterReveal
                   text="something worth feeling."
-                  className="font-display text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white/70"
-                />
-              </div>
-
-              {/* Gap */}
-              <div className="h-[clamp(24px,4vw,56px)]" />
-
-              {/* Categories - right aligned, each on its own line */}
-              <div className="flex flex-col items-end gap-1 md:gap-2">
-                <CharacterReveal
-                  text="Travel"
-                  className="font-display text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
-                />
-                <CharacterReveal
-                  text="Architecture/Interiors"
-                  className="font-display text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
-                />
-                <CharacterReveal
-                  text="Hospitality"
-                  className="font-display text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.04em] text-white"
+                  className="font-display text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
                 />
               </div>
             </div>
@@ -415,7 +396,7 @@ function AboutSectionWithFade() {
             </ScrollRevealLine>
             <ScrollRevealLine>
               <h2 className="font-display max-w-4xl text-[clamp(22px,3vw,40px)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
-                I make cinematic visuals for places that deserve to be seen differently.
+                I make cinematic visuals for places that deserve to be seen differently. Three years of shooting has only deepened my passion to capture places the way they deserve to be remembered.
               </h2>
             </ScrollRevealLine>
             <ScrollRevealLine>

@@ -87,7 +87,7 @@ export default function AboutPage() {
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               <ScrollRevealLine>
                 <h2 className="font-display max-w-5xl text-[clamp(28px,5vw,64px)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white">
-                  I&apos;m Jonathan Xu. I use a camera to make you feel something. Based in Toronto, I create cinematic visuals for places that deserve to be experienced, not just seen.
+                  I&apos;m Jonathan Xu. I use a camera to make you feel something. I create cinematic visuals for places that deserve to be experienced, not just seen.
                 </h2>
               </ScrollRevealLine>
               <ScrollRevealLine>
