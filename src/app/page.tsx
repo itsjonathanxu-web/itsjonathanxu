@@ -178,7 +178,7 @@ export default function Home() {
             className="mb-12 md:mb-16"
           >
             <h2
-              className="font-display text-center text-[clamp(84px,8vw,120px)] md:text-[clamp(28px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
+              className="font-display text-center text-[clamp(60px,8vw,120px)] md:text-[clamp(28px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
               style={{
                 background: "linear-gradient(to bottom, rgba(255,255,255,1) 30%, rgba(255,255,255,0.15) 100%)",
                 WebkitBackgroundClip: "text",
