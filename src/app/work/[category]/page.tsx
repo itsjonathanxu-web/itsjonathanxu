@@ -324,8 +324,14 @@ export default function CategoryPage() {
                   </div>
                 </ScrollReveal>
 
-                {/* Photo Gallery - custom layout for Gardiner */}
-                {project.slug === "gardiner-museum" ? (
+                {/* Photo Gallery - custom layout per project */}
+                {project.slug === "marina-one-residences" ? (
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:[aspect-ratio:9/2]">
+                    {project.images.map((img, i) => (
+                      <GalleryImage key={img} src={img} alt={`${project.title} ${i + 1}`} index={i} className="h-full" />
+                    ))}
+                  </div>
+                ) : project.slug === "gardiner-museum" ? (
                   <div className="flex flex-col gap-4">
                     {/* 2,3,4 */}
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-3 auto-rows-[1fr]">

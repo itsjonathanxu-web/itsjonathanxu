@@ -116,6 +116,20 @@ export const architectureProjects: Project[] = [
       "/work/architecture-interiors/gardiner-museum/8.jpg",
     ],
   },
+  {
+    slug: "marina-one-residences",
+    title: "Marina One Residences",
+    categorySlug: "architecture-interiors",
+    location: "Singapore",
+    description: "Architectural interiors of Marina One Residences.",
+    coverImage: "/work/architecture-interiors/marina-one-residences/1.jpg",
+    year: "2025",
+    images: [
+      "/work/architecture-interiors/marina-one-residences/1.jpg",
+      "/work/architecture-interiors/marina-one-residences/2.jpg",
+      "/work/architecture-interiors/marina-one-residences/3.jpg",
+    ],
+  },
 ];
 
 // ============================================
@@ -348,6 +362,13 @@ export const travelLocations: TravelLocation[] = [
           "/work/travel-destination/malaysia/3.jpg",
           "/work/travel-destination/malaysia/4.jpg",
           "/work/travel-destination/malaysia/5.jpg",
+          "/work/travel-destination/malaysia/6.jpg",
+          "/work/travel-destination/malaysia/7.jpg",
+          "/work/travel-destination/malaysia/8.jpg",
+          "/work/travel-destination/malaysia/9.jpg",
+          "/work/travel-destination/malaysia/10.jpg",
+          "/work/travel-destination/malaysia/11.jpg",
+          "/work/travel-destination/malaysia/12.jpg",
         ],
       },
     ],

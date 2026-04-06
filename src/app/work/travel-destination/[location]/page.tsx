@@ -204,10 +204,14 @@ const NARA_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [3], cols: 1 },
 ];
 
-// Malaysia: 1 full width, 2+3+4 on 3-grid
+// Malaysia: 1 full width, 2+3+4 on 3-grid, then new rows
 const MALAYSIA_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [0], cols: 1 },
   { imgs: [1, 2, 3], cols: 3 },
+  { imgs: [4, 5], cols: 2 },
+  { imgs: [6, 7], cols: 2 },
+  { imgs: [8, 9], cols: 2 },
+  { imgs: [10, 11, 12], cols: 3 },
 ];
 // Chile: all 2-col rows
 const CHILE_ROWS: { imgs: number[]; cols: number }[] = [
