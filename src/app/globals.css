@@ -16,6 +16,9 @@
 .font-display {
   font-family: var(--font-display);
 }
+.font-montserrat {
+  font-family: var(--font-montserrat), sans-serif;
+}
 
 /* Category-specific fonts */
 .font-playfair {

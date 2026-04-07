@@ -107,7 +107,7 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 1.08 }}
                 animate={{ opacity: 0.9, scale: 1 }}
                 transition={{ duration: 5, ease: [0.16, 1, 0.3, 1] }}
-                className="font-display w-full text-center text-[clamp(34px,12vw,64px)] md:text-[clamp(40px,9vw,140px)] font-extrabold leading-[0.85] tracking-[-0.04em] text-white/90"
+                className="font-montserrat w-full text-center text-[clamp(34px,12vw,64px)] md:text-[clamp(40px,9vw,140px)] font-extrabold leading-[0.85] tracking-[-0.04em] text-white/90"
               >
                 JONATHAN XU
               </motion.h1>
@@ -132,8 +132,8 @@ export default function Home() {
           <div className="flex min-h-screen shrink-0 items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               {/* Intro line */}
-              <StaggerWords text="A Videographer and Photographer" className="font-display text-[clamp(20px,3.6vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
-              <StaggerWords text="who believes every place has" className="font-display text-[clamp(20px,3.6vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
+              <StaggerWords text="A Videographer and Photographer" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
+              <StaggerWords text="who believes every place has" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
 
               {/* Gap */}
               <div className="h-[clamp(24px,4vw,56px)]" />
@@ -146,14 +146,14 @@ export default function Home() {
                     <CharacterReveal
                       key={word}
                       text={word}
-                      className="font-display text-[clamp(28px,12vw,102px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
+                      className="font-montserrat text-[clamp(28px,12vw,102px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
                     />
                   ))}
                 </div>
                 <div className="hidden md:block">
                   <CharacterReveal
                     text="something worth feeling."
-                    className="font-display text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
+                    className="font-montserrat text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
                   />
                 </div>
               </div>
@@ -177,7 +177,7 @@ export default function Home() {
             className="mb-12 md:mb-16"
           >
             <h2
-              className="font-display text-center text-[clamp(60px,8vw,120px)] md:text-[clamp(28px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
+              className="font-montserrat text-center text-[clamp(60px,8vw,120px)] md:text-[clamp(28px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
               style={{
                 background: "linear-gradient(to bottom, rgba(255,255,255,1) 30%, rgba(255,255,255,0.15) 100%)",
                 WebkitBackgroundClip: "text",
@@ -214,7 +214,7 @@ export default function Home() {
       <section className="relative z-10 overflow-hidden bg-black py-28 md:py-40" style={{ marginTop: "-1px" }}>
         <ScrollRevealLine>
           <div className="mx-auto max-w-[1400px] px-6 text-center md:px-20">
-            <h2 className="font-display mx-auto max-w-3xl text-[clamp(32px,5.5vw,72px)] font-extrabold tracking-[-0.03em] text-white">
+            <h2 className="font-montserrat mx-auto max-w-3xl text-[clamp(32px,5.5vw,72px)] font-extrabold tracking-[-0.03em] text-white">
               Let&apos;s create something
               <br />
               unforgettable.
@@ -396,12 +396,12 @@ function AboutSectionWithFade() {
         <div className="relative z-10 flex min-h-[100vh] flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
           <div className="mx-auto w-full max-w-[1400px]">
             <ScrollRevealLine>
-              <p className="font-display mb-4 text-[11px] font-bold tracking-[0.3em] text-white/40 uppercase">
+              <p className="font-montserrat mb-4 text-[11px] font-bold tracking-[0.3em] text-white/40 uppercase">
                 About
               </p>
             </ScrollRevealLine>
             <ScrollRevealLine>
-              <h2 className="font-display max-w-4xl text-[clamp(22px,3vw,40px)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
+              <h2 className="font-montserrat max-w-4xl text-[clamp(22px,3vw,40px)] font-extrabold leading-[1.2] tracking-[-0.02em] text-white">
                 Shooting around the world these last few years has only deepened my passion to capture places the way they deserve to be remembered.
               </h2>
             </ScrollRevealLine>
@@ -475,11 +475,11 @@ function FullWidthProjectCard({
         <div className="absolute inset-0 flex flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
           <div className="mx-auto w-full max-w-[1400px]">
             <div className="translate-y-2 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-              <p className="font-display text-[11px] font-bold tracking-[0.3em] text-white/40 uppercase">
+              <p className="font-montserrat text-[11px] font-bold tracking-[0.3em] text-white/40 uppercase">
                 {project.categorySlug === "travel-destination" ? "Travel & Destination" : project.categorySlug}
               </p>
             </div>
-            <h3 className="font-display mt-2 text-[clamp(28px,4vw,56px)] font-extrabold tracking-[-0.02em] text-white transition-transform duration-500 group-hover:translate-x-2">
+            <h3 className="font-montserrat mt-2 text-[clamp(28px,4vw,56px)] font-extrabold tracking-[-0.02em] text-white transition-transform duration-500 group-hover:translate-x-2">
               {project.title}
             </h3>
             <p className="mt-2 max-w-lg text-[14px] leading-[1.7] text-white/50 transition-all duration-500 group-hover:text-white/70">
@@ -524,10 +524,10 @@ function ExpertiseCard({
         href={`/work/${cat.slug}`}
         className="glass-panel group flex h-full flex-col p-8 text-left md:p-10"
       >
-        <span className="font-display text-[11px] font-bold tracking-[0.25em] text-white/30 uppercase transition-colors duration-500 group-hover:text-white/50">
+        <span className="font-montserrat text-[11px] font-bold tracking-[0.25em] text-white/30 uppercase transition-colors duration-500 group-hover:text-white/50">
           0{index + 1}
         </span>
-        <h3 className="font-display mt-3 text-[clamp(16px,2vw,24px)] font-extrabold text-white transition-all duration-500 group-hover:translate-x-1">
+        <h3 className="font-montserrat mt-3 text-[clamp(16px,2vw,24px)] font-extrabold text-white transition-all duration-500 group-hover:translate-x-1">
           {cat.title}
         </h3>
         <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-white/50 transition-colors duration-500 group-hover:text-white/70">
