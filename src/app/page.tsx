@@ -442,13 +442,14 @@ function FullWidthProjectCard({
     <div ref={ref} className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
       {/* Parallax background image */}
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
-        <Image
-          src={project.coverImage}
-          alt={project.title}
-          fill
-          className="object-cover"
-          sizes="100vw"
-        />
+        {project.slug === "chile" ? (
+          <>
+            <Image src="/work/travel-destination/chile/6.jpg" alt={project.title} fill className="object-cover md:hidden" sizes="100vw" />
+            <Image src={project.coverImage} alt={project.title} fill className="object-cover hidden md:block" sizes="100vw" />
+          </>
+        ) : (
+          <Image src={project.coverImage} alt={project.title} fill className="object-cover" sizes="100vw" />
+        )}
       </motion.div>
 
       {/* Scroll fade-from-black overlay */}

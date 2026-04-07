@@ -106,13 +106,14 @@ function LocationCard({ location }: { location: (typeof travelLocations)[0] }) {
         className="glass-panel group relative block overflow-hidden rounded-2xl"
       >
         <div className="relative aspect-[16/10] overflow-hidden">
-          <Image
-            src={location.coverImage}
-            alt={location.title}
-            fill
-            className="object-cover"
-            sizes="100vw"
-          />
+          {location.slug === "chile" ? (
+            <>
+              <Image src="/work/travel-destination/chile/6.jpg" alt={location.title} fill className="object-cover md:hidden" sizes="100vw" />
+              <Image src={location.coverImage} alt={location.title} fill className="object-cover hidden md:block" sizes="100vw" />
+            </>
+          ) : (
+            <Image src={location.coverImage} alt={location.title} fill className="object-cover" sizes="100vw" />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-700 group-hover:from-black/90 group-hover:via-black/30" />
 
           {/* Content overlay */}
