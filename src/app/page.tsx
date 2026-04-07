@@ -132,8 +132,8 @@ export default function Home() {
           <div className="flex min-h-screen shrink-0 items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               {/* Intro line */}
-              <StaggerWords text="A Videographer and Photographer" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
-              <StaggerWords text="who believes every place has" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-bold leading-[1.1] tracking-[-0.02em] text-white/70" />
+              <StaggerWords text="A Videographer and Photographer" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-medium italic leading-[1.1] tracking-[-0.02em] text-white/70" />
+              <StaggerWords text="who believes every place has" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-medium italic leading-[1.1] tracking-[-0.02em] text-white/70" />
 
               {/* Gap */}
               <div className="h-[clamp(24px,4vw,56px)]" />
@@ -146,14 +146,14 @@ export default function Home() {
                     <CharacterReveal
                       key={word}
                       text={word}
-                      className="font-albertian text-[clamp(28px,12vw,102px)] font-semibold leading-[1] tracking-[-0.02em] text-white"
+                      className="font-montserrat text-[clamp(28px,12vw,102px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
                     />
                   ))}
                 </div>
                 <div className="hidden md:block">
                   <CharacterReveal
                     text="something worth feeling."
-                    className="font-albertian text-[clamp(31px,7.4vw,92px)] font-semibold leading-[1] tracking-[-0.02em] text-white"
+                    className="font-montserrat text-[clamp(31px,6.5vw,82px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
                   />
                 </div>
               </div>
@@ -177,7 +177,7 @@ export default function Home() {
             className="mb-12 md:mb-16"
           >
             <h2
-              className="font-montserrat text-center text-[clamp(50px,13vw,120px)] md:text-[clamp(28px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
+              className="font-montserrat text-center text-[clamp(50px,13vw,120px)] md:text-[clamp(28px,6vw,100px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
               style={{
                 background: "linear-gradient(to bottom, rgba(255,255,255,1) 30%, rgba(255,255,255,0.15) 100%)",
                 WebkitBackgroundClip: "text",
