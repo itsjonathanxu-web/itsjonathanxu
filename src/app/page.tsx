@@ -366,7 +366,7 @@ function AboutSectionWithFade() {
   const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
   // Fade image in from black as user scrolls through the section (not on entry)
-  const imageOverlay = useTransform(scrollYProgress, [0.15, 0.45], [1, 0]);
+  const imageOverlay = useTransform(scrollYProgress, [0.15, 0.60], [1, 0]);
 
   return (
     <section className="relative z-10" style={{ marginTop: "-1px" }}>
