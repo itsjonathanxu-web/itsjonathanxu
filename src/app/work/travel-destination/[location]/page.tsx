@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -212,7 +212,7 @@ const MALAYSIA_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [6, 7], cols: 2 },
   { imgs: [8, 9, 10], cols: 3 },
 ];
-// Chile: all 2-col rows
+// Chile: all 2-col rows (desktop)
 const CHILE_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [0, 1], cols: 2 },
   { imgs: [2, 3], cols: 2 },
@@ -220,6 +220,15 @@ const CHILE_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [6, 7], cols: 2 },
   { imgs: [8, 9], cols: 2 },
   { imgs: [10, 11], cols: 2 },
+];
+// Chile: mobile rows — skip index 4 (6.jpg used as hero), 1.jpg shown separately above
+const CHILE_ROWS_MOBILE: { imgs: number[]; cols: number }[] = [
+  { imgs: [0, 1], cols: 2 },
+  { imgs: [2, 3], cols: 2 },
+  { imgs: [5, 6], cols: 2 },
+  { imgs: [7, 8], cols: 2 },
+  { imgs: [9, 10], cols: 2 },
+  { imgs: [11], cols: 1 },
 ];
 // Death Valley: all 2-col rows
 const DEATH_VALLEY_ROWS: { imgs: number[]; cols: number }[] = [
@@ -288,6 +297,10 @@ export default function TravelLocationPage() {
   const params = useParams();
   const slug = params.location as string;
   const location = getTravelLocationBySlug(slug);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   if (!location) {
     return (
@@ -318,7 +331,7 @@ export default function TravelLocationPage() {
           : slug === "malaysia"
             ? "/work/travel-destination/malaysia/1.jpg"
             : slug === "chile"
-              ? "/work/travel-destination/chile/1.jpg"
+              ? (isMobile ? "/work/travel-destination/chile/6.jpg" : "/work/travel-destination/chile/1.jpg")
               : slug === "death-valley"
                 ? "/work/travel-destination/death-valley/1.jpg"
                 : slug === "united-kingdom"
@@ -448,7 +461,12 @@ export default function TravelLocationPage() {
             ) : slug === "malaysia" ? (
               <RowGallery images={area.images} rows={MALAYSIA_ROWS} locationTitle={location.title} areaName={area.name} />
             ) : slug === "chile" ? (
-              <RowGallery images={area.images} rows={CHILE_ROWS} locationTitle={location.title} areaName={area.name} />
+              <>
+                {isMobile && (
+                  <GalleryImage src="/work/travel-destination/chile/1.jpg" alt="Chile 1" index={0} />
+                )}
+                <RowGallery images={area.images} rows={isMobile ? CHILE_ROWS_MOBILE : CHILE_ROWS} locationTitle={location.title} areaName={area.name} />
+              </>
             ) : slug === "death-valley" ? (
               <RowGallery images={area.images} rows={DEATH_VALLEY_ROWS} locationTitle={location.title} areaName={area.name} />
             ) : slug === "united-kingdom" ? (

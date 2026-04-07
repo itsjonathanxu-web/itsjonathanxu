@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -438,18 +438,20 @@ function FullWidthProjectCard({
   // Fade from black as card scrolls into view
   const blackOverlay = useTransform(scrollYProgress, [0.1, 0.4], [1, 0]);
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  const coverSrc = project.slug === "chile" && isMobile
+    ? "/work/travel-destination/chile/6.jpg"
+    : project.coverImage;
+
   return (
     <div ref={ref} className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
       {/* Parallax background image */}
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
-        {project.slug === "chile" ? (
-          <>
-            <Image src="/work/travel-destination/chile/6.jpg" alt={project.title} fill className="object-cover md:hidden" sizes="100vw" />
-            <Image src={project.coverImage} alt={project.title} fill className="object-cover hidden md:block" sizes="100vw" />
-          </>
-        ) : (
-          <Image src={project.coverImage} alt={project.title} fill className="object-cover" sizes="100vw" />
-        )}
+        <Image src={coverSrc} alt={project.title} fill className="object-cover" sizes="100vw" />
       </motion.div>
 
       {/* Scroll fade-from-black overlay */}
