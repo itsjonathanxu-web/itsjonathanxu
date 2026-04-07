@@ -153,7 +153,7 @@ export default function Home() {
                 <div className="hidden md:block">
                   <CharacterReveal
                     text="something worth feeling."
-                    className="font-montserrat text-[clamp(31px,8.2vw,102px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
+                    className="font-montserrat text-[clamp(31px,7.4vw,92px)] font-extrabold leading-[1] tracking-[-0.02em] text-white"
                   />
                 </div>
               </div>
@@ -177,7 +177,7 @@ export default function Home() {
             className="mb-12 md:mb-16"
           >
             <h2
-              className="font-montserrat text-center text-[clamp(60px,8vw,120px)] md:text-[clamp(28px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
+              className="font-montserrat text-center text-[clamp(28px,8vw,120px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
               style={{
                 background: "linear-gradient(to bottom, rgba(255,255,255,1) 30%, rgba(255,255,255,0.15) 100%)",
                 WebkitBackgroundClip: "text",
@@ -185,8 +185,7 @@ export default function Home() {
                 backgroundClip: "text",
               }}
             >
-              <span className="md:hidden">FEATURED<br />PROJECTS</span>
-              <span className="hidden md:inline">FEATURED PROJECTS</span>
+              FEATURED PROJECTS
             </h2>
           </motion.div>
         </div>

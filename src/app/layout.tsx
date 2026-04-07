@@ -64,6 +64,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="stylesheet" href="https://use.typekit.net/lra3nht.css" />
+      </head>
       <body className={`${inter.variable} ${syne.variable} ${playfair.variable} ${spaceGrotesk.variable} ${cormorant.variable} ${montserrat.variable} font-sans antialiased`}>
         <CustomCursor />
         <Navigation />
