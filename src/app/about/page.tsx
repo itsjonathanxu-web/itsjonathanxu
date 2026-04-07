@@ -98,11 +98,10 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Gradient fills all remaining space -no gap possible on any screen */}
-          <div className="relative flex-1">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/70 via-[40%] to-black" />
-          </div>
         </div>
+
+        {/* Gradient - absolutely positioned from bottom, same as home page */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10" style={{ height: "130vh", background: "linear-gradient(to top, black 0%, transparent 100%)" }} />
       </section>
 
       {/* ===== BACKGROUND & STORY ===== */}
