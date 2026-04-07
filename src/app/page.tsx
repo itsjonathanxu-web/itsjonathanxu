@@ -132,8 +132,8 @@ export default function Home() {
           <div className="flex min-h-screen shrink-0 items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               {/* Intro line */}
-              <StaggerWords text="A Videographer and Photographer" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-medium italic leading-[1.1] tracking-[-0.02em] text-white/70" />
-              <StaggerWords text="who believes every place has" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-medium italic leading-[1.1] tracking-[-0.02em] text-white/70" />
+              <StaggerWords text="A Videographer and Photographer" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
+              <StaggerWords text="who believes every place has" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
 
               {/* Gap */}
               <div className="h-[clamp(24px,4vw,56px)]" />
@@ -252,7 +252,7 @@ function ScrollRevealLine({ children }: { children: React.ReactNode }) {
 }
 
 /** Word-by-word stagger on scroll -each word fades/slides in individually */
-function StaggerWords({ text, className }: { text: string; className: string }) {
+function StaggerWords({ text, className, style }: { text: string; className: string; style?: React.CSSProperties }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -262,7 +262,7 @@ function StaggerWords({ text, className }: { text: string; className: string }) 
   const words = text.split(" ");
 
   return (
-    <div ref={ref} className={className} style={{ display: "flex", flexWrap: "wrap", gap: "0 0.3em" }}>
+    <div ref={ref} className={className} style={{ display: "flex", flexWrap: "wrap", gap: "0 0.3em", ...style }}>
       {words.map((word, i) => {
         const start = i / (words.length + 1);
         const end = (i + 1.5) / (words.length + 1);
@@ -482,7 +482,7 @@ function FullWidthProjectCard({
             <h3 className="font-montserrat mt-2 text-[clamp(28px,4vw,56px)] font-extrabold tracking-[-0.02em] text-white transition-transform duration-500 group-hover:translate-x-2">
               {project.title}
             </h3>
-            <p className="mt-2 max-w-lg text-[14px] leading-[1.7] text-white/50 transition-all duration-500 group-hover:text-white/70">
+            <p className="font-albertian mt-2 max-w-lg text-[14px] leading-[1.7] text-white/50 transition-all duration-500 group-hover:text-white/70">
               {project.description}
             </p>
           </div>

@@ -263,7 +263,7 @@ export default function CategoryPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5 }}
-              className="mt-10 md:mt-14 max-w-xl text-[clamp(15px,1.8vw,20px)] leading-[1.6] font-normal text-white/60"
+              className="font-albertian mt-10 md:mt-14 max-w-xl text-[clamp(15px,1.8vw,20px)] leading-[1.6] font-medium text-white/60"
             >
               {category.description}
             </motion.p>
@@ -276,7 +276,7 @@ export default function CategoryPage() {
         <section className="bg-black py-16 md:py-24">
           <div className="mx-auto max-w-[1400px] px-6 md:px-20">
             <ScrollReveal>
-              <p className="max-w-2xl text-[clamp(15px,1.8vw,20px)] leading-[1.6] font-normal text-white/60">
+              <p className="font-albertian max-w-2xl text-[clamp(15px,1.8vw,20px)] leading-[1.6] font-medium text-white/60">
                 {category.description}
               </p>
             </ScrollReveal>

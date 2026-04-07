@@ -32,7 +32,7 @@ export default function Navigation() {
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5 md:px-20">
           <Link
             href="/"
-            className="font-display text-sm font-bold tracking-[0.2em] text-white uppercase transition-opacity duration-300 hover:opacity-50"
+            className="font-montserrat text-sm font-bold tracking-[0.2em] text-white uppercase transition-opacity duration-300 hover:opacity-50"
           >
             JONATHAN XU
           </Link>
@@ -43,7 +43,7 @@ export default function Navigation() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`font-display text-[13px] font-medium tracking-[0.08em] text-white uppercase transition-opacity duration-300 ${
+                className={`font-montserrat text-[13px] font-light tracking-[0.08em] text-white uppercase transition-opacity duration-300 ${
                   pathname === link.href ||
                   (link.href !== "/" && pathname.startsWith(link.href))
                     ? "opacity-100"
@@ -95,7 +95,7 @@ export default function Navigation() {
                 >
                   <Link
                     href={link.href}
-                    className={`font-display text-2xl font-bold tracking-[0.15em] text-white uppercase transition-opacity duration-300 hover:opacity-50 ${
+                    className={`font-montserrat text-2xl font-light tracking-[0.15em] text-white uppercase transition-opacity duration-300 hover:opacity-50 ${
                       pathname === link.href ? "opacity-100" : "opacity-70"
                     }`}
                   >
