@@ -12,12 +12,10 @@
   --font-display: var(--font-montserrat), "Inter", system-ui, sans-serif;
 }
 
-/* Display font utility */
-.font-display {
-  font-family: var(--font-display);
-}
+/* Display font utility - both point to Montserrat */
+.font-display,
 .font-montserrat {
-  font-family: var(--font-montserrat), sans-serif;
+  font-family: var(--font-montserrat), "Montserrat", sans-serif;
 }
 
 /* Category-specific fonts */
@@ -61,7 +59,7 @@ body {
 }
 
 /* Headers/display elements stay upright */
-.font-display, .font-montserrat {
+.font-display, .font-montserrat, h1, h2, h3, h4, h5, h6 {
   font-style: normal;
 }
 .font-albertian {

@@ -408,11 +408,11 @@ const travelFeaturedProjects: Project[] = [
     images: [],
   },
   {
-    slug: "united-kingdom",
-    title: "United Kingdom",
+    slug: "japan",
+    title: "Japan",
     categorySlug: "travel-destination",
-    description: "From the streets of London to the cliffs of Seven Sisters and the wild beauty of Northern Ireland.",
-    coverImage: "/work/travel-destination/united-kingdom/london/0.jpg",
+    description: "A cinematic journey through Tokyo, Kyoto, Osaka, and Nara, capturing the contrast of tradition and modernity.",
+    coverImage: "/work/travel-destination/japan/tokyo/4.jpg",
     images: [],
   },
   {

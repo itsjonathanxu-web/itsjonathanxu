@@ -131,9 +131,17 @@ export default function Home() {
           {/* Screen 2: Videographer statement + categories */}
           <div className="flex min-h-screen shrink-0 items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
-              {/* Intro line */}
-              <StaggerWords text="A Videographer and Photographer" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
-              <StaggerWords text="who believes every place has" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
+              {/* Intro line - mobile */}
+              <div className="md:hidden">
+                <StaggerWords text="A photographer and" className="font-montserrat text-[clamp(20px,5.5vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
+                <StaggerWords text="videographer who believes" className="font-montserrat text-[clamp(20px,5.5vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
+                <StaggerWords text="every place has" className="font-montserrat text-[clamp(20px,5.5vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
+              </div>
+              {/* Intro line - desktop */}
+              <div className="hidden md:block">
+                <StaggerWords text="A Videographer and Photographer" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
+                <StaggerWords text="who believes every place has" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
+              </div>
 
               {/* Gap */}
               <div className="h-[clamp(24px,4vw,56px)]" />
