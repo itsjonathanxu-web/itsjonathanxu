@@ -27,10 +27,7 @@ export default function Home() {
     offset: ["start start", "end start"],
   });
 
-  // Smooth scroll progress for video scrubbing - prevents stutter on direction changes
-  const smoothHeroProgress = useSpring(heroProgress, { stiffness: 80, damping: 30, restDelta: 0.0001 });
-
-  // Drive video currentTime from smoothed scroll
+  // Drive video currentTime from scroll
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -44,18 +41,12 @@ export default function Home() {
     }
 
     let rafId: number;
-    let lastTime = -1;
-    const unsubscribe = smoothHeroProgress.on("change", (v) => {
+    const unsubscribe = heroProgress.on("change", (v) => {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
         const vid = videoRef.current;
         if (!vid) return;
-        const targetTime = Math.min(v * VIDEO_DURATION, VIDEO_DURATION);
-        // Only seek if time changed meaningfully (avoids redundant keyframe decodes)
-        if (Math.abs(targetTime - lastTime) > 0.02) {
-          vid.currentTime = targetTime;
-          lastTime = targetTime;
-        }
+        vid.currentTime = Math.min(v * VIDEO_DURATION, VIDEO_DURATION);
       });
     });
 
@@ -63,7 +54,7 @@ export default function Home() {
       unsubscribe();
       cancelAnimationFrame(rafId);
     };
-  }, [smoothHeroProgress]);
+  }, [heroProgress]);
 
   // Hero title fades out + scales down + blurs on scroll
   const xsenOpacity = useTransform(heroProgress, [0, 0.12], [1, 0]);
