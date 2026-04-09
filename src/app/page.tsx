@@ -139,7 +139,7 @@ export default function Home() {
               </div>
               {/* Intro line - desktop */}
               <div className="hidden md:block">
-                <StaggerWords text="A Videographer and Photographer" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
+                <StaggerWords text="A Photographer and Videographer" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
                 <StaggerWords text="who believes every place has" className="font-montserrat text-[clamp(20px,3.6vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
               </div>
 

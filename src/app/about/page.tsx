@@ -56,6 +56,7 @@ export default function AboutPage() {
                 priority
                 sizes="100vw"
                 quality={100}
+                unoptimized
               />
             </div>
           </motion.div>
