@@ -148,8 +148,8 @@ export default function Home() {
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               {/* Intro line - mobile */}
               <div className="md:hidden">
-                <StaggerWords text="A photographer and" className="font-montserrat text-[clamp(20px,5.5vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
-                <StaggerWords text="videographer who believes" className="font-montserrat text-[clamp(20px,5.5vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
+                <StaggerWords text="A Photographer and" className="font-montserrat text-[clamp(20px,5.5vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
+                <StaggerWords text="Videographer who believes" className="font-montserrat text-[clamp(20px,5.5vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
                 <StaggerWords text="every place has" className="font-montserrat text-[clamp(20px,5.5vw,48px)] font-semibold leading-[1.1] tracking-[-0.02em] text-white/70" style={{ fontStyle: "italic" }} />
               </div>
               {/* Intro line - desktop */}
