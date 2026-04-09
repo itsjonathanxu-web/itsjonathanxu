@@ -459,7 +459,7 @@ function FullWidthProjectCard({
     <div ref={ref} className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
       {/* Parallax background image */}
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
-        <Image src={coverSrc} alt={project.title} fill className="object-cover" sizes="100vw" quality={90} />
+        <Image src={coverSrc} alt={project.title} fill className="object-cover" sizes="100vw" quality={100} unoptimized />
       </motion.div>
 
       {/* Scroll fade-from-black overlay */}
