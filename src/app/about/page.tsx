@@ -87,7 +87,7 @@ export default function AboutPage() {
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               <ScrollRevealLine>
                 <h2 className="font-display max-w-5xl text-[clamp(28px,5vw,64px)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white">
-                  I&apos;m Jonathan Xu. I use a camera to make you feel something. I craft cinematic visuals for places that deserve to be seen differently.
+                  I&apos;m Jonathan Xu. I craft cinematic visuals for places that deserve to be seen differently.
                 </h2>
               </ScrollRevealLine>
               <ScrollRevealLine>
@@ -137,7 +137,7 @@ export default function AboutPage() {
                   Approach
                 </p>
                 <p className="text-[16px] leading-[1.8] text-white/60">
-                  My work is intentional and tells a story with every frame. I shoot with the belief that beauty is all around us. It does not announce itself. It waits in the quality of light at a certain hour, or in the expression of people walking past. I seek these moments and capture them with purpose. Not to supersede the ordinary, but to bring a new perspective to it.
+                  My work is intentional and tells a story. I shoot with the belief that beauty is all around us. It does not announce itself. It waits in the quality of light at a certain hour, or in the expression of people walking past. I seek these moments and capture them with purpose. Not to supersede the ordinary, but to bring a new perspective to it.
                 </p>
               </ScrollRevealLine>
             </div>
