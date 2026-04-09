@@ -27,7 +27,7 @@ export default function Home() {
     offset: ["start start", "end start"],
   });
 
-  // Drive video currentTime from scroll
+  // Drive video currentTime from scroll with interpolation for smooth mobile scrubbing
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -40,17 +40,33 @@ export default function Home() {
       video.load();
     }
 
+    let targetTime = 0;
+    let currentTime = 0;
     let rafId: number;
+    let running = true;
+
+    // Lerp loop - smoothly interpolates video time toward target
+    const lerp = () => {
+      if (!running) return;
+      const vid = videoRef.current;
+      if (vid) {
+        // Ease toward target (0.15 = snappy but smooth)
+        currentTime += (targetTime - currentTime) * 0.15;
+        // Only seek if difference is visible
+        if (Math.abs(vid.currentTime - currentTime) > 0.01) {
+          vid.currentTime = currentTime;
+        }
+      }
+      rafId = requestAnimationFrame(lerp);
+    };
+    rafId = requestAnimationFrame(lerp);
+
     const unsubscribe = heroProgress.on("change", (v) => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        const vid = videoRef.current;
-        if (!vid) return;
-        vid.currentTime = Math.min(v * VIDEO_DURATION, VIDEO_DURATION);
-      });
+      targetTime = Math.min(v * VIDEO_DURATION, VIDEO_DURATION);
     });
 
     return () => {
+      running = false;
       unsubscribe();
       cancelAnimationFrame(rafId);
     };
