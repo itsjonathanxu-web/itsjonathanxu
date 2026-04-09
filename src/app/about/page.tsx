@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 function ScrollRevealLine({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -11,11 +11,13 @@ function ScrollRevealLine({ children }: { children: React.ReactNode }) {
     target: ref,
     offset: ["start 0.95", "start 0.65"],
   });
-  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [30, 0]);
+  const opacityRaw = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const yRaw = useTransform(scrollYProgress, [0, 1], [30, 0]);
+  const opacity = useSpring(opacityRaw, { stiffness: 100, damping: 30 });
+  const y = useSpring(yRaw, { stiffness: 100, damping: 30 });
 
   return (
-    <motion.div ref={ref} style={{ opacity, y }}>
+    <motion.div ref={ref} style={{ opacity, y, willChange: "transform, opacity" }}>
       {children}
     </motion.div>
   );
@@ -28,20 +30,23 @@ export default function AboutPage() {
     offset: ["start start", "end start"],
   });
 
-  // Parallax on background image
-  const bgY = useTransform(heroProgress, [0, 1], ["0%", "-25%"]);
+  // Parallax on background image - spring smooths direction changes
+  const bgYRaw = useTransform(heroProgress, [0, 1], ["0%", "-25%"]);
+  const bgY = useSpring(bgYRaw, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
-  // Title fade on scroll
-  const titleOpacity = useTransform(heroProgress, [0, 0.15], [1, 0]);
-  const titleScale = useTransform(heroProgress, [0, 0.15], [1, 0.98]);
+  // Title fade on scroll - spring for smooth reversals
+  const titleOpacityRaw = useTransform(heroProgress, [0, 0.15], [1, 0]);
+  const titleOpacity = useSpring(titleOpacityRaw, { stiffness: 100, damping: 30 });
+  const titleScaleRaw = useTransform(heroProgress, [0, 0.15], [1, 0.98]);
+  const titleScale = useSpring(titleScaleRaw, { stiffness: 100, damping: 30 });
 
   return (
     <>
       {/* ===== HERO SECTION -parallax background like home page ===== */}
       <section ref={heroSectionRef} className="relative" style={{ height: "280vh" }}>
         {/* Fixed parallax background -stays visible, covered by scrolling gradient */}
-        <div className="fixed inset-0 z-0">
-          <motion.div style={{ y: bgY }} className="absolute inset-0">
+        <div className="fixed inset-0 z-0" style={{ willChange: "transform", transform: "translateZ(0)" }}>
+          <motion.div style={{ y: bgY, willChange: "transform" }} className="absolute inset-0">
             <div className="absolute -top-[12%] left-0 right-0" style={{ height: "125%" }}>
               <Image
                 src="/about/hero-about.jpg"
@@ -117,6 +122,7 @@ export default function AboutPage() {
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 600px"
+                  quality={100}
                 />
               </div>
             </ScrollRevealLine>
