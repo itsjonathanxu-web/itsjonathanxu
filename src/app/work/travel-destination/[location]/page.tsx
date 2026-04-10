@@ -46,9 +46,14 @@ function GalleryImage({ src, alt, index }: { src: string; alt: string; index: nu
   const opacity = useSpring(rawOpacity, smoothSpring);
   const { open } = useLightbox();
 
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    open(src, alt, { x: rect.left, y: rect.top, width: rect.width, height: rect.height });
+  };
+
   return (
     <motion.div ref={ref} style={{ scale, opacity }} className="mb-4 break-inside-avoid">
-      <div className="group relative cursor-zoom-in overflow-hidden rounded-xl" onClick={() => open(src, alt)}>
+      <div className="group relative cursor-zoom-in overflow-hidden rounded-xl" onClick={handleClick}>
         <Image
           src={src}
           alt={alt}
@@ -86,9 +91,14 @@ function JapanImg({ src, alt, index, className, onHorizontalDetected }: { src: s
   const opacity = useSpring(rawOpacity, smoothSpring);
   const { open } = useLightbox();
 
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    open(src, alt, { x: rect.left, y: rect.top, width: rect.width, height: rect.height });
+  };
+
   return (
     <motion.div ref={ref} style={{ scale, opacity }} className={className}>
-      <div className="group relative h-full cursor-zoom-in overflow-hidden rounded-xl" onClick={() => open(src, alt)}>
+      <div className="group relative h-full cursor-zoom-in overflow-hidden rounded-xl" onClick={handleClick}>
         <Image
           src={src}
           alt={alt}

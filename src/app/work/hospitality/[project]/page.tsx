@@ -46,9 +46,14 @@ function GalleryImage({ src, alt, index, className }: { src: string; alt: string
   const opacity = useSpring(rawOpacity, smoothSpring);
   const { open } = useLightbox();
 
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    open(src, alt, { x: rect.left, y: rect.top, width: rect.width, height: rect.height });
+  };
+
   return (
     <motion.div ref={ref} style={{ scale, opacity }} className={className || "mb-4 break-inside-avoid"}>
-      <div className="group relative h-full cursor-zoom-in overflow-hidden rounded-xl" onClick={() => open(src, alt)}>
+      <div className="group relative h-full cursor-zoom-in overflow-hidden rounded-xl" onClick={handleClick}>
         <Image
           src={src}
           alt={alt}
