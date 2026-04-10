@@ -4,6 +4,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
+import { LightboxProvider } from "@/components/Lightbox";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -68,10 +69,12 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://use.typekit.net/lra3nht.css" />
       </head>
       <body className={`${inter.variable} ${syne.variable} ${playfair.variable} ${spaceGrotesk.variable} ${cormorant.variable} ${montserrat.variable} font-sans antialiased`}>
-        <CustomCursor />
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
+        <LightboxProvider>
+          <CustomCursor />
+          <Navigation />
+          <main>{children}</main>
+          <Footer />
+        </LightboxProvider>
         <Analytics />
         <SpeedInsights />
       </body>

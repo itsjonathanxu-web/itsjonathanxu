@@ -12,6 +12,7 @@ import {
   categories,
   type Project,
 } from "@/lib/data";
+import { useLightbox } from "@/components/Lightbox";
 
 const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
 
@@ -59,10 +60,11 @@ function GalleryImage({ src, alt, index, className }: { src: string; alt: string
   const scale = useSpring(rawScale, smoothSpring);
   const rawOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const opacity = useSpring(rawOpacity, smoothSpring);
+  const { open } = useLightbox();
 
   return (
     <motion.div ref={ref} style={{ scale, opacity }} className={className || "mb-4 break-inside-avoid"}>
-      <div className="group relative h-full overflow-hidden rounded-xl">
+      <div className="group relative h-full cursor-zoom-in overflow-hidden rounded-xl" onClick={() => open(src, alt)}>
         <Image
           src={src}
           alt={alt}

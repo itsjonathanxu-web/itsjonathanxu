@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { getTravelLocationBySlug, travelLocations } from "@/lib/data";
+import { useLightbox } from "@/components/Lightbox";
 
 const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
 
@@ -43,10 +44,11 @@ function GalleryImage({ src, alt, index }: { src: string; alt: string; index: nu
   const scale = useSpring(rawScale, smoothSpring);
   const rawOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const opacity = useSpring(rawOpacity, smoothSpring);
+  const { open } = useLightbox();
 
   return (
     <motion.div ref={ref} style={{ scale, opacity }} className="mb-4 break-inside-avoid">
-      <div className="group relative overflow-hidden rounded-xl">
+      <div className="group relative cursor-zoom-in overflow-hidden rounded-xl" onClick={() => open(src, alt)}>
         <Image
           src={src}
           alt={alt}
@@ -82,10 +84,11 @@ function JapanImg({ src, alt, index, className, onHorizontalDetected }: { src: s
   const scale = useSpring(rawScale, smoothSpring);
   const rawOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const opacity = useSpring(rawOpacity, smoothSpring);
+  const { open } = useLightbox();
 
   return (
     <motion.div ref={ref} style={{ scale, opacity }} className={className}>
-      <div className="group relative h-full overflow-hidden rounded-xl">
+      <div className="group relative h-full cursor-zoom-in overflow-hidden rounded-xl" onClick={() => open(src, alt)}>
         <Image
           src={src}
           alt={alt}
