@@ -266,8 +266,9 @@ const DEATH_VALLEY_ROWS: { imgs: number[]; cols: number }[] = [
 ];
 // UK - London: 3-col rows
 const UK_LONDON_ROWS: { imgs: number[]; cols: number }[] = [
-  { imgs: [0, 1, 2], cols: 3 },
-  { imgs: [3, 4, 5], cols: 3 },
+  { imgs: [0, 1], cols: 2 },
+  { imgs: [2, 3, 4], cols: 3 },
+  { imgs: [5, 6, 7], cols: 3 },
 ];
 // UK - Seven Sisters: mixed
 const UK_SEVEN_SISTERS_ROWS: { imgs: number[]; cols: number }[] = [

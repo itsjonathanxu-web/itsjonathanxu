@@ -43,7 +43,7 @@ export const categories: Category[] = [
     title: "Travel & Destination",
     description:
       "Destination marketing and cinematic travel content. Making places unforgettable through visual storytelling.",
-    image: "/work/travel-destination/chile/dsc08349.jpg",
+    image: "/work/travel-destination/singapore/cover.jpg",
   },
   {
     slug: "architecture-interiors",
@@ -251,6 +251,8 @@ export const travelLocations: TravelLocation[] = [
       {
         name: "London",
         images: [
+          "/work/travel-destination/united-kingdom/london/7.jpg",
+          "/work/travel-destination/united-kingdom/london/8.jpg",
           "/work/travel-destination/united-kingdom/london/1.jpg",
           "/work/travel-destination/united-kingdom/london/2.jpg",
           "/work/travel-destination/united-kingdom/london/3.jpg",
