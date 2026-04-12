@@ -350,6 +350,31 @@ export const travelLocations: TravelLocation[] = [
     ],
   },
   {
+    slug: "singapore",
+    title: "Singapore",
+    coverImage: "/work/travel-destination/singapore/cover.jpg",
+    description: "A city where tradition meets futurism, captured through light, architecture, and the rhythm of everyday life.",
+    areas: [
+      {
+        name: "Singapore",
+        images: [
+          "/work/travel-destination/singapore/1.jpg",
+          "/work/travel-destination/singapore/2.jpg",
+          "/work/travel-destination/singapore/3.jpg",
+          "/work/travel-destination/singapore/4.jpg",
+          "/work/travel-destination/singapore/5.jpg",
+          "/work/travel-destination/singapore/6.jpg",
+          "/work/travel-destination/singapore/7.jpg",
+          "/work/travel-destination/singapore/8.jpg",
+          "/work/travel-destination/singapore/9.jpg",
+          "/work/travel-destination/singapore/10.jpg",
+          "/work/travel-destination/singapore/11.jpg",
+          "/work/travel-destination/singapore/12.jpg",
+        ],
+      },
+    ],
+  },
+  {
     slug: "malaysia",
     title: "Malaysia",
     coverImage: "/work/travel-destination/malaysia/1.jpg",

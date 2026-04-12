@@ -225,6 +225,17 @@ const MALAYSIA_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [6, 7], cols: 2 },
   { imgs: [8, 9, 10], cols: 3 },
 ];
+// Singapore
+const SINGAPORE_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0], cols: 1 },
+  { imgs: [1], cols: 1 },
+  { imgs: [2], cols: 1 },
+  { imgs: [3, 4], cols: 2 },
+  { imgs: [5], cols: 1 },
+  { imgs: [6], cols: 1 },
+  { imgs: [7, 8, 9], cols: 3 },
+  { imgs: [10, 11], cols: 2 },
+];
 // Chile: all 2-col rows (desktop)
 const CHILE_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [0, 1], cols: 2 },
@@ -471,6 +482,8 @@ export default function TravelLocationPage() {
               ) : area.name === "Nara" ? (
                 <RowGallery images={area.images} rows={NARA_ROWS} locationTitle={location.title} areaName={area.name} />
               ) : null
+            ) : slug === "singapore" ? (
+              <RowGallery images={area.images} rows={SINGAPORE_ROWS} locationTitle={location.title} areaName={area.name} />
             ) : slug === "malaysia" ? (
               <RowGallery images={area.images} rows={MALAYSIA_ROWS} locationTitle={location.title} areaName={area.name} />
             ) : slug === "chile" ? (
