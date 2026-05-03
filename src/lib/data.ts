@@ -18,6 +18,9 @@ export interface Project {
   coverImage: string;
   images: string[];
   year?: string;
+  coverVideoDesktop?: string;
+  coverVideoMobile?: string;
+  coverPoster?: string;
 }
 
 export interface TravelLocation {
@@ -427,11 +430,14 @@ export function getFeaturedProjects(): Project[] {
 // Travel locations surfaced as "featured projects" on home page
 const travelFeaturedProjects: Project[] = [
   {
-    slug: "death-valley",
-    title: "Death Valley",
+    slug: "through-my-eyes",
+    title: "Through My Eyes",
     categorySlug: "travel-destination",
-    description: "Endless desert, shifting dunes, and otherworldly landscapes in the hottest place on Earth.",
-    coverImage: "/work/travel-destination/death-valley/dsc07213-enhanced-nr-min.jpg",
+    description: "A short film stitched from moments across the places that have shaped how I see.",
+    coverImage: "/featured/through-my-eyes-poster.jpg",
+    coverVideoDesktop: "/featured/through-my-eyes-card-desktop.mp4",
+    coverVideoMobile: "/featured/through-my-eyes-card-mobile.mp4",
+    coverPoster: "/featured/through-my-eyes-poster.jpg",
     images: [],
   },
   {

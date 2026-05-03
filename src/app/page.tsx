@@ -462,19 +462,54 @@ function FullWidthProjectCard({
   const blackOverlay = useTransform(scrollYProgress, [0.1, 0.4], [1, 0]);
 
   const [isMobile, setIsMobile] = useState(false);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
   }, []);
+
+  // Lazy-load video only when card scrolls into viewport
+  useEffect(() => {
+    if (!project.coverVideoDesktop) return;
+    const node = ref.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadVideo(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [project.coverVideoDesktop]);
 
   const coverSrc = project.slug === "chile" && isMobile
     ? "/work/travel-destination/chile/6.jpg"
     : project.coverImage;
 
+  const videoSrc = isMobile ? project.coverVideoMobile : project.coverVideoDesktop;
+
   return (
     <div ref={ref} className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
-      {/* Parallax background image */}
+      {/* Parallax background image or video */}
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
-        <Image src={coverSrc} alt={project.title} fill className="object-cover" sizes="100vw" quality={100} unoptimized />
+        {project.coverVideoDesktop ? (
+          <video
+            key={videoSrc}
+            src={shouldLoadVideo ? videoSrc : undefined}
+            poster={project.coverPoster}
+            className="h-full w-full object-cover"
+            muted
+            autoPlay
+            loop
+            playsInline
+            preload={shouldLoadVideo ? "auto" : "none"}
+          />
+        ) : (
+          <Image src={coverSrc} alt={project.title} fill className="object-cover" sizes="100vw" quality={100} unoptimized />
+        )}
       </motion.div>
 
       {/* Scroll fade-from-black overlay */}
