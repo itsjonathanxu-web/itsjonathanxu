@@ -29,6 +29,9 @@ export interface TravelLocation {
   coverImage: string;
   description: string;
   areas: TravelArea[];
+  coverVideoDesktop?: string;
+  coverVideoMobile?: string;
+  coverPoster?: string;
 }
 
 export interface TravelArea {
@@ -84,8 +87,11 @@ export const travelLocations: TravelLocation[] = [
   {
     slug: "through-my-eyes",
     title: "Through My Eyes",
-    coverImage: "/featured/through-my-eyes-eye.jpg",
+    coverImage: "/featured/through-my-eyes-poster.jpg",
     description: "A short film stitched from moments across the places that have shaped how I see.",
+    coverVideoDesktop: "/featured/through-my-eyes-card-desktop.mp4",
+    coverVideoMobile: "/featured/through-my-eyes-card-mobile.mp4",
+    coverPoster: "/featured/through-my-eyes-poster.jpg",
     areas: [],
   },
   {

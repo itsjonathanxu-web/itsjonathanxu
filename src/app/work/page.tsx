@@ -1,57 +1,90 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { travelLocations } from "@/lib/data";
 
-const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
-
-function LocationCard({ location }: { location: (typeof travelLocations)[0] }) {
+function FullWidthWorkCard({ location }: { location: (typeof travelLocations)[0] }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 0.95", "start 0.5"],
+    offset: ["start end", "end start"],
   });
-  const rawScale = useTransform(scrollYProgress, [0, 0.5], [0.93, 1]);
-  const scale = useSpring(rawScale, smoothSpring);
-  const rawOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-  const opacity = useSpring(rawOpacity, smoothSpring);
-  const rawY = useTransform(scrollYProgress, [0, 0.5], [60, 0]);
-  const y = useSpring(rawY, smoothSpring);
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+  const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
+  const blackOverlay = useTransform(scrollYProgress, [0.1, 0.4], [1, 0]);
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  useEffect(() => {
+    if (!location.coverVideoDesktop) return;
+    const node = ref.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadVideo(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [location.coverVideoDesktop]);
+
+  const coverSrc = location.slug === "chile" && isMobile
+    ? "/work/travel-destination/chile/6.jpg"
+    : location.coverImage;
+
+  const videoSrc = isMobile ? location.coverVideoMobile : location.coverVideoDesktop;
 
   return (
-    <motion.div ref={ref} style={{ scale, opacity, y }}>
-      <Link
-        href={`/work/travel-destination/${location.slug}`}
-        className="glass-panel group relative block overflow-hidden rounded-2xl"
-      >
-        <div className="relative aspect-[16/10] overflow-hidden">
-          {location.slug === "chile" ? (
-            <>
-              <Image src="/work/travel-destination/chile/6.jpg" alt={location.title} fill className="object-cover md:hidden" sizes="100vw" />
-              <Image src={location.coverImage} alt={location.title} fill className="object-cover hidden md:block" sizes="(max-width: 768px) 100vw, 50vw" />
-            </>
-          ) : (
-            <Image
-              src={location.coverImage}
-              alt={location.title}
-              fill
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-700 group-hover:from-black/90 group-hover:via-black/30" />
+    <div ref={ref} className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
+      <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
+        {location.coverVideoDesktop ? (
+          <video
+            key={videoSrc}
+            src={shouldLoadVideo ? videoSrc : undefined}
+            poster={location.coverPoster}
+            className="h-full w-full object-cover"
+            muted
+            autoPlay
+            loop
+            playsInline
+            preload={shouldLoadVideo ? "auto" : "none"}
+          />
+        ) : (
+          <Image src={coverSrc} alt={location.title} fill className="object-cover" sizes="100vw" quality={100} unoptimized />
+        )}
+      </motion.div>
 
-          <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-            <h3 className="font-display mt-2 text-[clamp(24px,3vw,40px)] font-extrabold leading-[0.95] tracking-[-0.02em] text-white transition-transform duration-700 ease-out group-hover:translate-x-1">
+      <motion.div className="absolute inset-0 z-[2] bg-black pointer-events-none" style={{ opacity: blackOverlay }} />
+
+      <div className="absolute inset-x-0 top-0 z-[1] h-[25%]" style={{ background: "linear-gradient(to bottom, black 0%, transparent 100%)" }} />
+      <div className="absolute inset-x-0 bottom-0 z-[1] h-[30%]" style={{ background: "linear-gradient(to top, black 0%, transparent 100%)" }} />
+
+      <Link href={`/work/travel-destination/${location.slug}`} className="group absolute inset-0 z-[2]">
+        <div className="absolute inset-0 bg-black/0 transition-all duration-700 group-hover:bg-black/30" />
+        <div className="absolute inset-0 flex flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
+          <div className="mx-auto w-full max-w-[1400px]">
+            <h3 className="font-montserrat mt-2 text-[clamp(28px,4vw,56px)] font-extrabold tracking-[-0.02em] text-white transition-transform duration-500 group-hover:translate-x-2">
               {location.title}
             </h3>
+            <p className="font-albertian mt-2 max-w-lg text-[14px] leading-[1.7] text-white/50 transition-all duration-500 group-hover:text-white/70">
+              {location.description}
+            </p>
           </div>
         </div>
       </Link>
-    </motion.div>
+    </div>
   );
 }
 
@@ -85,28 +118,16 @@ export default function WorkPage() {
           >
             WORK
           </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="font-albertian mt-6 md:mt-8 max-w-xl text-[clamp(15px,1.8vw,20px)] leading-[1.6] font-medium text-white/50"
-          >
-            The world as I found it.
-          </motion.p>
         </div>
       </section>
 
-      {/* Work grid */}
-      <section className="relative z-10 bg-black pb-16 md:pb-24">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-20">
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            {travelLocations.map((location) => (
-              <LocationCard key={location.slug} location={location} />
-            ))}
-          </div>
-        </div>
+      {/* Full-width work cards */}
+      <section className="relative z-10 bg-black">
+        {travelLocations.map((location) => (
+          <FullWidthWorkCard key={location.slug} location={location} />
+        ))}
 
-        <div className="bg-black py-16 md:py-20">
+        <div className="bg-black py-12">
           <ScrollRevealLine>
             <div className="text-center">
               <Link

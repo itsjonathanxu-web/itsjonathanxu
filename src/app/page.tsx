@@ -17,7 +17,7 @@ const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
 const VIDEO_DURATION = 6.881875;
 
 export default function Home() {
-  const featured = getFeaturedProjects();
+  const featured = getFeaturedProjects().filter((p) => p.slug === "through-my-eyes");
 
   const heroSectionRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -208,8 +208,8 @@ export default function Home() {
                 backgroundClip: "text",
               }}
             >
-              <span className="md:hidden">FEATURED<br />PROJECTS</span>
-              <span className="hidden md:inline">FEATURED PROJECTS</span>
+              <span className="md:hidden">FEATURED<br />PROJECT</span>
+              <span className="hidden md:inline">FEATURED PROJECT</span>
             </h2>
           </motion.div>
         </div>
@@ -532,11 +532,6 @@ function FullWidthProjectCard({
         {/* Text content at bottom */}
         <div className="absolute inset-0 flex flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
           <div className="mx-auto w-full max-w-[1400px]">
-            <div className="translate-y-2 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-              <p className="font-montserrat text-[11px] font-bold tracking-[0.3em] text-white/40 uppercase">
-                {project.categorySlug === "travel-destination" ? "Travel & Destination" : project.categorySlug}
-              </p>
-            </div>
             <h3 className="font-montserrat mt-2 text-[clamp(28px,4vw,56px)] font-extrabold tracking-[-0.02em] text-white transition-transform duration-500 group-hover:translate-x-2">
               {project.title}
             </h3>
