@@ -141,6 +141,13 @@ export const architectureProjects: Project[] = [
 
 export const travelLocations: TravelLocation[] = [
   {
+    slug: "through-my-eyes",
+    title: "Through My Eyes",
+    coverImage: "/featured/through-my-eyes-eye.jpg",
+    description: "A short film stitched from moments across the places that have shaped how I see.",
+    areas: [],
+  },
+  {
     slug: "chile",
     title: "Chile",
     coverImage: "/work/travel-destination/chile/1.jpg",

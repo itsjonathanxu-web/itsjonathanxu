@@ -42,7 +42,7 @@ export default function ThroughMyEyesPage() {
             Through My Eyes
           </h1>
           <p className="font-albertian mt-6 max-w-2xl text-[16px] leading-[1.7] text-white/55">
-            A short film stitched from moments across the places that have shaped how I see.
+            Some of my greatest memories came from showing up somewhere new with nothing but a camera and curiosity. Living in London, travelling the states, and exploring Asia each broke me free from the familiarity that kept me comfortable. Through that uncertainty came a newfound independence and the passion to chase adventure.
           </p>
         </motion.div>
       </section>
