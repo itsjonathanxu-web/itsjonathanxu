@@ -48,12 +48,10 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: "Jonathan Xu | Cinematic Visual Storytelling",
-  description:
-    "Premium videography and photography for hospitality, architecture, travel, and commercial brands. Based in Toronto.",
+  description: "How I see the world.",
   openGraph: {
     title: "Jonathan Xu | Cinematic Visual Storytelling",
-    description:
-      "Premium videography and photography for hospitality, architecture, travel, and commercial brands.",
+    description: "How I see the world.",
     type: "website",
   },
 };
