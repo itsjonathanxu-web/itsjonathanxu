@@ -68,72 +68,13 @@ export const categories: Category[] = [
 // HOSPITALITY PROJECTS
 // ============================================
 
-export const hospitalityProjects: Project[] = [
-  {
-    slug: "joia-newmarket",
-    title: "Joia Newmarket",
-    categorySlug: "hospitality",
-    location: "Newmarket, Ontario",
-    description:
-      "A cinematic visual story capturing the warmth, craft, and atmosphere of Joia, from intimate dining moments to aerial perspectives of the space.",
-    coverImage: "/work/hospitality/joia-newmarket/1.jpg",
-    year: "2026",
-    images: [
-      "/work/hospitality/joia-newmarket/2.jpg",
-      "/work/hospitality/joia-newmarket/3.jpg",
-      "/work/hospitality/joia-newmarket/4.jpg",
-      "/work/hospitality/joia-newmarket/5.jpg",
-      "/work/hospitality/joia-newmarket/6.jpg",
-      "/work/hospitality/joia-newmarket/7.jpg",
-      "/work/hospitality/joia-newmarket/8.jpg",
-      "/work/hospitality/joia-newmarket/9.jpg",
-      "/work/hospitality/joia-newmarket/10.jpg",
-      "/work/hospitality/joia-newmarket/11.jpg",
-      "/work/hospitality/joia-newmarket/12.jpg",
-      "/work/hospitality/joia-newmarket/drone.jpg",
-    ],
-  },
-];
+export const hospitalityProjects: Project[] = [];
 
 // ============================================
 // ARCHITECTURE & INTERIORS PROJECTS
 // ============================================
 
-export const architectureProjects: Project[] = [
-  {
-    slug: "gardiner-museum",
-    title: "Gardiner Museum",
-    categorySlug: "architecture-interiors",
-    location: "Boston",
-    description:
-      "Architectural photography exploring the interplay of form, light, and materiality within the Gardiner Museum.",
-    coverImage: "/work/architecture-interiors/gardiner-museum/1.jpg",
-    year: "2025",
-    images: [
-      "/work/architecture-interiors/gardiner-museum/2.jpg",
-      "/work/architecture-interiors/gardiner-museum/3.jpg",
-      "/work/architecture-interiors/gardiner-museum/4.jpg",
-      "/work/architecture-interiors/gardiner-museum/5.jpg",
-      "/work/architecture-interiors/gardiner-museum/6.jpg",
-      "/work/architecture-interiors/gardiner-museum/7.jpg",
-      "/work/architecture-interiors/gardiner-museum/8.jpg",
-    ],
-  },
-  {
-    slug: "marina-one-residences",
-    title: "Marina One Residences",
-    categorySlug: "architecture-interiors",
-    location: "Singapore",
-    description: "Architectural interiors of Marina One Residences.",
-    coverImage: "/work/architecture-interiors/marina-one-residences/1.jpg",
-    year: "2025",
-    images: [
-      "/work/architecture-interiors/marina-one-residences/1.jpg",
-      "/work/architecture-interiors/marina-one-residences/2.jpg",
-      "/work/architecture-interiors/marina-one-residences/3.jpg",
-    ],
-  },
-];
+export const architectureProjects: Project[] = [];
 
 // ============================================
 // TRAVEL & DESTINATION LOCATIONS
@@ -357,6 +298,19 @@ export const travelLocations: TravelLocation[] = [
           "/work/travel-destination/united-states/boston/4.jpg",
           "/work/travel-destination/united-states/boston/5.jpg",
           "/work/travel-destination/united-states/boston/6.jpg",
+        ],
+      },
+      {
+        name: "Gardiner Museum",
+        images: [
+          "/work/architecture-interiors/gardiner-museum/1.jpg",
+          "/work/architecture-interiors/gardiner-museum/2.jpg",
+          "/work/architecture-interiors/gardiner-museum/3.jpg",
+          "/work/architecture-interiors/gardiner-museum/4.jpg",
+          "/work/architecture-interiors/gardiner-museum/5.jpg",
+          "/work/architecture-interiors/gardiner-museum/6.jpg",
+          "/work/architecture-interiors/gardiner-museum/7.jpg",
+          "/work/architecture-interiors/gardiner-museum/8.jpg",
         ],
       },
     ],

@@ -313,6 +313,14 @@ const UK_NORTHERN_IRELAND_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [2, 3], cols: 2 },
   { imgs: [4, 5], cols: 2 },
 ];
+// USA - Gardiner Museum: 3-col, full, full, 2-col, full
+const USA_GARDINER_ROWS: { imgs: number[]; cols: number }[] = [
+  { imgs: [0, 1, 2], cols: 3 },
+  { imgs: [3], cols: 1 },
+  { imgs: [4], cols: 1 },
+  { imgs: [5, 6], cols: 2 },
+  { imgs: [7], cols: 1 },
+];
 
 // ============================================
 // MAIN PAGE
@@ -333,10 +341,10 @@ export default function TravelLocationPage() {
         <div className="text-center">
           <h1 className="font-display text-2xl font-extrabold text-white">Location not found</h1>
           <Link
-            href="/work/travel-destination"
+            href="/work"
             className="font-display mt-4 inline-block text-[12px] font-bold tracking-[0.15em] text-white/40 uppercase transition-colors hover:text-white"
           >
-            &larr; Back to Travel
+            &larr; Back to Work
           </Link>
         </div>
       </section>
@@ -389,13 +397,13 @@ export default function TravelLocationPage() {
                 transition={{ duration: 0.8 }}
               >
                 <Link
-                  href="/work/travel-destination"
+                  href="/work"
                   className={`font-display mb-8 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.15em] uppercase transition-colors duration-300 ${hasHeroBg ? "text-white/50 hover:text-white/80" : "text-white/30 hover:text-white/70"}`}
                 >
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
                   </svg>
-                  Travel & Destination
+                  Work
                 </Link>
               </motion.div>
 
@@ -514,6 +522,7 @@ export default function TravelLocationPage() {
                 rows={
                   area.name === "Chicago" ? USA_CHICAGO_ROWS
                     : area.name === "Detroit" ? USA_DETROIT_ROWS
+                    : area.name === "Gardiner Museum" ? USA_GARDINER_ROWS
                     : USA_BOSTON_ROWS
                 }
                 locationTitle={location.title}
