@@ -46,13 +46,32 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
 });
 
+const SITE_URL = "https://jonathanxu.ca";
+const OG_IMAGE = `${SITE_URL}/featured/through-my-eyes-poster.jpg`;
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Jonathan Xu | Cinematic Visual Storytelling",
   description: "How I see the world.",
   openGraph: {
     title: "Jonathan Xu | Cinematic Visual Storytelling",
     description: "How I see the world.",
     type: "website",
+    url: SITE_URL,
+    images: [
+      {
+        url: OG_IMAGE,
+        width: 1920,
+        height: 1080,
+        alt: "Jonathan Xu — Through My Eyes",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jonathan Xu | Cinematic Visual Storytelling",
+    description: "How I see the world.",
+    images: [OG_IMAGE],
   },
 };
 
