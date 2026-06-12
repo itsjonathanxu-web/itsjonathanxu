@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Syne, Playfair_Display, Space_Grotesk, Cormorant_Garamond, Montserrat } from "next/font/google";
+import { Inter, Syne, Playfair_Display, Space_Grotesk, Cormorant_Garamond, Montserrat, Anton } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
 import { LightboxProvider } from "@/components/Lightbox";
+import SmoothScroll from "@/components/SmoothScroll";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -46,6 +47,12 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
 });
 
+const anton = Anton({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-anton",
+});
+
 const SITE_URL = "https://jonathanxu.ca";
 const OG_IMAGE = `${SITE_URL}/featured/through-my-eyes-poster.jpg`;
 
@@ -85,7 +92,8 @@ export default function RootLayout({
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/lra3nht.css" />
       </head>
-      <body className={`${inter.variable} ${syne.variable} ${playfair.variable} ${spaceGrotesk.variable} ${cormorant.variable} ${montserrat.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${syne.variable} ${playfair.variable} ${spaceGrotesk.variable} ${cormorant.variable} ${montserrat.variable} ${anton.variable} font-sans antialiased`}>
+        <SmoothScroll />
         <LightboxProvider>
           <CustomCursor />
           <Navigation />

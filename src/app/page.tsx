@@ -118,14 +118,10 @@ export default function Home() {
               }}
               className="flex w-full items-center justify-center will-change-transform"
             >
-              <motion.h1
-                initial={{ opacity: 0, scale: 1.08 }}
-                animate={{ opacity: 0.9, scale: 1 }}
-                transition={{ duration: 5, ease: [0.16, 1, 0.3, 1] }}
-                className="font-montserrat w-full text-center text-[clamp(34px,12vw,64px)] md:text-[clamp(40px,9vw,140px)] font-extrabold leading-[0.85] tracking-[-0.04em] text-white/90"
-              >
-                JONATHAN XU
-              </motion.h1>
+              <HeroMaskReveal
+                text="JONATHAN XU"
+                className="font-anton w-full text-center text-[clamp(60px,20vw,120px)] md:text-[clamp(80px,16vw,220px)] leading-[0.85] tracking-[0.02em] text-white/95 uppercase"
+              />
             </motion.div>
 
             {/* Scroll indicator */}
@@ -200,9 +196,9 @@ export default function Home() {
             className="mb-12 md:mb-16"
           >
             <h2
-              className="font-montserrat text-center text-[clamp(50px,13vw,120px)] md:text-[clamp(28px,6vw,100px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
+              className="font-anton text-center text-[clamp(72px,18vw,160px)] md:text-[clamp(56px,10vw,180px)] leading-[0.88] tracking-[0.01em] uppercase"
               style={{
-                background: "linear-gradient(to bottom, rgba(255,255,255,1) 30%, rgba(255,255,255,0.15) 100%)",
+                background: "linear-gradient(to bottom, rgba(255,255,255,1) 25%, rgba(255,255,255,0.12) 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -257,6 +253,92 @@ export default function Home() {
 
 /* ===== COMPONENTS ===== */
 
+/**
+ * Hero entrance: per-character mask reveal.
+ * Each letter starts below an invisible mask line, then slides up into view
+ * with a stagger. Cinematic, expensive-feeling, hard to do wrong.
+ */
+function HeroMaskReveal({ text, className }: { text: string; className: string }) {
+  const chars = text.split("");
+  return (
+    <h1 className={className} aria-label={text}>
+      <span className="inline-flex flex-wrap items-baseline justify-center">
+        {chars.map((char, i) => (
+          <span
+            key={i}
+            className="relative inline-block overflow-hidden align-baseline"
+            style={{ lineHeight: 0.85 }}
+            aria-hidden="true"
+          >
+            <motion.span
+              className="inline-block"
+              initial={{ y: "115%", opacity: 0 }}
+              animate={{ y: "0%", opacity: 1 }}
+              transition={{
+                duration: 1.4,
+                delay: 0.15 + i * 0.06,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              {char === " " ? " " : char}
+            </motion.span>
+          </span>
+        ))}
+      </span>
+    </h1>
+  );
+}
+
+/**
+ * Scroll-triggered mask reveal — characters slide up from a mask line
+ * as the element scrolls into view. Spring-smoothed for buttery motion.
+ */
+function ScrollMaskReveal({ text, className }: { text: string; className: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.95", "start 0.5"],
+  });
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, mass: 0.5 });
+  const chars = text.split("");
+
+  return (
+    <div ref={ref} className={className} aria-label={text}>
+      <span className="inline-flex flex-wrap items-baseline">
+        {chars.map((char, i) => {
+          const start = i / (chars.length + 4);
+          const end = (i + 4) / (chars.length + 4);
+          return (
+            <ScrollMaskChar key={i} char={char} progress={smoothProgress} start={start} end={end} />
+          );
+        })}
+      </span>
+    </div>
+  );
+}
+
+function ScrollMaskChar({
+  char,
+  progress,
+  start,
+  end,
+}: {
+  char: string;
+  progress: ReturnType<typeof useSpring>;
+  start: number;
+  end: number;
+}) {
+  const y = useTransform(progress, [start, end], ["110%", "0%"]);
+  const opacity = useTransform(progress, [start, end], [0, 1]);
+  return (
+    <span className="relative inline-block overflow-hidden align-baseline" style={{ lineHeight: 0.88 }} aria-hidden="true">
+      <motion.span style={{ y, opacity }} className="inline-block will-change-transform">
+        {char === " " ? " " : char}
+      </motion.span>
+    </span>
+  );
+}
+
 /** Scroll-triggered fade + slide up */
 function ScrollRevealLine({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -264,11 +346,13 @@ function ScrollRevealLine({ children }: { children: React.ReactNode }) {
     target: ref,
     offset: ["start 0.95", "start 0.65"],
   });
-  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [30, 0]);
+  const rawOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const rawY = useTransform(scrollYProgress, [0, 1], [40, 0]);
+  const opacity = useSpring(rawOpacity, { stiffness: 100, damping: 30, mass: 0.5 });
+  const y = useSpring(rawY, { stiffness: 100, damping: 30, mass: 0.5 });
 
   return (
-    <motion.div ref={ref} style={{ opacity, y }}>
+    <motion.div ref={ref} style={{ opacity, y, willChange: "transform, opacity" }}>
       {children}
     </motion.div>
   );
@@ -308,9 +392,12 @@ function StaggerWord({
   start: number;
   end: number;
 }) {
-  const opacity = useTransform(progress, [start, end], [0.15, 1]);
-  const y = useTransform(progress, [start, end], [8, 0]);
-  const blur = useTransform(progress, [start, end], [4, 0]);
+  const rawOpacity = useTransform(progress, [start, end], [0.15, 1]);
+  const rawY = useTransform(progress, [start, end], [20, 0]);
+  const rawBlur = useTransform(progress, [start, end], [6, 0]);
+  const opacity = useSpring(rawOpacity, { stiffness: 80, damping: 25 });
+  const y = useSpring(rawY, { stiffness: 80, damping: 25 });
+  const blur = useSpring(rawBlur, { stiffness: 80, damping: 25 });
 
   return (
     <motion.span
