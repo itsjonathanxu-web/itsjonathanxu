@@ -118,10 +118,14 @@ export default function Home() {
               }}
               className="flex w-full items-center justify-center will-change-transform"
             >
-              <HeroMaskReveal
-                text="JONATHAN XU"
-                className="font-montserrat w-full text-center text-[clamp(34px,12vw,64px)] md:text-[clamp(40px,9vw,140px)] font-extrabold leading-[0.85] tracking-[-0.04em] text-white/90"
-              />
+              <motion.h1
+                initial={{ opacity: 0, filter: "blur(40px)" }}
+                animate={{ opacity: 0.95, filter: "blur(0px)" }}
+                transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] }}
+                className="font-montserrat w-full text-center text-[clamp(34px,12vw,64px)] md:text-[clamp(40px,9vw,140px)] font-extrabold leading-[0.85] tracking-[-0.04em] text-white will-change-transform"
+              >
+                JONATHAN XU
+              </motion.h1>
             </motion.div>
 
             {/* Scroll indicator */}
