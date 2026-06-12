@@ -120,7 +120,7 @@ export default function Home() {
             >
               <HeroMaskReveal
                 text="JONATHAN XU"
-                className="font-anton w-full text-center text-[clamp(60px,20vw,120px)] md:text-[clamp(80px,16vw,220px)] leading-[0.85] tracking-[0.02em] text-white/95 uppercase"
+                className="font-montserrat w-full text-center text-[clamp(34px,12vw,64px)] md:text-[clamp(40px,9vw,140px)] font-extrabold leading-[0.85] tracking-[-0.04em] text-white/90"
               />
             </motion.div>
 
@@ -196,9 +196,9 @@ export default function Home() {
             className="mb-12 md:mb-16"
           >
             <h2
-              className="font-anton text-center text-[clamp(72px,18vw,160px)] md:text-[clamp(56px,10vw,180px)] leading-[0.88] tracking-[0.01em] uppercase"
+              className="font-montserrat text-center text-[clamp(50px,13vw,120px)] md:text-[clamp(28px,6vw,100px)] font-extrabold leading-[0.9] tracking-[-0.04em]"
               style={{
-                background: "linear-gradient(to bottom, rgba(255,255,255,1) 25%, rgba(255,255,255,0.12) 100%)",
+                background: "linear-gradient(to bottom, rgba(255,255,255,1) 30%, rgba(255,255,255,0.15) 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",

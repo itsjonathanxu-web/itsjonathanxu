@@ -11,10 +11,9 @@ function ScrollRevealLine({ children }: { children: React.ReactNode }) {
     target: ref,
     offset: ["start 0.95", "start 0.65"],
   });
-  const opacityRaw = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const yRaw = useTransform(scrollYProgress, [0, 1], [30, 0]);
-  const opacity = useSpring(opacityRaw, { stiffness: 100, damping: 30 });
-  const y = useSpring(yRaw, { stiffness: 100, damping: 30 });
+  // Lenis already smooths scroll; direct transforms feel snappier than nested springs
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [40, 0]);
 
   return (
     <motion.div ref={ref} style={{ opacity, y, willChange: "transform, opacity" }}>
@@ -30,15 +29,10 @@ export default function AboutPage() {
     offset: ["start start", "end start"],
   });
 
-  // Parallax on background image - spring smooths direction changes
-  const bgYRaw = useTransform(heroProgress, [0, 1], ["0%", "-25%"]);
-  const bgY = useSpring(bgYRaw, { stiffness: 100, damping: 30, restDelta: 0.001 });
-
-  // Title fade on scroll - spring for smooth reversals
-  const titleOpacityRaw = useTransform(heroProgress, [0, 0.15], [1, 0]);
-  const titleOpacity = useSpring(titleOpacityRaw, { stiffness: 100, damping: 30 });
-  const titleScaleRaw = useTransform(heroProgress, [0, 0.15], [1, 0.98]);
-  const titleScale = useSpring(titleScaleRaw, { stiffness: 100, damping: 30 });
+  // Lenis smooths the scroll itself - direct transforms feel responsive instead of floaty
+  const bgY = useTransform(heroProgress, [0, 1], ["0%", "-25%"]);
+  const titleOpacity = useTransform(heroProgress, [0, 0.15], [1, 0]);
+  const titleScale = useTransform(heroProgress, [0, 0.15], [1, 0.98]);
 
   return (
     <>
