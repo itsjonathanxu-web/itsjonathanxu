@@ -111,12 +111,14 @@ export default function AboutPage() {
             {/* Photo */}
             <ScrollRevealLine>
               <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl">
+                {/* Landscape 16:9 shot cropped to 3:4, so it needs ~2.4x the frame's width to stay sharp */}
                 <Image
-                  src="/about/portrait.jpg"
+                  src="/about/portrait-me.jpg"
                   alt="Jonathan Xu"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 600px"
+                  style={{ objectPosition: "54% center" }}
+                  sizes="(max-width: 768px) 240vw, 1440px"
                   quality={100}
                 />
               </div>
