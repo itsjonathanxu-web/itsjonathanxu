@@ -35,10 +35,7 @@ export default function ThroughMyEyesPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <p className="font-montserrat text-[11px] font-bold tracking-[0.3em] text-white/40 uppercase">
-            Travel & Destination
-          </p>
-          <h1 className="font-montserrat mt-3 text-[clamp(40px,7vw,96px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-white">
+          <h1 className="font-montserrat text-[clamp(40px,7vw,96px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-white">
             Through My Eyes
           </h1>
           <p className="font-albertian mt-6 max-w-2xl text-[16px] leading-[1.7] text-white/55">
@@ -67,10 +64,10 @@ export default function ThroughMyEyesPage() {
       <section className="mx-auto mt-16 max-w-[1400px] px-6 pb-32 md:px-20">
         <ScrollReveal>
           <Link
-            href="/work/travel-destination"
+            href="/work"
             className="font-montserrat inline-block text-[12px] font-bold tracking-[0.2em] text-white/50 uppercase transition-colors hover:text-white"
           >
-            ← Back to Travel & Destination
+            ← Back to Work
           </Link>
         </ScrollReveal>
       </section>

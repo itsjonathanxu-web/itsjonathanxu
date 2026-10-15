@@ -71,7 +71,7 @@ function FullWidthWorkCard({ location }: { location: (typeof travelLocations)[0]
       <div className="absolute inset-x-0 top-0 z-[1] h-[25%]" style={{ background: "linear-gradient(to bottom, black 0%, transparent 100%)" }} />
       <div className="absolute inset-x-0 bottom-0 z-[1] h-[30%]" style={{ background: "linear-gradient(to top, black 0%, transparent 100%)" }} />
 
-      <Link href={`/work/travel-destination/${location.slug}`} className="group absolute inset-0 z-[2]">
+      <Link href={`/work/${location.slug}`} className="group absolute inset-0 z-[2]">
         <div className="absolute inset-0 bg-black/0 transition-all duration-700 group-hover:bg-black/30" />
         <div className="absolute inset-0 flex flex-col justify-end px-6 pb-16 md:px-20 md:pb-24">
           <div className="mx-auto w-full max-w-[1400px]">

@@ -588,7 +588,7 @@ export default function TravelLocationPage() {
               {otherLocations.map((loc) => (
                 <ScrollReveal key={loc.slug}>
                   <Link
-                    href={`/work/travel-destination/${loc.slug}`}
+                    href={`/work/${loc.slug}`}
                     className="group relative block aspect-[16/10] overflow-hidden rounded-xl"
                   >
                     <Image

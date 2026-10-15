@@ -9,7 +9,7 @@ import {
   useTransform,
   useSpring,
 } from "framer-motion";
-import { getFeaturedProjects, categories } from "@/lib/data";
+import { getFeaturedProjects } from "@/lib/data";
 
 /* ===== SPRING CONFIG -Apple-style fluid feel ===== */
 const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
@@ -143,7 +143,7 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* Screen 2: Videographer statement + categories */}
+          {/* Screen 2: Videographer statement */}
           <div className="flex min-h-screen shrink-0 items-center py-16">
             <div className="mx-auto w-full max-w-[1400px] px-6 md:px-20">
               {/* Intro line - mobile */}
@@ -614,7 +614,7 @@ function FullWidthProjectCard({
 
       {/* Clickable overlay */}
       <Link
-        href={project.categorySlug === "travel-destination" ? `/work/travel-destination/${project.slug}` : `/work/${project.categorySlug}`}
+        href={`/work/${project.slug}`}
         className="group absolute inset-0 z-[2]"
       >
         {/* Hover darken */}
@@ -633,51 +633,5 @@ function FullWidthProjectCard({
         </div>
       </Link>
     </div>
-  );
-}
-
-/** Expertise card with staggered entrance + blur */
-function ExpertiseCard({
-  cat,
-  index,
-}: {
-  cat: (typeof categories)[number];
-  index: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 0.95", "start 0.5"],
-  });
-  // Stagger delay per card
-  const delay = index * 0.15;
-  const opacity = useTransform(scrollYProgress, [delay, delay + 0.6], [0, 1]);
-  const rawY = useTransform(scrollYProgress, [delay, delay + 0.6], [60, 0]);
-  const y = useSpring(rawY, smoothSpring);
-  const rawScale = useTransform(scrollYProgress, [delay, delay + 0.6], [0.92, 1]);
-  const scaleVal = useSpring(rawScale, smoothSpring);
-  const blur = useTransform(scrollYProgress, [delay, delay + 0.5], [8, 0]);
-
-  return (
-    <motion.div
-      ref={ref}
-      style={{ opacity, y, scale: scaleVal, filter: useTransform(blur, (v) => `blur(${v}px)`) }}
-      className="will-change-transform"
-    >
-      <Link
-        href={`/work/${cat.slug}`}
-        className="glass-panel group flex h-full flex-col p-8 text-left md:p-10"
-      >
-        <span className="font-montserrat text-[11px] font-bold tracking-[0.25em] text-white/30 uppercase transition-colors duration-500 group-hover:text-white/50">
-          0{index + 1}
-        </span>
-        <h3 className="font-montserrat mt-3 text-[clamp(16px,2vw,24px)] font-extrabold text-white transition-all duration-500 group-hover:translate-x-1">
-          {cat.title}
-        </h3>
-        <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-white/50 transition-colors duration-500 group-hover:text-white/70">
-          {cat.description}
-        </p>
-      </Link>
-    </motion.div>
   );
 }

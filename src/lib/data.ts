@@ -1,18 +1,10 @@
 // ============================================
-// PORTFOLIO DATA -3 Categories
+// PORTFOLIO DATA - each project lives at /work/<slug>
 // ============================================
-
-export interface Category {
-  slug: string;
-  title: string;
-  description: string;
-  image: string; // hero/cover image
-}
 
 export interface Project {
   slug: string;
   title: string;
-  categorySlug: string;
   location?: string;
   description: string;
   coverImage: string;
@@ -41,47 +33,7 @@ export interface TravelArea {
 }
 
 // ============================================
-// CATEGORIES
-// ============================================
-
-export const categories: Category[] = [
-  {
-    slug: "travel-destination",
-    title: "Travel & Destination",
-    description:
-      "Destination marketing and cinematic travel content. Making places unforgettable through visual storytelling.",
-    image: "/work/travel-destination/singapore/cover.jpg",
-  },
-  {
-    slug: "architecture-interiors",
-    title: "Architecture/Interiors",
-    description:
-      "Visual storytelling for real estate developers, interior designers, and architects. Highlighting form, light, and material.",
-    image: "/work/architecture-interiors/gardiner-museum/1.jpg",
-  },
-  {
-    slug: "hospitality",
-    title: "Hospitality",
-    description:
-      "Cinematic content for hotels, restaurants, bars, and cafes. Capturing the atmosphere, experience, and story of every space.",
-    image: "/work/hospitality/joia-newmarket/1.jpg",
-  },
-];
-
-// ============================================
-// HOSPITALITY PROJECTS
-// ============================================
-
-export const hospitalityProjects: Project[] = [];
-
-// ============================================
-// ARCHITECTURE & INTERIORS PROJECTS
-// ============================================
-
-export const architectureProjects: Project[] = [];
-
-// ============================================
-// TRAVEL & DESTINATION LOCATIONS
+// WORK PAGES (listed in this order on /work)
 // ============================================
 
 export const travelLocations: TravelLocation[] = [
@@ -403,16 +355,6 @@ export const travelLocations: TravelLocation[] = [
 // HELPER FUNCTIONS
 // ============================================
 
-export function getCategoryBySlug(slug: string): Category | undefined {
-  return categories.find((c) => c.slug === slug);
-}
-
-export function getProjectsByCategory(slug: string): Project[] {
-  if (slug === "hospitality") return hospitalityProjects;
-  if (slug === "architecture-interiors") return architectureProjects;
-  return [];
-}
-
 export function getTravelLocationBySlug(slug: string): TravelLocation | undefined {
   return travelLocations.find((l) => l.slug === slug);
 }
@@ -421,12 +363,11 @@ export function getFeaturedProjects(): Project[] {
   return travelFeaturedProjects;
 }
 
-// Travel locations surfaced as "featured projects" on home page
+// Projects surfaced as "featured" on the home page
 const travelFeaturedProjects: Project[] = [
   {
     slug: "through-my-eyes",
     title: "Through My Eyes",
-    categorySlug: "travel-destination",
     description: "A short film stitched from moments across the places that have shaped how I see.",
     coverImage: "/featured/through-my-eyes-poster.jpg",
     coverVideoDesktop: "/featured/through-my-eyes-card-desktop.mp4",
@@ -437,7 +378,6 @@ const travelFeaturedProjects: Project[] = [
   {
     slug: "rakkojae",
     title: "Rakkojae, Seoul",
-    categorySlug: "travel-destination",
     description: "A night in a hanok, and a tea ceremony revived from another century.",
     // Landscape hero on desktop; the vertical film only plays on phones where it fits the frame
     coverImage: "/work/travel-destination/rakkojae/hero.jpg",
@@ -448,7 +388,6 @@ const travelFeaturedProjects: Project[] = [
   {
     slug: "japan",
     title: "Japan",
-    categorySlug: "travel-destination",
     description: "A cinematic journey through Tokyo, Kyoto, Osaka, and Nara, capturing the contrast of tradition and modernity.",
     coverImage: "/work/travel-destination/japan/tokyo/4.jpg",
     images: [],
@@ -456,7 +395,6 @@ const travelFeaturedProjects: Project[] = [
   {
     slug: "chile",
     title: "Chile",
-    categorySlug: "travel-destination",
     description: "Glacial waters, jagged peaks, and the raw grandeur of Patagonia.",
     coverImage: "/work/travel-destination/chile/dsc08376.jpg",
     images: [],
