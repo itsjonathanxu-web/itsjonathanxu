@@ -29,6 +29,7 @@ export interface TravelLocation {
   coverImage: string;
   description: string;
   areas: TravelArea[];
+  tagline?: string; // short card line when `description` is a full paragraph
   coverVideoDesktop?: string;
   coverVideoMobile?: string;
   coverPoster?: string;
@@ -93,6 +94,32 @@ export const travelLocations: TravelLocation[] = [
     coverVideoMobile: "/featured/through-my-eyes-card-mobile.mp4",
     coverPoster: "/featured/through-my-eyes-poster.jpg",
     areas: [],
+  },
+  {
+    slug: "rakkojae",
+    title: "Rakkojae, Seoul",
+    coverImage: "/work/travel-destination/rakkojae/hero.jpg",
+    coverVideoMobile: "/featured/rakkojae-card-mobile.mp4",
+    coverPoster: "/featured/rakkojae-poster.jpg",
+    tagline: "A night in a hanok, and a tea ceremony revived from another century.",
+    description:
+      "Rakkojae is a restored hanok in Seoul’s Bukchon, over a hundred years old, where every beam and paper wall slows you down. I stayed a night and joined a tea ceremony with live gayageum, then made a film and photographs of both. As a former interior designer, I shot it around the way light moves through paper and wood.",
+    areas: [
+      {
+        name: "Rakkojae",
+        images: [
+          "/work/travel-destination/rakkojae/1.jpg",
+          "/work/travel-destination/rakkojae/2.jpg",
+          "/work/travel-destination/rakkojae/3.jpg",
+          "/work/travel-destination/rakkojae/5.jpg",
+          "/work/travel-destination/rakkojae/6.jpg",
+          "/work/travel-destination/rakkojae/7.jpg",
+          "/work/travel-destination/rakkojae/8.jpg",
+          "/work/travel-destination/rakkojae/9.jpg",
+          "/work/travel-destination/rakkojae/10.jpg",
+        ],
+      },
+    ],
   },
   {
     slug: "chile",
@@ -405,6 +432,17 @@ const travelFeaturedProjects: Project[] = [
     coverVideoDesktop: "/featured/through-my-eyes-card-desktop.mp4",
     coverVideoMobile: "/featured/through-my-eyes-card-mobile.mp4",
     coverPoster: "/featured/through-my-eyes-poster.jpg",
+    images: [],
+  },
+  {
+    slug: "rakkojae",
+    title: "Rakkojae, Seoul",
+    categorySlug: "travel-destination",
+    description: "A night in a hanok, and a tea ceremony revived from another century.",
+    // Landscape hero on desktop; the vertical film only plays on phones where it fits the frame
+    coverImage: "/work/travel-destination/rakkojae/hero.jpg",
+    coverVideoMobile: "/featured/rakkojae-card-mobile.mp4",
+    coverPoster: "/featured/rakkojae-poster.jpg",
     images: [],
   },
   {

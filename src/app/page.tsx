@@ -17,7 +17,7 @@ const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
 const VIDEO_DURATION = 6.881875;
 
 export default function Home() {
-  const featured = getFeaturedProjects().filter((p) => p.slug === "through-my-eyes");
+  const featured = getFeaturedProjects().filter((p) => p.slug === "through-my-eyes" || p.slug === "rakkojae");
 
   const heroSectionRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -560,7 +560,7 @@ function FullWidthProjectCard({
 
   // Lazy-load video only when card scrolls into viewport
   useEffect(() => {
-    if (!project.coverVideoDesktop) return;
+    if (!project.coverVideoDesktop && !project.coverVideoMobile) return;
     const node = ref.current;
     if (!node) return;
     const observer = new IntersectionObserver(
@@ -574,7 +574,7 @@ function FullWidthProjectCard({
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [project.coverVideoDesktop]);
+  }, [project.coverVideoDesktop, project.coverVideoMobile]);
 
   const coverSrc = project.slug === "chile" && isMobile
     ? "/work/travel-destination/chile/6.jpg"
@@ -586,7 +586,7 @@ function FullWidthProjectCard({
     <div ref={ref} className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
       {/* Parallax background image or video */}
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
-        {project.coverVideoDesktop ? (
+        {videoSrc ? (
           <video
             key={videoSrc}
             src={shouldLoadVideo ? videoSrc : undefined}

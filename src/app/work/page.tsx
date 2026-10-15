@@ -24,7 +24,7 @@ function FullWidthWorkCard({ location }: { location: (typeof travelLocations)[0]
   }, []);
 
   useEffect(() => {
-    if (!location.coverVideoDesktop) return;
+    if (!location.coverVideoDesktop && !location.coverVideoMobile) return;
     const node = ref.current;
     if (!node) return;
     const observer = new IntersectionObserver(
@@ -38,7 +38,7 @@ function FullWidthWorkCard({ location }: { location: (typeof travelLocations)[0]
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [location.coverVideoDesktop]);
+  }, [location.coverVideoDesktop, location.coverVideoMobile]);
 
   const coverSrc = location.slug === "chile" && isMobile
     ? "/work/travel-destination/chile/6.jpg"
@@ -49,7 +49,7 @@ function FullWidthWorkCard({ location }: { location: (typeof travelLocations)[0]
   return (
     <div ref={ref} className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
-        {location.coverVideoDesktop ? (
+        {videoSrc ? (
           <video
             key={videoSrc}
             src={shouldLoadVideo ? videoSrc : undefined}
@@ -79,7 +79,7 @@ function FullWidthWorkCard({ location }: { location: (typeof travelLocations)[0]
               {location.title}
             </h3>
             <p className="font-albertian mt-2 max-w-lg text-[14px] leading-[1.7] text-white/50 transition-all duration-500 group-hover:text-white/70">
-              {location.description}
+              {location.tagline ?? location.description}
             </p>
           </div>
         </div>

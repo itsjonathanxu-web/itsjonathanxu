@@ -125,13 +125,14 @@ function JapanImg({ src, alt, index, className, onHorizontalDetected }: { src: s
 
 
 // Render images in explicit rows with specified column counts
-function RowGallery({ images, rows, locationTitle, areaName }: { images: string[]; rows: { imgs: number[]; cols: number }[]; locationTitle: string; areaName: string }) {
+// `aspect` overrides the default landscape row crop (needed for portrait photo rows)
+function RowGallery({ images, rows, locationTitle, areaName }: { images: string[]; rows: { imgs: number[]; cols: number; aspect?: string }[]; locationTitle: string; areaName: string }) {
   return (
     <div className="flex flex-col gap-4">
       {rows.map((row, rowIdx) => {
         const gridCols = row.cols === 1 ? "md:grid-cols-1" : row.cols === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
         const isMultiCol = row.cols > 1;
-        const aspectClass = row.cols === 2 ? "md:[aspect-ratio:6/2]" : row.cols === 3 ? "md:[aspect-ratio:9/2]" : "";
+        const aspectClass = row.aspect ?? (row.cols === 2 ? "md:[aspect-ratio:6/2]" : row.cols === 3 ? "md:[aspect-ratio:9/2]" : "");
         return (
           <div key={rowIdx} className={`grid grid-cols-1 gap-4 ${gridCols} ${aspectClass}`}>
             {row.imgs.map((imgIdx) => {
@@ -226,6 +227,12 @@ const MALAYSIA_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [8, 9, 10], cols: 3 },
 ];
 // Singapore
+// Rakkojae: three rows of 3 portraits, at a 4:5-per-photo ratio so nothing gets cropped to landscape
+const RAKKOJAE_ROWS: { imgs: number[]; cols: number; aspect?: string }[] = [
+  { imgs: [0, 1, 2], cols: 3, aspect: "md:[aspect-ratio:12/5]" },
+  { imgs: [3, 4, 5], cols: 3, aspect: "md:[aspect-ratio:12/5]" },
+  { imgs: [6, 7, 8], cols: 3, aspect: "md:[aspect-ratio:12/5]" },
+];
 const SINGAPORE_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [0], cols: 1 },
   { imgs: [1], cols: 1 },
@@ -351,7 +358,7 @@ export default function TravelLocationPage() {
     );
   }
 
-  const hasHeroBg = slug === "japan" || slug === "malaysia" || slug === "chile" || slug === "death-valley" || slug === "united-kingdom" || slug === "united-states";
+  const hasHeroBg = slug === "japan" || slug === "malaysia" || slug === "chile" || slug === "death-valley" || slug === "united-kingdom" || slug === "united-states" || slug === "rakkojae";
   const otherLocations = travelLocations.filter((l) => l.slug !== slug).slice(0, 3);
 
   return (
@@ -371,7 +378,9 @@ export default function TravelLocationPage() {
                   ? "/work/travel-destination/united-kingdom/london/0.jpg"
                   : slug === "united-states"
                     ? "/work/travel-destination/united-states/chicago/1.jpg"
-                    : null;
+                    : slug === "rakkojae"
+                      ? "/work/travel-destination/rakkojae/hero.jpg"
+                      : null;
         return (
           <section className="relative bg-black" style={hasHeroBg ? { paddingTop: 0, marginBottom: "-30vh" } : undefined}>
             {heroImage && (
@@ -451,6 +460,26 @@ export default function TravelLocationPage() {
         </section>
       )}
 
+      {/* ===== VERTICAL FILM (Rakkojae only) - centered at phone-like width ===== */}
+      {slug === "rakkojae" && (
+        <section className="relative z-10 pb-16 pt-16 md:pb-24 md:pt-24">
+          <div className="mx-auto max-w-[1400px] px-6 md:px-20">
+            <ScrollReveal>
+              <div className="mx-auto aspect-[9/16] w-full max-w-[420px] overflow-hidden rounded-xl bg-black">
+                <video
+                  src="/featured/rakkojae-film.mp4"
+                  poster="/featured/rakkojae-poster.jpg"
+                  className="h-full w-full object-cover"
+                  controls
+                  playsInline
+                  preload="metadata"
+                />
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+      )}
+
       {/* ===== SCROLL DESCRIPTION (skip for locations with hero bg) ===== */}
       {!hasHeroBg && (
         <section className="bg-black py-16 md:py-24">
@@ -491,6 +520,8 @@ export default function TravelLocationPage() {
               ) : area.name === "Nara" ? (
                 <RowGallery images={area.images} rows={NARA_ROWS} locationTitle={location.title} areaName={area.name} />
               ) : null
+            ) : slug === "rakkojae" ? (
+              <RowGallery images={area.images} rows={RAKKOJAE_ROWS} locationTitle={location.title} areaName={area.name} />
             ) : slug === "singapore" ? (
               <RowGallery images={area.images} rows={SINGAPORE_ROWS} locationTitle={location.title} areaName={area.name} />
             ) : slug === "malaysia" ? (
