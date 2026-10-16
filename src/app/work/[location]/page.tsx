@@ -233,6 +233,12 @@ const RAKKOJAE_ROWS: { imgs: number[]; cols: number; aspect?: string }[] = [
   { imgs: [3, 4, 5], cols: 3, aspect: "md:[aspect-ratio:12/5]" },
   { imgs: [6, 7, 8], cols: 3, aspect: "md:[aspect-ratio:12/5]" },
 ];
+// Hanok Stay: portraits grouped together, the two landscapes (12, 17) share a row
+const RAKKOJAE_STAY_ROWS: { imgs: number[]; cols: number; aspect?: string }[] = [
+  { imgs: [0, 2, 3], cols: 3, aspect: "md:[aspect-ratio:12/5]" },
+  { imgs: [1, 6], cols: 2, aspect: "md:[aspect-ratio:11/4]" },
+  { imgs: [4, 5], cols: 2, aspect: "md:[aspect-ratio:8/5]" },
+];
 const SINGAPORE_ROWS: { imgs: number[]; cols: number }[] = [
   { imgs: [0], cols: 1 },
   { imgs: [1], cols: 1 },
@@ -521,7 +527,7 @@ export default function TravelLocationPage() {
                 <RowGallery images={area.images} rows={NARA_ROWS} locationTitle={location.title} areaName={area.name} />
               ) : null
             ) : slug === "rakkojae" ? (
-              <RowGallery images={area.images} rows={RAKKOJAE_ROWS} locationTitle={location.title} areaName={area.name} />
+              <RowGallery images={area.images} rows={area.name === "Hanok Stay" ? RAKKOJAE_STAY_ROWS : RAKKOJAE_ROWS} locationTitle={location.title} areaName={area.name} />
             ) : slug === "singapore" ? (
               <RowGallery images={area.images} rows={SINGAPORE_ROWS} locationTitle={location.title} areaName={area.name} />
             ) : slug === "malaysia" ? (

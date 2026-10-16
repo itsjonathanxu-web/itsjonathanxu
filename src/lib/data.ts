@@ -58,7 +58,7 @@ export const travelLocations: TravelLocation[] = [
       "Rakkojae is a restored hanok in Seoul’s Bukchon, over a hundred years old, where every beam and paper wall slows you down. I stayed a night and joined a tea ceremony with live gayageum, then made a film and photographs of both. As a former interior designer, I shot it around the way light moves through paper and wood.",
     areas: [
       {
-        name: "Rakkojae",
+        name: "Cultural Ceremony",
         images: [
           "/work/travel-destination/rakkojae/1.jpg",
           "/work/travel-destination/rakkojae/2.jpg",
@@ -69,6 +69,18 @@ export const travelLocations: TravelLocation[] = [
           "/work/travel-destination/rakkojae/8.jpg",
           "/work/travel-destination/rakkojae/9.jpg",
           "/work/travel-destination/rakkojae/10.jpg",
+        ],
+      },
+      {
+        name: "Hanok Stay",
+        images: [
+          "/work/travel-destination/rakkojae/11.jpg",
+          "/work/travel-destination/rakkojae/12.jpg",
+          "/work/travel-destination/rakkojae/13.jpg",
+          "/work/travel-destination/rakkojae/14.jpg",
+          "/work/travel-destination/rakkojae/15.jpg",
+          "/work/travel-destination/rakkojae/16.jpg",
+          "/work/travel-destination/rakkojae/17.jpg",
         ],
       },
     ],
