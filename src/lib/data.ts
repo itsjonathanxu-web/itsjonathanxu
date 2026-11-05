@@ -38,6 +38,16 @@ export interface TravelArea {
 
 export const travelLocations: TravelLocation[] = [
   {
+    slug: "symphony-of-movement",
+    title: "A Symphony of Movement",
+    coverImage: "/featured/symphony-of-movement-poster.jpg",
+    description: "A short film shot across South Korea over a week, asking a simple question: what am I running from?",
+    coverVideoDesktop: "/featured/symphony-of-movement-card-desktop.mp4",
+    coverVideoMobile: "/featured/symphony-of-movement-card-mobile.mp4",
+    coverPoster: "/featured/symphony-of-movement-poster.jpg",
+    areas: [],
+  },
+  {
     slug: "through-my-eyes",
     title: "Through My Eyes",
     coverImage: "/featured/through-my-eyes-poster.jpg",
@@ -377,6 +387,16 @@ export function getFeaturedProjects(): Project[] {
 
 // Projects surfaced as "featured" on the home page
 const travelFeaturedProjects: Project[] = [
+  {
+    slug: "symphony-of-movement",
+    title: "A Symphony of Movement",
+    description: "A short film shot across South Korea over a week, asking a simple question: what am I running from?",
+    coverImage: "/featured/symphony-of-movement-poster.jpg",
+    coverVideoDesktop: "/featured/symphony-of-movement-card-desktop.mp4",
+    coverVideoMobile: "/featured/symphony-of-movement-card-mobile.mp4",
+    coverPoster: "/featured/symphony-of-movement-poster.jpg",
+    images: [],
+  },
   {
     slug: "through-my-eyes",
     title: "Through My Eyes",
