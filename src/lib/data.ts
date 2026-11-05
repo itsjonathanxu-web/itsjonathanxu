@@ -40,11 +40,11 @@ export const travelLocations: TravelLocation[] = [
   {
     slug: "symphony-of-movement",
     title: "A Symphony of Movement",
-    coverImage: "/featured/symphony-of-movement-poster.jpg",
+    coverImage: "/featured/symphony-of-movement-card-poster.jpg",
     description: "A short film shot across South Korea over a week, asking a simple question: what am I running from?",
     coverVideoDesktop: "/featured/symphony-of-movement-card-desktop.mp4",
     coverVideoMobile: "/featured/symphony-of-movement-card-mobile.mp4",
-    coverPoster: "/featured/symphony-of-movement-poster.jpg",
+    coverPoster: "/featured/symphony-of-movement-card-poster.jpg",
     areas: [],
   },
   {
@@ -391,10 +391,10 @@ const travelFeaturedProjects: Project[] = [
     slug: "symphony-of-movement",
     title: "A Symphony of Movement",
     description: "A short film shot across South Korea over a week, asking a simple question: what am I running from?",
-    coverImage: "/featured/symphony-of-movement-poster.jpg",
+    coverImage: "/featured/symphony-of-movement-card-poster.jpg",
     coverVideoDesktop: "/featured/symphony-of-movement-card-desktop.mp4",
     coverVideoMobile: "/featured/symphony-of-movement-card-mobile.mp4",
-    coverPoster: "/featured/symphony-of-movement-poster.jpg",
+    coverPoster: "/featured/symphony-of-movement-card-poster.jpg",
     images: [],
   },
   {

@@ -4,7 +4,7 @@ export default function SymphonyOfMovementPage() {
   return (
     <FilmPage
       title="A Symphony of Movement"
-      description="Symphony of Movement is a short film shot across South Korea over a week, following a solo traveller as he asks a simple question: what am I running from? Moving between the stillness of the coast and the pace of the city, the film explores how constant motion can become a way of avoiding the present, and what changes when resistance gives way to flow. Water, light and rhythm shape both the imagery and the sound design, treating life as a symphony of movement to be felt, not controlled."
+      description="Life is a myriad of change. Moving to a new country, travelling to several more, and experiencing things I've never done before. But I felt as if I was running away from something, constantly chasing excitement and productivity. By staying in constant motion, I was avoiding life in a way that was leaving me out of the present. Instead of fighting the resistance, I realized I should move with the flow of life. To swim with the current. And when we truly feel and listen to what is around us, we can start to notice the beauty in the harmonies of the world."
       video="/featured/symphony-of-movement-full.mp4"
       poster="/featured/symphony-of-movement-poster.jpg"
     />
