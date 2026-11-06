@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useLightbox } from "@/components/Lightbox";
 
 const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
 
@@ -22,18 +24,47 @@ function ScrollReveal({ children, className }: { children: React.ReactNode; clas
   );
 }
 
-/** Film work page: title, description, full video player with sound, back link */
+// Film still that scales in on scroll and opens in the lightbox on click
+function FrameImg({ src, alt, sizes }: { src: string; alt: string; sizes: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.95", "start 0.6"],
+  });
+  const scale = useSpring(useTransform(scrollYProgress, [0, 1], [0.94, 1]), smoothSpring);
+  const opacity = useSpring(useTransform(scrollYProgress, [0, 1], [0, 1]), smoothSpring);
+  const { open } = useLightbox();
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    open(src, alt, { x: rect.left, y: rect.top, width: rect.width, height: rect.height });
+  };
+
+  return (
+    <motion.div ref={ref} style={{ scale, opacity }}>
+      <div className="cursor-zoom-in overflow-hidden rounded-xl" onClick={handleClick}>
+        <Image src={src} alt={alt} width={1200} height={900} className="h-auto w-full" sizes={sizes} />
+      </div>
+    </motion.div>
+  );
+}
+
+/** Film work page: title, description, full video player with sound, optional stills, back link */
 export default function FilmPage({
   title,
   description,
   video,
   poster,
+  frames = [],
 }: {
   title: string;
   description: string;
   video: string;
   poster: string;
+  /** Stills shown under the video; the first one runs full width */
+  frames?: string[];
 }) {
+  const [leadFrame, ...gridFrames] = frames;
   return (
     <div className="min-h-screen bg-black">
       {/* Top spacer for fixed nav */}
@@ -70,6 +101,18 @@ export default function FilmPage({
           </div>
         </ScrollReveal>
       </section>
+
+      {/* Stills */}
+      {leadFrame && (
+        <section className="mx-auto mt-16 flex max-w-[1400px] flex-col gap-4 px-6 md:mt-24 md:px-20">
+          <FrameImg src={leadFrame} alt={`${title} still 1`} sizes="(max-width: 1400px) 100vw, 1400px" />
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-4">
+            {gridFrames.map((src, i) => (
+              <FrameImg key={src} src={src} alt={`${title} still ${i + 2}`} sizes="(max-width: 768px) 50vw, 33vw" />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Back link */}
       <section className="mx-auto mt-16 max-w-[1400px] px-6 pb-32 md:px-20">
