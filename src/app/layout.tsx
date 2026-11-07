@@ -54,7 +54,7 @@ const anton = Anton({
 });
 
 const SITE_URL = "https://jonathanxu.ca";
-const OG_IMAGE = `${SITE_URL}/featured/through-my-eyes-poster.jpg`;
+const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -68,9 +68,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: OG_IMAGE,
-        width: 1920,
-        height: 1080,
-        alt: "Jonathan Xu — Through My Eyes",
+        width: 1200,
+        height: 630,
+        alt: "Jonathan Xu, sunset over the sea from A Symphony of Movement",
       },
     ],
   },
