@@ -13,6 +13,7 @@ export interface Project {
   coverVideoDesktop?: string;
   coverVideoMobile?: string;
   coverPoster?: string;
+  coverAlignBottom?: boolean; // anchor the cover video to the bottom of the frame
 }
 
 export interface TravelLocation {
@@ -25,6 +26,7 @@ export interface TravelLocation {
   coverVideoDesktop?: string;
   coverVideoMobile?: string;
   coverPoster?: string;
+  coverAlignBottom?: boolean; // anchor the cover video to the bottom of the frame
 }
 
 export interface TravelArea {
@@ -45,6 +47,7 @@ export const travelLocations: TravelLocation[] = [
     coverVideoDesktop: "/featured/symphony-of-movement-card-desktop.mp4",
     coverVideoMobile: "/featured/symphony-of-movement-card-mobile.mp4",
     coverPoster: "/featured/symphony-of-movement-card-poster.jpg",
+    coverAlignBottom: true,
     areas: [],
   },
   {
@@ -395,6 +398,7 @@ const travelFeaturedProjects: Project[] = [
     coverVideoDesktop: "/featured/symphony-of-movement-card-desktop.mp4",
     coverVideoMobile: "/featured/symphony-of-movement-card-mobile.mp4",
     coverPoster: "/featured/symphony-of-movement-card-poster.jpg",
+    coverAlignBottom: true,
     images: [],
   },
   {

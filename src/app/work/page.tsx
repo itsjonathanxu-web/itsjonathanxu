@@ -54,7 +54,7 @@ function FullWidthWorkCard({ location }: { location: (typeof travelLocations)[0]
             key={videoSrc}
             src={shouldLoadVideo ? videoSrc : undefined}
             poster={location.coverPoster}
-            className="h-full w-full object-cover"
+            className={`h-full w-full object-cover ${location.coverAlignBottom ? "object-bottom" : ""}`}
             muted
             autoPlay
             loop

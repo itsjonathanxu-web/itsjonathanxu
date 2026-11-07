@@ -591,7 +591,7 @@ function FullWidthProjectCard({
             key={videoSrc}
             src={shouldLoadVideo ? videoSrc : undefined}
             poster={project.coverPoster}
-            className="h-full w-full object-cover"
+            className={`h-full w-full object-cover ${project.coverAlignBottom ? "object-bottom" : ""}`}
             muted
             autoPlay
             loop

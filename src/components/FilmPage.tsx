@@ -56,6 +56,7 @@ export default function FilmPage({
   video,
   poster,
   frames = [],
+  background,
 }: {
   title: string;
   description: string;
@@ -63,16 +64,25 @@ export default function FilmPage({
   poster: string;
   /** Stills shown under the video; the first one runs full width */
   frames?: string[];
+  /** Hero image behind the title, fading to black into the video (like Chile) */
+  background?: string;
 }) {
   const [leadFrame, ...gridFrames] = frames;
   return (
     <div className="min-h-screen bg-black">
-      {/* Top spacer for fixed nav */}
-      <div className="h-32 md:h-40" />
-
-      {/* Title */}
-      <section className="mx-auto max-w-[1400px] px-6 md:px-20">
+      {/* Title, over the optional hero background */}
+      <section className="relative" style={background ? { marginBottom: "-30vh" } : undefined}>
+        {background && (
+          <>
+            <div className="absolute inset-0">
+              <Image src={background} alt={`${title} background`} fill className="object-cover" priority />
+            </div>
+            <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.4)" }} />
+            <div className="absolute inset-x-0 bottom-0" style={{ height: "60%", background: "linear-gradient(to bottom, transparent 0%, black 100%)" }} />
+          </>
+        )}
         <motion.div
+          className={`relative z-10 mx-auto max-w-[1400px] px-6 md:px-20 ${background ? "pt-[30vh] pb-[40vh]" : "pt-32 md:pt-40"}`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -87,7 +97,7 @@ export default function FilmPage({
       </section>
 
       {/* Video player */}
-      <section className="mx-auto mt-12 max-w-[1400px] px-6 md:mt-16 md:px-20">
+      <section className="relative z-10 mx-auto mt-12 max-w-[1400px] px-6 md:mt-16 md:px-20">
         <ScrollReveal>
           <div className="overflow-hidden rounded-xl bg-black">
             <video

@@ -92,7 +92,7 @@ export default function AboutPage() {
               </ScrollRevealLine>
               <ScrollRevealLine>
                 <p className="font-display mt-6 text-[clamp(11px,1vw,14px)] font-medium tracking-[0.25em] text-white/35 uppercase">
-                  Based in Toronto, Canada
+                  Based in Singapore
                 </p>
               </ScrollRevealLine>
             </div>
