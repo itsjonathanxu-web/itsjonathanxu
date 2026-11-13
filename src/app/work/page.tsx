@@ -1,10 +1,12 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { travelLocations } from "@/lib/data";
+import { useIsMobile } from "@/lib/useIsMobile";
+import CoverVideo from "@/components/CoverVideo";
 
 function FullWidthWorkCard({ location }: { location: (typeof travelLocations)[0] }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -16,29 +18,7 @@ function FullWidthWorkCard({ location }: { location: (typeof travelLocations)[0]
   const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1]);
   const blackOverlay = useTransform(scrollYProgress, [0.1, 0.4], [1, 0]);
 
-  const [isMobile, setIsMobile] = useState(false);
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
-
-  useEffect(() => {
-    if (!location.coverVideoDesktop && !location.coverVideoMobile) return;
-    const node = ref.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShouldLoadVideo(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px" }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [location.coverVideoDesktop, location.coverVideoMobile]);
+  const isMobile = useIsMobile();
 
   const coverSrc = location.slug === "chile" && isMobile
     ? "/work/travel-destination/chile/6.jpg"
@@ -50,16 +30,11 @@ function FullWidthWorkCard({ location }: { location: (typeof travelLocations)[0]
     <div ref={ref} className="relative w-full overflow-hidden bg-black" style={{ minHeight: "100vh" }}>
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
         {videoSrc ? (
-          <video
+          <CoverVideo
             key={videoSrc}
-            src={shouldLoadVideo ? videoSrc : undefined}
+            src={videoSrc}
             poster={location.coverPoster}
             className={`h-full w-full object-cover ${location.coverAlignBottom ? "object-bottom" : ""}`}
-            muted
-            autoPlay
-            loop
-            playsInline
-            preload={shouldLoadVideo ? "auto" : "none"}
           />
         ) : (
           <Image src={coverSrc} alt={location.title} fill className="object-cover" sizes="100vw" quality={100} unoptimized />

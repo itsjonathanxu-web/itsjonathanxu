@@ -1,4 +1,13 @@
+import type { Metadata } from "next";
 import FilmPage from "@/components/FilmPage";
+import { pageMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Through My Eyes",
+  description: "A short film about showing up somewhere new with nothing but a camera and curiosity.",
+  path: "/work/through-my-eyes",
+  image: "/featured/through-my-eyes-poster.jpg",
+});
 
 export default function ThroughMyEyesPage() {
   return (

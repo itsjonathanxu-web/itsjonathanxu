@@ -1,4 +1,12 @@
+import type { Metadata } from "next";
 import FilmPage from "@/components/FilmPage";
+import { pageMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "A Symphony of Movement",
+  description: "A short film shot across South Korea over a week, asking a simple question: what am I running from?",
+  path: "/work/symphony-of-movement",
+});
 
 export default function SymphonyOfMovementPage() {
   return (

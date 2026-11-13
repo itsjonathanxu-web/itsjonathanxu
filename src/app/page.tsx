@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -10,6 +10,8 @@ import {
   useSpring,
 } from "framer-motion";
 import { getFeaturedProjects } from "@/lib/data";
+import { useIsMobile } from "@/lib/useIsMobile";
+import CoverVideo from "@/components/CoverVideo";
 
 /* ===== SPRING CONFIG -Apple-style fluid feel ===== */
 const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
@@ -208,8 +210,8 @@ export default function Home() {
                 backgroundClip: "text",
               }}
             >
-              <span className="md:hidden">FEATURED<br />PROJECT</span>
-              <span className="hidden md:inline">FEATURED PROJECT</span>
+              <span className="md:hidden">FEATURED<br />PROJECTS</span>
+              <span className="hidden md:inline">FEATURED PROJECTS</span>
             </h2>
           </motion.div>
         </div>
@@ -552,29 +554,7 @@ function FullWidthProjectCard({
   // Fade from black as card scrolls into view
   const blackOverlay = useTransform(scrollYProgress, [0.1, 0.4], [1, 0]);
 
-  const [isMobile, setIsMobile] = useState(false);
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
-
-  // Lazy-load video only when card scrolls into viewport
-  useEffect(() => {
-    if (!project.coverVideoDesktop && !project.coverVideoMobile) return;
-    const node = ref.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShouldLoadVideo(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px" }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [project.coverVideoDesktop, project.coverVideoMobile]);
+  const isMobile = useIsMobile();
 
   const coverSrc = project.slug === "chile" && isMobile
     ? "/work/travel-destination/chile/6.jpg"
@@ -587,16 +567,11 @@ function FullWidthProjectCard({
       {/* Parallax background image or video */}
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 will-change-transform">
         {videoSrc ? (
-          <video
+          <CoverVideo
             key={videoSrc}
-            src={shouldLoadVideo ? videoSrc : undefined}
+            src={videoSrc}
             poster={project.coverPoster}
             className={`h-full w-full object-cover ${project.coverAlignBottom ? "object-bottom" : ""}`}
-            muted
-            autoPlay
-            loop
-            playsInline
-            preload={shouldLoadVideo ? "auto" : "none"}
           />
         ) : (
           <Image src={coverSrc} alt={project.title} fill className="object-cover" sizes="100vw" quality={100} unoptimized />
