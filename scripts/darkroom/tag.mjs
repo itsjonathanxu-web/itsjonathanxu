@@ -72,6 +72,40 @@ function fingerprint(file, isVideo) {
   return { bits, color: [rgb[0], rgb[1], rgb[2]] };
 }
 
+// Where a frame sits on the rainbow (0 warm pink/red .. 1 cool violet) and how bright it is (0..1).
+// Hue is a saturation-weighted average over a 32x32 thumbnail, so grey pixels don't drag it around.
+function measure(file, isVideo, warmth) {
+  const px = ff([...(isVideo ? ["-ss", "1"] : []), "-i", file, "-frames:v", "1", "-vf", "scale=32:32:flags=area,format=rgb24", "-f", "rawvideo", "-"]);
+  let hx = 0, hy = 0, wsum = 0, lum = 0, sat = 0;
+  const n = px.length / 3;
+  for (let i = 0; i < px.length; i += 3) {
+    const r = px[i] / 255, g = px[i + 1] / 255, b = px[i + 2] / 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    const s = max ? (max - min) / max : 0;
+    lum += 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    if (max === min) continue;
+    let h = max === r ? (g - b) / (max - min) : max === g ? 2 + (b - r) / (max - min) : 4 + (r - g) / (max - min);
+    h = ((h * 60) + 360) % 360;
+    const w = s * max;
+    hx += Math.cos((h * Math.PI) / 180) * w;
+    hy += Math.sin((h * Math.PI) / 180) * w;
+    wsum += w;
+    sat += s;
+  }
+  let h = ((Math.atan2(hy, hx) * 180) / Math.PI + 360) % 360;
+  if (h >= 300) h -= 360; // pinks sit just past red at the warm end
+  const vivid = (h + 60) / 330;
+  const saturation = sat / n;
+  // Near-grey frames have no reliable hue, so lean on Claude's warmth read instead
+  const fallback = 0.27 + (1 - (warmth + 1) / 2) * (0.86 - 0.27);
+  const trust = Math.min(1, saturation / 0.18);
+  return {
+    hue: +(trust * vivid + (1 - trust) * fallback).toFixed(3),
+    lum: +(lum / n).toFixed(3),
+    sat: +saturation.toFixed(3),
+  };
+}
+
 const hamming = (a, b) => [...a].reduce((n, c, i) => n + (c !== b[i] ? 1 : 0), 0);
 const colorDist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
 const isDupe = (a, b) => hamming(a.bits, b.bits) <= 26 && colorDist(a.color, b.color) <= 9;
@@ -292,6 +326,7 @@ function build() {
       h: c.h,
       place: c.place,
       color: hex(c.color),
+      ...measure(c.file, c.kind === "video", s.warmth),
       warmth: s.warmth,
       motion: s.motion,
       light: s.light,
@@ -302,5 +337,6 @@ function build() {
   return { generated: new Date().toISOString().slice(0, 10), items };
 }
 
-writeFileSync(JSON_PATH, JSON.stringify(build(), null, 1) + "\n");
-console.log(`Wrote ${path.relative(SITE, JSON_PATH)} with ${build().items.length} items`);
+const result = build();
+writeFileSync(JSON_PATH, JSON.stringify(result, null, 1) + "\n");
+console.log(`Wrote ${path.relative(SITE, JSON_PATH)} with ${result.items.length} items`);

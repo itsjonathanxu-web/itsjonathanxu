@@ -12,21 +12,56 @@ export interface DarkroomItem {
   h: number;
   place: string;
   color: string;
-  warmth: number; // -1 cool .. 1 warm (Claude's read blended with measured colour)
-  motion: number; // -1 still .. 1 moving
+  hue: number; // 0 warm (pink, red) .. 1 cool (blue, violet), measured from pixels
+  lum: number; // 0 dark .. 1 bright, measured
+  sat: number;
+  warmth: number; // Claude's read, -1 cool .. 1 warm
+  motion: number;
   light: Light;
   note: string;
 }
 
-export const LIGHTS: Light[] = ["dawn", "day", "golden", "blue", "night"];
-export const LIGHT_LABELS: Record<Light, string> = { dawn: "Dawn", day: "Day", golden: "Golden", blue: "Blue hour", night: "Night" };
+/** A frame's place on the colour map: x 0 warm .. 1 cool, y 0 light .. 1 dark */
+export interface MapPoint {
+  x: number;
+  y: number;
+}
 
-export const darkroomItems = data.items as DarkroomItem[];
+const raw = data.items as DarkroomItem[];
 
-/** Where the control's knob sits: warmth and motion, both -1..1 */
-export interface Mood {
-  warmth: number;
-  motion: number;
+// Brightness by rank, so the light-to-dark axis is evenly filled (most frames are moody and dark)
+const lumRank = new Map(
+  [...raw].sort((a, b) => b.lum - a.lum).map((item, r) => [item.id, raw.length > 1 ? r / (raw.length - 1) : 0.5])
+);
+
+// Colour is half true hue, half rank: true enough that the cool side is genuinely blue, spread
+// enough that the crowded oranges don't squeeze everything else into a corner
+const hueRank = new Map(
+  [...raw].sort((a, b) => a.hue - b.hue).map((item, r) => [item.id, raw.length > 1 ? r / (raw.length - 1) : 0.5])
+);
+
+export const darkroomItems = raw;
+
+export function mapPoint(item: DarkroomItem): MapPoint {
+  return { x: 0.5 * item.hue + 0.5 * (hueRank.get(item.id) ?? 0.5), y: lumRank.get(item.id) ?? 0.5 };
+}
+
+/** Distance on the colour map; brightness counts a little less than colour. */
+export function mapDistance(item: DarkroomItem, sel: MapPoint) {
+  const p = mapPoint(item);
+  return Math.hypot(p.x - sel.x, (p.y - sel.y) * 0.8);
+}
+
+const SELECT_RADIUS = 0.2;
+const MIN_SELECTED = 18;
+
+/** Frames inside the chosen part of the map: nothing from the opposite side ever shows. */
+export function selectItems(items: DarkroomItem[], sel: MapPoint | null) {
+  if (!sel) return items.map((_, k) => k);
+  const ranked = items.map((item, k) => ({ k, d: mapDistance(item, sel) })).sort((a, b) => a.d - b.d);
+  const inside = ranked.filter((r) => r.d <= SELECT_RADIUS);
+  // Sparse corners of the map still get a handful: the nearest ones
+  return (inside.length >= MIN_SELECTED ? inside : ranked.slice(0, MIN_SELECTED)).map((r) => r.k);
 }
 
 export interface Placed {
@@ -36,48 +71,78 @@ export interface Placed {
   h: number;
 }
 
-/** How far a frame is from the chosen mood; frames outside the chosen light sort last. */
-export function moodDistance(item: DarkroomItem, mood: Mood, light: Light | null) {
-  return Math.hypot(item.warmth - mood.warmth, item.motion - mood.motion) + (light && item.light !== light ? 4 : 0);
+export interface Bounds {
+  minX: number;
+  maxX: number;
+  minY: number;
+  maxY: number;
+}
+
+const cardHeight = (item: DarkroomItem, colW: number) => Math.round(colW / Math.min(1.9, Math.max(0.62, item.w / item.h)));
+
+function boundsOf(points: Map<number, Placed>): Bounds {
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  for (const p of points.values()) {
+    minX = Math.min(minX, p.x - p.w / 2);
+    maxX = Math.max(maxX, p.x + p.w / 2);
+    minY = Math.min(minY, p.y - p.h / 2);
+    maxY = Math.max(maxY, p.y + p.h / 2);
+  }
+  return points.size ? { minX, maxX, minY, maxY } : { minX: 0, maxX: 0, minY: 0, maxY: 0 };
 }
 
 /**
- * Masonry wall grown outward from the centre into a screen-shaped rectangle. Frames closest to the mood are placed first,
- * each into whichever column slot (above or below) keeps it nearest the middle, so the best
- * matches gather in the centre and the rest ring outward into the dark.
+ * Everything at once, laid out as the colour map itself: columns run warm (left) to cool (right)
+ * like a rainbow, and each column runs light (top) to dark (bottom).
  */
-export function wallLayout(items: DarkroomItem[], mood: Mood, light: Light | null, colW: number, gap: number, aspect: number) {
-  const order = items
-    .map((item, k) => ({ k, d: moodDistance(item, mood, light) }))
-    .sort((a, b) => a.d - b.d || a.k - b.k)
-    .map((o) => o.k);
+export function spectrumLayout(items: DarkroomItem[], colW: number, gap: number, aspect: number) {
+  const pitch = colW + gap;
+  const avgH = items.reduce((s, i) => s + cardHeight(i, colW) + gap, 0) / Math.max(1, items.length);
+  const cols = Math.max(1, Math.round(Math.sqrt((aspect * items.length * avgH) / pitch)));
+  const byHue = items.map((_, k) => k).sort((a, b) => mapPoint(items[a]).x - mapPoint(items[b]).x);
+  const per = Math.ceil(byHue.length / cols);
+  const points = new Map<number, Placed>();
 
+  for (let c = 0; c < cols; c++) {
+    const column = byHue.slice(c * per, (c + 1) * per).sort((a, b) => mapPoint(items[a]).y - mapPoint(items[b]).y);
+    const total = column.reduce((s, k) => s + cardHeight(items[k], colW) + gap, 0) - gap;
+    // Alternate columns sit a little lower, for the staggered masonry look
+    let y = -total / 2 + (c % 2 ? colW * 0.2 : 0);
+    for (const k of column) {
+      const h = cardHeight(items[k], colW);
+      points.set(k, { x: (c - (cols - 1) / 2) * pitch, y: y + h / 2, w: colW, h });
+      y += h + gap;
+    }
+  }
+  return { points, bounds: boundsOf(points) };
+}
+
+/**
+ * A selection, grown outward from the centre into a screen-shaped rectangle: the closest matches
+ * take the middle and the rest ring outward.
+ */
+export function clusterLayout(items: DarkroomItem[], order: number[], sel: MapPoint, colW: number, gap: number, aspect: number) {
+  const sorted = [...order].sort((a, b) => mapDistance(items[a], sel) - mapDistance(items[b], sel) || a - b);
   const pitch = colW + gap;
   const cols = new Map<number, { top: number; bottom: number }>();
-  // Offset alternate columns so rows never line up (the masonry look)
   const stagger = (c: number) => (((c % 3) + 3) % 3) * colW * 0.18 - colW * 0.18;
-  const points: Placed[] = new Array(items.length);
+  const points = new Map<number, Placed>();
   let minC = 0;
   let maxC = 0;
 
-  for (const k of order) {
-    const item = items[k];
-    const ratio = Math.min(1.9, Math.max(0.62, item.w / item.h));
-    const h = Math.round(colW / ratio);
+  for (const k of sorted) {
+    const h = cardHeight(items[k], colW);
     let best: { c: number; down: boolean; y: number; d: number } | null = null;
-
     for (let c = minC - 1; c <= maxC + 1; c++) {
       const col = cols.get(c) ?? { top: stagger(c), bottom: stagger(c) };
       const x = c * pitch;
       for (const down of [true, false]) {
         const y = down ? col.bottom + h / 2 : col.top - gap - h / 2;
-        // Box distance stretched by the screen's aspect, so the wall fills a screen-shaped rectangle
-        // (corners included); a little round distance breaks ties toward the middle
+        // Box distance stretched by the screen's aspect keeps the cluster screen-shaped
         const d = Math.max(Math.abs(x) / aspect, Math.abs(y)) + 0.15 * Math.hypot(x / aspect, y);
         if (!best || d < best.d) best = { c, down, y, d };
       }
     }
-
     const b = best!;
     const col = cols.get(b.c) ?? { top: stagger(b.c), bottom: stagger(b.c) };
     if (b.down) col.bottom += h + gap;
@@ -85,15 +150,7 @@ export function wallLayout(items: DarkroomItem[], mood: Mood, light: Light | nul
     cols.set(b.c, col);
     minC = Math.min(minC, b.c);
     maxC = Math.max(maxC, b.c);
-    points[k] = { x: b.c * pitch, y: b.y, w: colW, h };
+    points.set(k, { x: b.c * pitch, y: b.y, w: colW, h });
   }
-
-  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-  for (const p of points) {
-    minX = Math.min(minX, p.x - p.w / 2);
-    maxX = Math.max(maxX, p.x + p.w / 2);
-    minY = Math.min(minY, p.y - p.h / 2);
-    maxY = Math.max(maxY, p.y + p.h / 2);
-  }
-  return { points, bounds: { minX, maxX, minY, maxY } };
+  return { points, bounds: boundsOf(points) };
 }

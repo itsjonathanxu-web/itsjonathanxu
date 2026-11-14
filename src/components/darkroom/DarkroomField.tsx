@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useLightbox } from "@/components/Lightbox";
 import CoverVideo from "@/components/CoverVideo";
 import DarkroomControl from "./DarkroomControl";
-import { moodDistance, wallLayout, type DarkroomItem, type Light, type Mood } from "@/lib/darkroom";
+import { clusterLayout, selectItems, spectrumLayout, type DarkroomItem, type MapPoint } from "@/lib/darkroom";
 
 // Viewport size as an external store, so layout reacts to resize without set-state effects
 let viewport = { w: 0, h: 0 };
@@ -24,12 +24,13 @@ const serverViewport = { w: 0, h: 0 };
 
 const EDGE = -120; // negative: panning stops just short of the wall's outer edge, so the screen never shows empty dark
 const RELAYOUT_MS = 350; // how often the wall re-sorts while the knob is dragged
+const FOLLOW = 0.04; // how quickly the wall catches up with the cursor (lower = lazier)
+const GLIDE = 0.94; // how long a phone swipe keeps gliding after the finger lifts
 
 export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
   const vp = useSyncExternalStore(subscribeViewport, readViewport, () => serverViewport);
-  const [mood, setMood] = useState<Mood>({ warmth: 0, motion: 0 });
-  const [layoutMood, setLayoutMood] = useState<Mood>(mood);
-  const [light, setLight] = useState<Light | null>(null);
+  const [sel, setSel] = useState<MapPoint | null>(null);
+  const [layoutSel, setLayoutSel] = useState<MapPoint | null>(null);
   const [activeVideos, setActiveVideos] = useState<string[]>([]);
   const { open } = useLightbox();
 
@@ -37,24 +38,29 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
   const colW = mobile ? Math.round(vp.w * 0.62) : Math.round(Math.min(480, Math.max(340, vp.w * 0.29)));
   const gap = mobile ? 8 : 14;
   const radius = mobile ? 14 : 20;
+  const aspect = vp.w && vp.h ? vp.w / vp.h : 1.6;
 
-  const { points, bounds } = useMemo(
-    () => (vp.w ? wallLayout(items, layoutMood, light, colW, gap, vp.w / vp.h) : { points: [], bounds: { minX: 0, maxX: 0, minY: 0, maxY: 0 } }),
-    [items, layoutMood, light, colW, gap, vp.w, vp.h]
-  );
+  // The full colour map is always laid out; it's also where hidden frames rest while faded out
+  const spectrum = useMemo(() => (vp.w ? spectrumLayout(items, colW, gap, aspect) : null), [items, colW, gap, aspect, vp.w]);
+  const visible = useMemo(() => selectItems(items, layoutSel), [items, layoutSel]);
+  const layout = useMemo(() => {
+    if (!vp.w) return null;
+    return layoutSel ? clusterLayout(items, visible, layoutSel, colW, gap, aspect) : spectrum;
+  }, [items, visible, layoutSel, colW, gap, aspect, vp.w, spectrum]);
 
   const worldRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const captionRef = useRef<HTMLParagraphElement>(null);
   // Live values the animation loop reads without re-rendering
-  const live = useRef({ points, bounds, mood, light });
+  const live = useRef({ layout, shown: new Set<number>(), recentre: false });
   const draggedRef = useRef(false);
   const lastRelayout = useRef(0);
   useEffect(() => {
-    live.current.points = points;
-    live.current.bounds = bounds;
-  }, [points, bounds]);
+    live.current.layout = layout;
+    live.current.shown = new Set(visible);
+    live.current.recentre = true;
+  }, [layout, visible]);
 
   // The wall is the whole screen: no page scroll while the Darkroom is open
   useEffect(() => {
@@ -64,23 +70,21 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
     return () => void (html.style.overflow = prev);
   }, []);
 
-  const changeMood = (m: Mood) => {
-    live.current.mood = m;
-    setMood(m);
+  const select = (p: MapPoint) => {
+    setSel(p);
     const now = performance.now();
     if (now - lastRelayout.current > RELAYOUT_MS) {
       lastRelayout.current = now;
-      setLayoutMood(m);
+      setLayoutSel(p);
     }
   };
-  const settleMood = (m: Mood) => {
-    live.current.mood = m;
-    setMood(m);
-    setLayoutMood(m);
+  const settle = (p: MapPoint) => {
+    setSel(p);
+    setLayoutSel(p);
   };
-  const changeLight = (l: Light | null) => {
-    live.current.light = l;
-    setLight(l);
+  const clear = () => {
+    setSel(null);
+    setLayoutSel(null);
   };
 
   // One animation loop pans the wall and sets every card's brightness directly, so React never re-renders per frame
@@ -92,13 +96,16 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
     let onPanel = false;
     const off = { x: 0, y: 0 };
     const target = { x: 0, y: 0 };
-    let drag: { x: number; y: number; sx: number; sy: number } | null = null;
+    const vel = { x: 0, y: 0 };
+    const opacity = new Float32Array(items.length);
+    let drag: { x: number; y: number; sx: number; sy: number; lx: number; ly: number; lt: number } | null = null;
     const start = performance.now();
     let lastVideoCheck = 0;
     let lastVideos = "";
     let lastCaption = -1;
     let raf = 0;
 
+    const bounds = () => live.current.layout?.bounds ?? { minX: 0, maxX: 0, minY: 0, maxY: 0 };
     // Pan range on one axis: from showing the wall's near edge to its far edge
     const range = (min: number, max: number, view: number) => {
       const a = view / 2 - max - EDGE;
@@ -109,7 +116,7 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
 
     // Desktop: the cursor's place on screen is the place on the wall
     const aim = (px: number, py: number) => {
-      const { minX, maxX, minY, maxY } = live.current.bounds;
+      const { minX, maxX, minY, maxY } = bounds();
       const rx = range(minX, maxX, vp.w);
       const ry = range(minY, maxY, vp.h);
       target.x = rx[1] + (rx[0] - rx[1]) * px;
@@ -121,22 +128,31 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
         onPanel = !!panelRef.current?.contains(e.target as Node);
         pointer.x = e.clientX;
         pointer.y = e.clientY;
-        // Reaching for the control recentres on the best matches
+        // Reaching for the control recentres on the frames it's choosing
         if (onPanel) aim(0.5, 0.5);
         else aim(e.clientX / vp.w, e.clientY / vp.h);
       } else if (drag) {
+        // Phone: the wall follows the finger one to one
         const dx = e.clientX - drag.x;
         const dy = e.clientY - drag.y;
         if (Math.hypot(dx, dy) > 8) draggedRef.current = true;
-        const { minX, maxX, minY, maxY } = live.current.bounds;
+        const { minX, maxX, minY, maxY } = bounds();
         target.x = clamp(drag.sx + dx, range(minX, maxX, vp.w));
         target.y = clamp(drag.sy + dy, range(minY, maxY, vp.h));
+        const now = performance.now();
+        const dt = Math.max(1, now - drag.lt);
+        vel.x = 0.6 * vel.x + 0.4 * ((e.clientX - drag.lx) / dt) * 16;
+        vel.y = 0.6 * vel.y + 0.4 * ((e.clientY - drag.ly) / dt) * 16;
+        drag.lx = e.clientX;
+        drag.ly = e.clientY;
+        drag.lt = now;
       }
     };
     const onDown = (e: PointerEvent) => {
       draggedRef.current = false;
       if (e.pointerType !== "mouse" && !panelRef.current?.contains(e.target as Node)) {
-        drag = { x: e.clientX, y: e.clientY, sx: target.x, sy: target.y };
+        vel.x = vel.y = 0;
+        drag = { x: e.clientX, y: e.clientY, sx: target.x, sy: target.y, lx: e.clientX, ly: e.clientY, lt: performance.now() };
       }
     };
     const onUp = () => (drag = null);
@@ -148,9 +164,32 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
       const world = worldRef.current;
-      if (!world) return;
-      off.x += (target.x - off.x) * 0.06;
-      off.y += (target.y - off.y) * 0.06;
+      const lay = live.current.layout;
+      if (!world || !lay) return;
+
+      let recentring = false;
+      if (live.current.recentre) {
+        live.current.recentre = false;
+        target.x = target.y = 0;
+        vel.x = vel.y = 0;
+        recentring = true;
+      }
+      if (mobile) {
+        if (!drag && (Math.abs(vel.x) > 0.1 || Math.abs(vel.y) > 0.1)) {
+          // Glide after a swipe, slowing to a stop inside the wall
+          const { minX, maxX, minY, maxY } = bounds();
+          target.x = clamp(target.x + vel.x, range(minX, maxX, vp.w));
+          target.y = clamp(target.y + vel.y, range(minY, maxY, vp.h));
+          vel.x *= GLIDE;
+          vel.y *= GLIDE;
+        }
+        const k = drag || (!recentring && Math.abs(vel.x) + Math.abs(vel.y) > 0.1) ? 1 : 0.12;
+        off.x += (target.x - off.x) * k;
+        off.y += (target.y - off.y) * k;
+      } else {
+        off.x += (target.x - off.x) * FOLLOW;
+        off.y += (target.y - off.y) * FOLLOW;
+      }
       world.style.transform = `translate3d(${off.x.toFixed(1)}px,${off.y.toFixed(1)}px,0)`;
 
       // The light: the cursor on desktop (screen centre while on the control), the screen centre on touch
@@ -159,22 +198,25 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
       const lx = sx - vp.w / 2 - off.x;
       const ly = sy - vp.h / 2 - off.y;
       const elapsed = now - start;
-      const { points: pts, mood: m, light: l } = live.current;
+      const shown = live.current.shown;
       let nearest = -1;
       let nearestD = Infinity;
       const lit: [number, number][] = [];
 
-      for (let i = 0; i < pts.length; i++) {
+      for (let i = 0; i < items.length; i++) {
         const el = cardRefs.current[i];
-        if (!el || !pts[i]) continue;
-        const d = Math.hypot(pts[i].x - lx, pts[i].y - ly);
-        const lightB = Math.max(0, 1 - d / lightRadius) ** 0.8;
-        // Frames far from the chosen mood stay in the dark even under the light
-        const match = 0.35 + 0.65 * Math.exp(-((moodDistance(items[i], m, l) / 0.85) ** 2));
+        const p = lay.points.get(i) ?? spectrum?.points.get(i);
+        if (!el || !p) continue;
+        const isShown = shown.has(i);
+        const d = Math.hypot(p.x - lx, p.y - ly);
+        const b = Math.max(0, 1 - d / lightRadius) ** 0.8;
         // Frames surface from the dark in a ripple outward from the centre
-        const reveal = Math.min(1, Math.max(0, (elapsed - 200 - Math.hypot(pts[i].x, pts[i].y) * 0.9) / 1000));
-        const b = lightB * match;
-        el.style.opacity = ((0.03 + 0.97 * b) * reveal).toFixed(3);
+        const reveal = Math.min(1, Math.max(0, (elapsed - 200 - Math.hypot(p.x, p.y) * 0.9) / 1000));
+        const want = isShown ? (0.04 + 0.96 * b) * reveal : 0;
+        opacity[i] += (want - opacity[i]) * 0.12;
+        el.style.opacity = opacity[i].toFixed(3);
+        el.style.pointerEvents = isShown ? "" : "none";
+        if (!isShown) continue;
         if (d < nearestD) {
           nearestD = d;
           nearest = i;
@@ -206,69 +248,70 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
       window.removeEventListener("pointerup", onUp);
       window.removeEventListener("pointercancel", onUp);
     };
-  }, [vp.w, vp.h, mobile, items]);
+  }, [vp.w, vp.h, mobile, items, spectrum]);
 
   return (
     <section className="fixed inset-0 z-40 touch-none overflow-hidden bg-black select-none">
       <div ref={worldRef} className="absolute top-1/2 left-1/2 h-0 w-0 will-change-transform">
-        {points.map((p, i) => {
-          const item = items[i];
-          const playing = item.type === "video" && activeVideos.includes(item.id);
-          const still = item.type === "video" ? item.poster : item.src;
-          const body = (
-            <div className="relative h-full w-full overflow-hidden bg-neutral-950" style={{ borderRadius: radius }}>
-              {still && <Image src={still} alt={item.place} fill sizes={`${colW}px`} className="object-cover" draggable={false} />}
-              {playing && <CoverVideo src={item.src} poster={item.poster} className="absolute inset-0 h-full w-full object-cover" />}
-            </div>
-          );
-          return (
-            <div
-              key={item.id}
-              className="absolute top-0 left-0 transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
-              style={{ width: p.w, height: p.h, transform: `translate3d(${p.x - p.w / 2}px,${p.y - p.h / 2}px,0)` }}
-            >
-              <div ref={(el) => void (cardRefs.current[i] = el)} className="h-full w-full" style={{ opacity: 0 }}>
-                {item.type === "video" && item.href ? (
-                  <Link
-                    href={item.href}
-                    className="block h-full w-full"
-                    aria-label={item.place}
-                    draggable={false}
-                    onClick={(e) => draggedRef.current && e.preventDefault()}
-                  >
-                    {body}
-                  </Link>
-                ) : item.type === "photo" ? (
-                  <button
-                    type="button"
-                    className="block h-full w-full cursor-zoom-in"
-                    aria-label={`Open ${item.place}`}
-                    onClick={(e) => {
-                      if (draggedRef.current) return;
-                      const r = e.currentTarget.getBoundingClientRect();
-                      open(item.src, item.place, { x: r.left, y: r.top, width: r.width, height: r.height });
-                    }}
-                  >
-                    {body}
-                  </button>
-                ) : (
-                  body
-                )}
+        {layout &&
+          items.map((item, i) => {
+            const p = layout.points.get(i) ?? spectrum!.points.get(i)!;
+            const playing = item.type === "video" && activeVideos.includes(item.id);
+            const still = item.type === "video" ? item.poster : item.src;
+            const body = (
+              <div className="relative h-full w-full overflow-hidden bg-neutral-950" style={{ borderRadius: radius }}>
+                {still && <Image src={still} alt={item.place} fill sizes={`${colW}px`} className="object-cover" draggable={false} />}
+                {playing && <CoverVideo src={item.src} poster={item.poster} className="absolute inset-0 h-full w-full object-cover" />}
               </div>
-            </div>
-          );
-        })}
+            );
+            return (
+              <div
+                key={item.id}
+                className="absolute top-0 left-0 transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+                style={{ width: p.w, height: p.h, transform: `translate3d(${p.x - p.w / 2}px,${p.y - p.h / 2}px,0)` }}
+              >
+                <div ref={(el) => void (cardRefs.current[i] = el)} className="h-full w-full" style={{ opacity: 0 }}>
+                  {item.type === "video" && item.href ? (
+                    <Link
+                      href={item.href}
+                      className="block h-full w-full"
+                      aria-label={item.place}
+                      draggable={false}
+                      onClick={(e) => draggedRef.current && e.preventDefault()}
+                    >
+                      {body}
+                    </Link>
+                  ) : item.type === "photo" ? (
+                    <button
+                      type="button"
+                      className="block h-full w-full cursor-zoom-in"
+                      aria-label={`Open ${item.place}`}
+                      onClick={(e) => {
+                        if (draggedRef.current) return;
+                        const r = e.currentTarget.getBoundingClientRect();
+                        open(item.src, item.place, { x: r.left, y: r.top, width: r.width, height: r.height });
+                      }}
+                    >
+                      {body}
+                    </button>
+                  ) : (
+                    body
+                  )}
+                </div>
+              </div>
+            );
+          })}
       </div>
 
       {/* Soft vignette so the wall melts into the dark at the edges */}
       <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.75) 100%)" }} />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-black/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/80 to-transparent" />
 
-      {/* Floating control */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-5 flex flex-col items-center gap-3 px-4 md:bottom-8">
+      {/* Caption and the pop-up colour map */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-5 flex flex-col items-center gap-3 px-4 md:bottom-7">
         <p ref={captionRef} className="font-albertian h-5 text-center text-[13px] text-white/60" />
         <div ref={panelRef} className="pointer-events-auto">
-          <DarkroomControl mood={mood} light={light} compact={mobile} onMood={changeMood} onMoodEnd={settleMood} onLight={changeLight} />
+          <DarkroomControl sel={sel} compact={mobile} onSelect={select} onSelectEnd={settle} onClear={clear} />
         </div>
       </div>
     </section>
