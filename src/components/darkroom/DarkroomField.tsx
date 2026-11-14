@@ -24,7 +24,7 @@ const serverViewport = { w: 0, h: 0 };
 
 const EDGE = -120; // negative: panning stops just short of the wall's outer edge, so the screen never shows empty dark
 const RELAYOUT_MS = 350; // how often the wall re-sorts while the knob is dragged
-const FOLLOW = 0.04; // how quickly the wall catches up with the cursor (lower = lazier)
+const FOLLOW = 0.027; // how quickly the wall catches up with the cursor (lower = lazier)
 const GLIDE = 0.94; // how long a phone swipe keeps gliding after the finger lifts
 
 export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
