@@ -26,11 +26,12 @@ const EDGE = -120; // negative: panning stops just short of the wall's outer edg
 const RELAYOUT_MS = 350; // how often the wall re-sorts while the knob is dragged
 const FOLLOW = 0.027; // how quickly the wall catches up with the cursor (lower = lazier)
 const GLIDE = 0.94; // how long a phone swipe keeps gliding after the finger lifts
+const OPENING: MapPoint = { x: 0.3, y: 0.45 }; // the room opens on warm oranges
 
 export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
   const vp = useSyncExternalStore(subscribeViewport, readViewport, () => serverViewport);
-  const [sel, setSel] = useState<MapPoint | null>(null);
-  const [layoutSel, setLayoutSel] = useState<MapPoint | null>(null);
+  const [sel, setSel] = useState<MapPoint | null>(OPENING);
+  const [layoutSel, setLayoutSel] = useState<MapPoint | null>(OPENING);
   const [activeVideos, setActiveVideos] = useState<string[]>([]);
   const { open } = useLightbox();
 
@@ -51,7 +52,6 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
   const worldRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const captionRef = useRef<HTMLParagraphElement>(null);
   // Live values the animation loop reads without re-rendering
   const live = useRef({ layout, shown: new Set<number>(), recentre: false });
   const draggedRef = useRef(false);
@@ -102,7 +102,6 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
     const start = performance.now();
     let lastVideoCheck = 0;
     let lastVideos = "";
-    let lastCaption = -1;
     let raf = 0;
 
     const bounds = () => live.current.layout?.bounds ?? { minX: 0, maxX: 0, minY: 0, maxY: 0 };
@@ -199,8 +198,6 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
       const ly = sy - vp.h / 2 - off.y;
       const elapsed = now - start;
       const shown = live.current.shown;
-      let nearest = -1;
-      let nearestD = Infinity;
       const lit: [number, number][] = [];
 
       for (let i = 0; i < items.length; i++) {
@@ -217,18 +214,9 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
         el.style.opacity = opacity[i].toFixed(3);
         el.style.pointerEvents = isShown ? "" : "none";
         if (!isShown) continue;
-        if (d < nearestD) {
-          nearestD = d;
-          nearest = i;
-        }
         if (items[i].type === "video" && b > 0.4) lit.push([b, i]);
       }
 
-      if (nearest !== lastCaption && captionRef.current) {
-        lastCaption = nearest;
-        const it = items[nearest];
-        captionRef.current.textContent = it ? `${it.place} · ${it.note}` : "";
-      }
       if (now - lastVideoCheck > 300) {
         lastVideoCheck = now;
         const ids = lit.sort((a, b) => b[0] - a[0]).slice(0, maxVideos).map(([, i]) => items[i].id).sort();
@@ -307,9 +295,11 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
       <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.75) 100%)" }} />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/80 to-transparent" />
 
-      {/* Caption and the pop-up colour map */}
+      {/* Hint and the pop-up colour map */}
       <div className="pointer-events-none absolute inset-x-0 bottom-5 flex flex-col items-center gap-3 px-4 md:bottom-7">
-        <p ref={captionRef} className="font-albertian h-5 text-center text-[13px] text-white/60" />
+        <p className="font-albertian text-center text-[13px] text-white/60">
+          {mobile ? "Tap below to tune the imagery by colour and light" : "Hover below to tune the imagery by colour and light"}
+        </p>
         <div ref={panelRef} className="pointer-events-auto">
           <DarkroomControl sel={sel} compact={mobile} onSelect={select} onSelectEnd={settle} onClear={clear} />
         </div>
