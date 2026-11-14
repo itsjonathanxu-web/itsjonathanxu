@@ -1,7 +1,6 @@
 import data from "./darkroom.json";
 
 export type Light = "dawn" | "day" | "golden" | "blue" | "night";
-export type Mode = "field" | "light";
 
 export interface DarkroomItem {
   id: string;
@@ -20,97 +19,81 @@ export interface DarkroomItem {
 }
 
 export const LIGHTS: Light[] = ["dawn", "day", "golden", "blue", "night"];
+export const LIGHT_LABELS: Record<Light, string> = { dawn: "Dawn", day: "Day", golden: "Golden", blue: "Blue hour", night: "Night" };
 
 export const darkroomItems = data.items as DarkroomItem[];
 
+/** Where the control's knob sits: warmth and motion, both -1..1 */
+export interface Mood {
+  warmth: number;
+  motion: number;
+}
+
 export interface Placed {
-  x: number; // card centre, px within the field
+  x: number; // card centre, px from the wall's centre
   y: number;
   w: number;
   h: number;
 }
 
-/** Card size with the same area for every frame, so portraits and landscapes weigh the same. */
-export function cardSize(item: DarkroomItem, base: number) {
-  const aspect = Math.min(2, Math.max(0.5, item.w / item.h));
-  return { w: Math.round(base * Math.sqrt(aspect)), h: Math.round(base / Math.sqrt(aspect)) };
+/** How far a frame is from the chosen mood; frames outside the chosen light sort last. */
+export function moodDistance(item: DarkroomItem, mood: Mood, light: Light | null) {
+  return Math.hypot(item.warmth - mood.warmth, item.motion - mood.motion) + (light && item.light !== light ? 4 : 0);
 }
 
-// Mix raw value with rank so the field fills evenly but keeps its order
-function spread(values: number[]) {
-  const order = values.map((v, i) => [v, i]).sort((a, b) => a[0] - b[0]);
-  const rank = new Array(values.length);
-  order.forEach(([, i], r) => (rank[i] = values.length > 1 ? r / (values.length - 1) : 0.5));
-  return values.map((v, i) => 0.5 * ((v + 1) / 2) + 0.5 * rank[i]);
-}
+/**
+ * Masonry wall grown outward from the centre into a screen-shaped rectangle. Frames closest to the mood are placed first,
+ * each into whichever column slot (above or below) keeps it nearest the middle, so the best
+ * matches gather in the centre and the rest ring outward into the dark.
+ */
+export function wallLayout(items: DarkroomItem[], mood: Mood, light: Light | null, colW: number, gap: number, aspect: number) {
+  const order = items
+    .map((item, k) => ({ k, d: moodDistance(item, mood, light) }))
+    .sort((a, b) => a.d - b.d || a.k - b.k)
+    .map((o) => o.k);
 
-/** Push overlapping cards apart, keeping each inside its allowed box. */
-function relax(points: Placed[], bounds: { top: number; bottom: number }[], width: number, gap: number) {
-  for (let it = 0; it < 90; it++) {
-    let moved = false;
-    for (let i = 0; i < points.length; i++) {
-      const a = points[i];
-      for (let j = i + 1; j < points.length; j++) {
-        const b = points[j];
-        const ox = (a.w + b.w) / 2 + gap - Math.abs(b.x - a.x);
-        const oy = (a.h + b.h) / 2 + gap - Math.abs(b.y - a.y);
-        if (ox <= 0 || oy <= 0) continue;
-        moved = true;
-        // Separate along the axis that needs the smaller push
-        if (ox < oy) {
-          const s = (b.x >= a.x ? 1 : -1) * ox / 2;
-          a.x -= s;
-          b.x += s;
-        } else {
-          const s = (b.y >= a.y ? 1 : -1) * oy / 2;
-          a.y -= s;
-          b.y += s;
-        }
+  const pitch = colW + gap;
+  const cols = new Map<number, { top: number; bottom: number }>();
+  // Offset alternate columns so rows never line up (the masonry look)
+  const stagger = (c: number) => (((c % 3) + 3) % 3) * colW * 0.18 - colW * 0.18;
+  const points: Placed[] = new Array(items.length);
+  let minC = 0;
+  let maxC = 0;
+
+  for (const k of order) {
+    const item = items[k];
+    const ratio = Math.min(1.9, Math.max(0.62, item.w / item.h));
+    const h = Math.round(colW / ratio);
+    let best: { c: number; down: boolean; y: number; d: number } | null = null;
+
+    for (let c = minC - 1; c <= maxC + 1; c++) {
+      const col = cols.get(c) ?? { top: stagger(c), bottom: stagger(c) };
+      const x = c * pitch;
+      for (const down of [true, false]) {
+        const y = down ? col.bottom + h / 2 : col.top - gap - h / 2;
+        // Box distance stretched by the screen's aspect, so the wall fills a screen-shaped rectangle
+        // (corners included); a little round distance breaks ties toward the middle
+        const d = Math.max(Math.abs(x) / aspect, Math.abs(y)) + 0.15 * Math.hypot(x / aspect, y);
+        if (!best || d < best.d) best = { c, down, y, d };
       }
     }
-    points.forEach((p, i) => {
-      p.x = Math.min(width - p.w / 2, Math.max(p.w / 2, p.x));
-      p.y = Math.min(bounds[i].bottom - p.h / 2, Math.max(bounds[i].top + p.h / 2, p.y));
-    });
-    if (!moved) break;
-  }
-}
 
-/** Lay out every card for a mode. Field: cool left to warm right, still top to moving bottom. Light: one band per time of light. */
-export function layout(items: DarkroomItem[], mode: Mode, width: number, height: number, base: number, gap: number) {
-  const sizes = items.map((i) => cardSize(i, base));
-  const xs = spread(items.map((i) => i.warmth));
-  const pad = base * 0.8;
-  const innerW = width - pad * 2;
-
-  if (mode === "field") {
-    const ys = spread(items.map((i) => i.motion));
-    const points = items.map((_, k) => ({ x: pad + xs[k] * innerW, y: pad + ys[k] * (height - pad * 2), ...sizes[k] }));
-    const bounds = items.map(() => ({ top: 0, bottom: height }));
-    relax(points, bounds, width, gap);
-    return { points, bands: [] as { light: Light; top: number; bottom: number }[] };
+    const b = best!;
+    const col = cols.get(b.c) ?? { top: stagger(b.c), bottom: stagger(b.c) };
+    if (b.down) col.bottom += h + gap;
+    else col.top -= h + gap;
+    cols.set(b.c, col);
+    minC = Math.min(minC, b.c);
+    maxC = Math.max(maxC, b.c);
+    points[k] = { x: b.c * pitch, y: b.y, w: colW, h };
   }
 
-  // Band heights follow how many frames share that light
-  const counts = LIGHTS.map((l) => items.filter((i) => i.light === l).length);
-  const used = LIGHTS.filter((_, k) => counts[k] > 0);
-  const total = counts.reduce((a, b) => a + b, 0) || 1;
-  let top = 0;
-  const bands = used.map((light) => {
-    const h = Math.max(base * 2, (counts[LIGHTS.indexOf(light)] / total) * height);
-    const band = { light, top, bottom: top + h };
-    top += h;
-    return band;
-  });
-  const scale = height / top;
-  bands.forEach((b) => ((b.top *= scale), (b.bottom *= scale)));
-
-  const bounds = items.map((i) => bands.find((b) => b.light === i.light)!);
-  const points = items.map((_, k) => ({
-    x: pad + xs[k] * innerW,
-    y: (bounds[k].top + bounds[k].bottom) / 2,
-    ...sizes[k],
-  }));
-  relax(points, bounds, width, gap);
-  return { points, bands };
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  for (const p of points) {
+    minX = Math.min(minX, p.x - p.w / 2);
+    maxX = Math.max(maxX, p.x + p.w / 2);
+    minY = Math.min(minY, p.y - p.h / 2);
+    maxY = Math.max(maxY, p.y + p.h / 2);
+  }
+  return { points, bounds: { minX, maxX, minY, maxY } };
 }

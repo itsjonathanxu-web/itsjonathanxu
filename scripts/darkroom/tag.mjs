@@ -30,8 +30,8 @@ const IMAGE = /\.(jpe?g|png)$/i;
 const VIDEO = /\.(mov|mp4)$/i;
 
 // Files on the site that are crops, heroes or backgrounds rather than work
-const SKIP_PUBLIC = [/\/symphony-of-movement\/background\.jpg$/];
-const SKIP_CONTENT = [/^Picture of me\//, /^VIDEO\//, /^A SYMPHONY OF MOVEMENT\/[^/]+\.png$/];
+const SKIP_PUBLIC = [/\/symphony-of-movement\/background\.jpg$/, /\/hospitality\/joia-newmarket\//];
+const SKIP_CONTENT = [/^Picture of me\//, /^HOSPITALITY\/JOIA\//, /^VIDEO\//, /^A SYMPHONY OF MOVEMENT\/[^/]+\.png$/];
 
 // Loops already made for the site, with the source clip they came from (so the source is skipped)
 const SITE_LOOPS = [
