@@ -234,6 +234,10 @@ const RAKKOJAE_ROWS: { imgs: number[]; cols: number; aspect?: string }[] = [
   { imgs: [3, 4, 5], cols: 3, aspect: "md:[aspect-ratio:12/5]" },
   { imgs: [6, 7, 8], cols: 3, aspect: "md:[aspect-ratio:12/5]" },
 ];
+// Rakkojae film: set RAKKOJAE_FILM to the video once it's exported; until then the poster frame holds its place
+const RAKKOJAE_FILM: string | null = null;
+const RAKKOJAE_FILM_POSTER = "/work/travel-destination/rakkojae/film/08.jpg";
+const RAKKOJAE_FRAMES = Array.from({ length: 18 }, (_, i) => `/work/travel-destination/rakkojae/film/${String(i + 1).padStart(2, "0")}.jpg`);
 // Hanok Stay: portraits grouped together, the two landscapes (12, 17) share a row
 const RAKKOJAE_STAY_ROWS: { imgs: number[]; cols: number; aspect?: string }[] = [
   { imgs: [0, 2, 3], cols: 3, aspect: "md:[aspect-ratio:12/5]" },
@@ -484,22 +488,41 @@ export default function LocationClient() {
         </section>
       )}
 
-      {/* ===== VERTICAL FILM (Rakkojae only) - centered at phone-like width ===== */}
+      {/* ===== HORIZONTAL FILM + FRAMES FROM FILM (Rakkojae only) ===== */}
       {slug === "rakkojae" && (
-        <section className="relative z-10 pb-16 pt-16 md:pb-24 md:pt-24">
+        <section className="relative z-10 pb-20 pt-16 md:pb-32 md:pt-24">
           <div className="mx-auto max-w-[1400px] px-6 md:px-20">
             <ScrollReveal>
-              <div className="mx-auto aspect-[9/16] w-full max-w-[420px] overflow-hidden rounded-xl bg-black">
-                <video
-                  src="/featured/rakkojae-film.mp4"
-                  poster="/featured/rakkojae-poster.jpg"
-                  className="h-full w-full object-cover"
-                  controls
-                  playsInline
-                  preload="metadata"
-                />
+              <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black">
+                {RAKKOJAE_FILM ? (
+                  <video
+                    src={RAKKOJAE_FILM}
+                    poster={RAKKOJAE_FILM_POSTER}
+                    className="h-full w-full object-cover"
+                    controls
+                    playsInline
+                    preload="metadata"
+                  />
+                ) : (
+                  <Image src={RAKKOJAE_FILM_POSTER} alt="Rakkojae film" fill sizes="(max-width: 1400px) 100vw, 1240px" className="object-cover" />
+                )}
               </div>
             </ScrollReveal>
+
+            <ScrollReveal className="mb-10 mt-20 md:mb-14 md:mt-32">
+              <div className="flex items-center gap-6">
+                <h2 className="font-display text-[clamp(24px,4vw,48px)] font-extrabold tracking-[-0.03em] text-white/80">
+                  Frames from Film
+                </h2>
+                <div className="h-[1.4px] flex-1 bg-white/45" />
+              </div>
+            </ScrollReveal>
+            {/* Smaller than the photos below: two across on phones, three on desktop */}
+            <div className="grid grid-cols-2 gap-x-3 md:grid-cols-3 md:gap-x-4">
+              {RAKKOJAE_FRAMES.map((src, i) => (
+                <GalleryImage key={src} src={src} alt={`Rakkojae film frame ${i + 1}`} index={i + 10} />
+              ))}
+            </div>
           </div>
         </section>
       )}
