@@ -429,7 +429,7 @@ export default function LocationClient() {
                   className="mb-8 w-[clamp(150px,18vw,260px)] md:mb-10"
                 >
                   <Image
-                    src="/work/travel-destination/rakkojae/logo-white.png"
+                    src="/work/travel-destination/rakkojae/logo.png"
                     alt="Rakkojae Hanok Hotels"
                     width={1600}
                     height={564}
