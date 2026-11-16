@@ -56,6 +56,8 @@ export default function FilmPage({
   video,
   poster,
   frames = [],
+  framesHeading,
+  leadFrameFull = true,
   background,
 }: {
   title: string;
@@ -64,10 +66,15 @@ export default function FilmPage({
   poster: string;
   /** Stills shown under the video; the first one runs full width */
   frames?: string[];
+  /** Section header above the stills, e.g. "Frames from Film" */
+  framesHeading?: string;
+  /** false puts every still in the grid, with no full-width first frame */
+  leadFrameFull?: boolean;
   /** Hero image behind the title, fading to black into the video (like Chile) */
   background?: string;
 }) {
-  const [leadFrame, ...gridFrames] = frames;
+  const [leadFrame, ...rest] = frames;
+  const gridFrames = leadFrameFull ? rest : frames;
   return (
     <div className="min-h-screen bg-black">
       {/* Title, over the optional hero background */}
@@ -115,10 +122,20 @@ export default function FilmPage({
       {/* Stills */}
       {leadFrame && (
         <section className="mx-auto mt-16 flex max-w-[1400px] flex-col gap-4 px-6 md:mt-24 md:px-20">
-          <FrameImg src={leadFrame} alt={`${title} still 1`} sizes="(max-width: 1400px) 100vw, 1400px" />
+          {framesHeading && (
+            <ScrollReveal className="mb-6 md:mb-10">
+              <div className="flex items-center gap-6">
+                <h2 className="font-display text-[clamp(24px,4vw,48px)] font-extrabold tracking-[-0.03em] text-white/80">
+                  {framesHeading}
+                </h2>
+                <div className="h-[1.4px] flex-1 bg-white/45" />
+              </div>
+            </ScrollReveal>
+          )}
+          {leadFrameFull && <FrameImg src={leadFrame} alt={`${title} still 1`} sizes="(max-width: 1400px) 100vw, 1400px" />}
           <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-4">
             {gridFrames.map((src, i) => (
-              <FrameImg key={src} src={src} alt={`${title} still ${i + 2}`} sizes="(max-width: 768px) 50vw, 33vw" />
+              <FrameImg key={src} src={src} alt={`${title} still ${i + (leadFrameFull ? 2 : 1)}`} sizes="(max-width: 768px) 50vw, 33vw" />
             ))}
           </div>
         </section>

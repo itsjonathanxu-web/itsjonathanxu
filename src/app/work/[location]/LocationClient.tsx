@@ -234,12 +234,12 @@ const RAKKOJAE_ROWS: { imgs: number[]; cols: number; aspect?: string }[] = [
   { imgs: [3, 4, 5], cols: 3, aspect: "md:[aspect-ratio:12/5]" },
   { imgs: [6, 7, 8], cols: 3, aspect: "md:[aspect-ratio:12/5]" },
 ];
-// Rakkojae film: set RAKKOJAE_FILM to the video once it's exported; until then the poster frame holds its place
-const RAKKOJAE_FILM: string | null = null;
+// Rakkojae film: with no video set, the poster frame holds its place
+const RAKKOJAE_FILM: string | null = "/featured/rakkojae-full.mp4";
 const RAKKOJAE_FILM_POSTER = "/work/travel-destination/rakkojae/film/00-57-07.jpg";
 // Named by film timecode, in film order
 const RAKKOJAE_FRAMES = [
-  "00-35-15", "00-37-23", "00-42-04", "00-45-01", "00-46-01", "00-48-05", "00-51-20", "00-55-01", "00-57-07", "00-58-19", "00-59-12",
+  "00-35-15", "00-37-23", "00-42-04", "00-45-01", "00-46-01", "00-48-05", "00-51-20", "00-55-01", "00-57-07", "00-59-12",
   "01-00-00", "01-03-16", "01-06-08", "01-08-23", "01-10-06", "01-13-15", "01-15-21", "01-18-03", "01-19-10", "01-20-09", "01-22-15",
 ].map((t) => `/work/travel-destination/rakkojae/film/${t}.jpg`);
 // Hanok Stay: portraits grouped together, the two landscapes (12, 17) share a row

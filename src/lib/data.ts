@@ -51,24 +51,16 @@ export const travelLocations: TravelLocation[] = [
     areas: [],
   },
   {
-    slug: "through-my-eyes",
-    title: "Through My Eyes",
-    coverImage: "/featured/through-my-eyes-poster.jpg",
-    description: "A short film stitched from moments across the places that have shaped how I see.",
-    coverVideoDesktop: "/featured/through-my-eyes-card-desktop.mp4",
-    coverVideoMobile: "/featured/through-my-eyes-card-mobile.mp4",
-    coverPoster: "/featured/through-my-eyes-poster.jpg",
-    areas: [],
-  },
-  {
     slug: "rakkojae",
     title: "Rakkojae, Seoul",
     coverImage: "/work/travel-destination/rakkojae/hero.jpg",
-    coverVideoMobile: "/featured/rakkojae-card-mobile.mp4",
-    coverPoster: "/featured/rakkojae-poster.jpg",
+    // Preview loop runs from 0:40 of the film
+    coverVideoDesktop: "/featured/rakkojae-card-desktop.mp4",
+    coverVideoMobile: "/featured/rakkojae-card-mobile-wide.mp4",
+    coverPoster: "/featured/rakkojae-card-poster.jpg",
     tagline: "A night in a hanok, and a tea ceremony revived from another century.",
     description:
-      "Rakkojae is a restored hanok in Seoul’s Bukchon, over a hundred years old, where every beam and paper wall slows you down. I stayed a night and joined a tea ceremony with live gayageum, then made a film and photographs of both. As a former interior designer, I shot it around the way light moves through paper and wood.",
+      "Rakkojae is a restored hanok in Seoul’s Bukchon, over a hundred years old, where every beam and paper wall slows you down. I stayed a night and joined a tea ceremony with live gayageum, then made a film and photographs of both.",
     areas: [
       {
         name: "Cultural Ceremony",
@@ -97,6 +89,16 @@ export const travelLocations: TravelLocation[] = [
         ],
       },
     ],
+  },
+  {
+    slug: "through-my-eyes",
+    title: "Through My Eyes",
+    coverImage: "/featured/through-my-eyes-poster.jpg",
+    description: "A short film stitched from moments across the places that have shaped how I see.",
+    coverVideoDesktop: "/featured/through-my-eyes-card-desktop.mp4",
+    coverVideoMobile: "/featured/through-my-eyes-card-mobile.mp4",
+    coverPoster: "/featured/through-my-eyes-poster.jpg",
+    areas: [],
   },
   {
     slug: "chile",
@@ -402,6 +404,17 @@ const travelFeaturedProjects: Project[] = [
     images: [],
   },
   {
+    slug: "rakkojae",
+    title: "Rakkojae, Seoul",
+    description: "A night in a hanok, and a tea ceremony revived from another century.",
+    // Preview loop runs from 0:40 of the film
+    coverImage: "/work/travel-destination/rakkojae/hero.jpg",
+    coverVideoDesktop: "/featured/rakkojae-card-desktop.mp4",
+    coverVideoMobile: "/featured/rakkojae-card-mobile-wide.mp4",
+    coverPoster: "/featured/rakkojae-card-poster.jpg",
+    images: [],
+  },
+  {
     slug: "through-my-eyes",
     title: "Through My Eyes",
     description: "A short film stitched from moments across the places that have shaped how I see.",
@@ -409,16 +422,6 @@ const travelFeaturedProjects: Project[] = [
     coverVideoDesktop: "/featured/through-my-eyes-card-desktop.mp4",
     coverVideoMobile: "/featured/through-my-eyes-card-mobile.mp4",
     coverPoster: "/featured/through-my-eyes-poster.jpg",
-    images: [],
-  },
-  {
-    slug: "rakkojae",
-    title: "Rakkojae, Seoul",
-    description: "A night in a hanok, and a tea ceremony revived from another century.",
-    // Landscape hero on desktop; the vertical film only plays on phones where it fits the frame
-    coverImage: "/work/travel-destination/rakkojae/hero.jpg",
-    coverVideoMobile: "/featured/rakkojae-card-mobile.mp4",
-    coverPoster: "/featured/rakkojae-poster.jpg",
     images: [],
   },
   {
