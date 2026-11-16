@@ -420,6 +420,26 @@ export default function LocationClient() {
                 </Link>
               </motion.div>
 
+              {/* Rakkojae: the client's mark sits above the title */}
+              {slug === "rakkojae" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 0.85, y: 0 }}
+                  transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="mb-8 w-[clamp(150px,18vw,260px)] md:mb-10"
+                >
+                  <Image
+                    src="/work/travel-destination/rakkojae/logo-white.png"
+                    alt="Rakkojae Hanok Hotels"
+                    width={1600}
+                    height={564}
+                    sizes="260px"
+                    className="h-auto w-full"
+                    priority
+                  />
+                </motion.div>
+              )}
+
               <motion.h1
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 0.9, y: 0 }}
