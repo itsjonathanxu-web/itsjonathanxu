@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useLightbox } from "@/components/Lightbox";
 import CoverVideo from "@/components/CoverVideo";
 import DarkroomControl from "./DarkroomControl";
-import { clusterLayout, selectItems, spectrumLayout, type DarkroomItem, type MapPoint } from "@/lib/darkroom";
+import { clusterLayout, overviewItems, overviewLayout, selectItems, spectrumLayout, type DarkroomItem, type MapPoint } from "@/lib/darkroom";
 
 // Viewport size as an external store, so layout reacts to resize without set-state effects
 let viewport = { w: 0, h: 0 };
@@ -26,12 +26,13 @@ const EDGE = -120; // negative: panning stops just short of the wall's outer edg
 const RELAYOUT_MS = 350; // how often the wall re-sorts while the knob is dragged
 const FOLLOW = 0.027; // how quickly the wall catches up with the cursor (lower = lazier)
 const GLIDE = 0.94; // how long a phone swipe keeps gliding after the finger lifts
-const OPENING: MapPoint = { x: 0.3, y: 0.45 }; // the room opens on warm oranges
 
 export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
   const vp = useSyncExternalStore(subscribeViewport, readViewport, () => serverViewport);
-  const [sel, setSel] = useState<MapPoint | null>(OPENING);
-  const [layoutSel, setLayoutSel] = useState<MapPoint | null>(OPENING);
+  const [sel, setSel] = useState<MapPoint | null>(null);
+  const [layoutSel, setLayoutSel] = useState<MapPoint | null>(null);
+  // The room opens on an overview: the best of every project, until a colour is picked
+  const [overview, setOverview] = useState(true);
   const [activeVideos, setActiveVideos] = useState<string[]>([]);
   const { open } = useLightbox();
 
@@ -43,11 +44,12 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
 
   // The full colour map is always laid out; it's also where hidden frames rest while faded out
   const spectrum = useMemo(() => (vp.w ? spectrumLayout(items, colW, gap, aspect) : null), [items, colW, gap, aspect, vp.w]);
-  const visible = useMemo(() => selectItems(items, layoutSel), [items, layoutSel]);
+  const visible = useMemo(() => (overview ? overviewItems(items) : selectItems(items, layoutSel)), [items, layoutSel, overview]);
   const layout = useMemo(() => {
     if (!vp.w) return null;
+    if (overview) return overviewLayout(items, visible, colW, gap, aspect);
     return layoutSel ? clusterLayout(items, visible, layoutSel, colW, gap, aspect) : spectrum;
-  }, [items, visible, layoutSel, colW, gap, aspect, vp.w, spectrum]);
+  }, [items, visible, layoutSel, overview, colW, gap, aspect, vp.w, spectrum]);
 
   const worldRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -72,6 +74,7 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
 
   const select = (p: MapPoint) => {
     setSel(p);
+    setOverview(false);
     const now = performance.now();
     if (now - lastRelayout.current > RELAYOUT_MS) {
       lastRelayout.current = now;
@@ -80,10 +83,12 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
   };
   const settle = (p: MapPoint) => {
     setSel(p);
+    setOverview(false);
     setLayoutSel(p);
   };
   const clear = () => {
     setSel(null);
+    setOverview(false);
     setLayoutSel(null);
   };
 

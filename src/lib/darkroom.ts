@@ -1,4 +1,5 @@
 import data from "./darkroom.json";
+import picks from "./darkroom-picks.json";
 
 export type Light = "dawn" | "day" | "golden" | "blue" | "night";
 
@@ -117,40 +118,102 @@ export function spectrumLayout(items: DarkroomItem[], colW: number, gap: number,
   return { points, bounds: boundsOf(points) };
 }
 
+const pickRank = picks as Record<string, number>;
+
+/** The opening overview: each project's strongest frames, picked by Claude (scripts/darkroom/curate.mjs). */
+export function overviewItems(items: DarkroomItem[]) {
+  return items.map((_, k) => k).filter((k) => pickRank[items[k].id]);
+}
+
+/**
+ * The overview wall: the very best frames take the middle, and every card is chosen to differ from
+ * its neighbours (another project, another colour), so similar shots never stack up.
+ */
+export function overviewLayout(items: DarkroomItem[], order: number[], colW: number, gap: number, aspect: number) {
+  const rank = (k: number) => pickRank[items[k].id] ?? 9;
+  const pitch = colW + gap;
+  const left = [...order].sort((a, b) => rank(a) - rank(b) || a - b);
+  const placed: { k: number; p: Placed }[] = [];
+  const near = (x: number, y: number, h: number) =>
+    placed.filter(({ p }) => Math.abs(p.x - x) <= pitch * 1.5 && Math.abs(p.y - y) <= (p.h + h) / 2 + colW * 0.6);
+  return growLayout(items, colW, gap, aspect, (x, y, h) => {
+    const around = near(x, y, h);
+    let best = 0;
+    let bestScore = -Infinity;
+    // Only look at the strongest few left, so quality still runs from the centre outward
+    for (let j = 0; j < Math.min(left.length, 14); j++) {
+      const k = left[j];
+      let score = -j * 0.04 - rank(k) * 0.05;
+      for (const { k: n, p } of around) {
+        const closeness = 1 - Math.min(1, Math.hypot(p.x - x, p.y - y) / (pitch * 2));
+        if (items[n].place === items[k].place) score -= 3 * closeness + 1;
+        const a = mapPoint(items[n]);
+        const b = mapPoint(items[k]);
+        score += Math.min(0.5, Math.hypot(a.x - b.x, a.y - b.y)) * closeness;
+        if (items[n].type === "video" && items[k].type === "video") score -= closeness;
+      }
+      if (score > bestScore) [best, bestScore] = [j, score];
+    }
+    return left.splice(best, 1)[0];
+  }, left.length, (k, p) => placed.push({ k, p }));
+}
+
 /**
  * A selection, grown outward from the centre into a screen-shaped rectangle: the closest matches
  * take the middle and the rest ring outward.
  */
 export function clusterLayout(items: DarkroomItem[], order: number[], sel: MapPoint, colW: number, gap: number, aspect: number) {
   const sorted = [...order].sort((a, b) => mapDistance(items[a], sel) - mapDistance(items[b], sel) || a - b);
+  let i = 0;
+  return growLayout(items, colW, gap, aspect, () => sorted[i++], sorted.length);
+}
+
+/**
+ * Masonry grown from the centre: each step finds the free slot nearest the middle, then `next`
+ * says which frame goes there.
+ */
+function growLayout(
+  items: DarkroomItem[],
+  colW: number,
+  gap: number,
+  aspect: number,
+  next: (x: number, y: number, h: number) => number,
+  count: number,
+  onPlace?: (k: number, p: Placed) => void
+) {
   const pitch = colW + gap;
+  const typical = colW / 1.3;
   const cols = new Map<number, { top: number; bottom: number }>();
   const stagger = (c: number) => (((c % 3) + 3) % 3) * colW * 0.18 - colW * 0.18;
   const points = new Map<number, Placed>();
   let minC = 0;
   let maxC = 0;
 
-  for (const k of sorted) {
-    const h = cardHeight(items[k], colW);
+  for (let n = 0; n < count; n++) {
     let best: { c: number; down: boolean; y: number; d: number } | null = null;
     for (let c = minC - 1; c <= maxC + 1; c++) {
       const col = cols.get(c) ?? { top: stagger(c), bottom: stagger(c) };
       const x = c * pitch;
       for (const down of [true, false]) {
-        const y = down ? col.bottom + h / 2 : col.top - gap - h / 2;
+        const y = down ? col.bottom + typical / 2 : col.top - gap - typical / 2;
         // Box distance stretched by the screen's aspect keeps the cluster screen-shaped
         const d = Math.max(Math.abs(x) / aspect, Math.abs(y)) + 0.15 * Math.hypot(x / aspect, y);
         if (!best || d < best.d) best = { c, down, y, d };
       }
     }
     const b = best!;
+    const k = next(b.c * pitch, b.y, typical);
+    const h = cardHeight(items[k], colW);
     const col = cols.get(b.c) ?? { top: stagger(b.c), bottom: stagger(b.c) };
+    const y = b.down ? col.bottom + h / 2 : col.top - gap - h / 2;
     if (b.down) col.bottom += h + gap;
     else col.top -= h + gap;
     cols.set(b.c, col);
     minC = Math.min(minC, b.c);
     maxC = Math.max(maxC, b.c);
-    points.set(k, { x: b.c * pitch, y: b.y, w: colW, h });
+    const p = { x: b.c * pitch, y, w: colW, h };
+    points.set(k, p);
+    onPlace?.(k, p);
   }
   return { points, bounds: boundsOf(points) };
 }
