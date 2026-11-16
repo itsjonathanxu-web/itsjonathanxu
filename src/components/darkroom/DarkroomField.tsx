@@ -26,6 +26,7 @@ const EDGE = -120; // negative: panning stops just short of the wall's outer edg
 const RELAYOUT_MS = 350; // how often the wall re-sorts while the knob is dragged
 const FOLLOW = 0.027; // how quickly the wall catches up with the cursor (lower = lazier)
 const GLIDE = 0.94; // how long a phone swipe keeps gliding after the finger lifts
+const PHONE_MARGIN = 10; // space either side of the two columns on a phone
 
 export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
   const vp = useSyncExternalStore(subscribeViewport, readViewport, () => serverViewport);
@@ -37,8 +38,9 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
   const { open } = useLightbox();
 
   const mobile = vp.w > 0 && vp.w < 768;
-  const colW = mobile ? Math.round(vp.w * 0.62) : Math.round(Math.min(480, Math.max(340, vp.w * 0.29)));
-  const gap = mobile ? 8 : 14;
+  const gap = mobile ? PHONE_MARGIN : 14; // matching the margin keeps the next columns just off screen
+  // Phones show two whole columns edge to edge; desktop shows big cards
+  const colW = mobile ? Math.floor((vp.w - PHONE_MARGIN * 2 - gap) / 2) : Math.round(Math.min(480, Math.max(340, vp.w * 0.29)));
   const radius = mobile ? 14 : 20;
   const aspect = vp.w && vp.h ? vp.w / vp.h : 1.6;
 
@@ -55,13 +57,16 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
   const panelRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   // Live values the animation loop reads without re-rendering
-  const live = useRef({ layout, shown: new Set<number>(), recentre: false });
+  const live = useRef({ layout, shown: new Set<number>(), recentre: false, pairs: [0] });
   const draggedRef = useRef(false);
   const lastRelayout = useRef(0);
   useEffect(() => {
     live.current.layout = layout;
     live.current.shown = new Set(visible);
     live.current.recentre = true;
+    // Midpoints between neighbouring columns: where a phone's screen centre settles, so both columns show whole
+    const xs = [...new Set([...(layout?.points.values() ?? [])].map((p) => p.x))].sort((a, b) => a - b);
+    live.current.pairs = xs.length > 1 ? xs.slice(1).map((x, i) => (x + xs[i]) / 2) : [xs[0] ?? 0];
   }, [layout, visible]);
 
   // The wall is the whole screen: no page scroll while the Darkroom is open
@@ -111,12 +116,14 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
 
     const bounds = () => live.current.layout?.bounds ?? { minX: 0, maxX: 0, minY: 0, maxY: 0 };
     // Pan range on one axis: from showing the wall's near edge to its far edge
-    const range = (min: number, max: number, view: number) => {
-      const a = view / 2 - max - EDGE;
-      const b = -(min - EDGE) - view / 2;
+    const range = (min: number, max: number, view: number, edge = EDGE) => {
+      const a = view / 2 - max - edge;
+      const b = -(min - edge) - view / 2;
       return a < b ? [a, b] : [-(min + max) / 2, -(min + max) / 2];
     };
     const clamp = (v: number, [a, b]: number[]) => Math.min(b, Math.max(a, v));
+    // Phone: the pan offset that frames the column pair nearest to world x
+    const pairAt = (x: number) => -live.current.pairs.reduce((best, m) => (Math.abs(m - x) < Math.abs(best - x) ? m : best));
 
     // Desktop: the cursor's place on screen is the place on the wall
     const aim = (px: number, py: number) => {
@@ -141,7 +148,7 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
         const dy = e.clientY - drag.y;
         if (Math.hypot(dx, dy) > 8) draggedRef.current = true;
         const { minX, maxX, minY, maxY } = bounds();
-        target.x = clamp(drag.sx + dx, range(minX, maxX, vp.w));
+        target.x = clamp(drag.sx + dx, range(minX, maxX, vp.w, PHONE_MARGIN + 1));
         target.y = clamp(drag.sy + dy, range(minY, maxY, vp.h));
         const now = performance.now();
         const dt = Math.max(1, now - drag.lt);
@@ -174,7 +181,8 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
       let recentring = false;
       if (live.current.recentre) {
         live.current.recentre = false;
-        target.x = target.y = 0;
+        target.x = mobile ? pairAt(0) : 0;
+        target.y = 0;
         vel.x = vel.y = 0;
         recentring = true;
       }
@@ -182,10 +190,13 @@ export default function DarkroomField({ items }: { items: DarkroomItem[] }) {
         if (!drag && (Math.abs(vel.x) > 0.1 || Math.abs(vel.y) > 0.1)) {
           // Glide after a swipe, slowing to a stop inside the wall
           const { minX, maxX, minY, maxY } = bounds();
-          target.x = clamp(target.x + vel.x, range(minX, maxX, vp.w));
+          target.x = clamp(target.x + vel.x, range(minX, maxX, vp.w, PHONE_MARGIN + 1));
           target.y = clamp(target.y + vel.y, range(minY, maxY, vp.h));
           vel.x *= GLIDE;
           vel.y *= GLIDE;
+        } else if (!drag) {
+          // Once the glide dies, settle sideways onto a whole pair of columns
+          target.x = pairAt(-target.x);
         }
         const k = drag || (!recentring && Math.abs(vel.x) + Math.abs(vel.y) > 0.1) ? 1 : 0.12;
         off.x += (target.x - off.x) * k;
