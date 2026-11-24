@@ -56,7 +56,7 @@ export const travelLocations: TravelLocation[] = [
     slug: "rakkojae",
     title: "Rakkojae, Seoul",
     coverImage: "/work/travel-destination/rakkojae/hero.jpg",
-    // Preview loop runs from 0:40 of the film
+    // Preview loop is 8s from 0:40 of the film
     coverVideoDesktop: "/featured/rakkojae-card-desktop.mp4",
     coverVideoMobile: "/featured/rakkojae-card-mobile-wide.mp4",
     coverPoster: "/featured/rakkojae-card-poster.jpg",
@@ -97,11 +97,10 @@ export const travelLocations: TravelLocation[] = [
     title: "Insta360 Luna Ultra",
     coverImage: "/featured/insta360-card-poster.jpg",
     description: "A product film for the Insta360 Luna Ultra, shot around Singapore’s Gardens by the Bay and Marina Bay.",
-    // Preview is the whole film from the start, played once
+    // Preview loop is the first 8s of the film
     coverVideoDesktop: "/featured/insta360-card-desktop.mp4",
     coverVideoMobile: "/featured/insta360-card-mobile.mp4",
     coverPoster: "/featured/insta360-card-poster.jpg",
-    coverPlayOnce: true,
     areas: [],
   },
   {
@@ -421,7 +420,7 @@ const travelFeaturedProjects: Project[] = [
     slug: "rakkojae",
     title: "Rakkojae, Seoul",
     description: "A night in a hanok, and a tea ceremony revived from another century.",
-    // Preview loop runs from 0:40 of the film
+    // Preview loop is 8s from 0:40 of the film
     coverImage: "/work/travel-destination/rakkojae/hero.jpg",
     coverVideoDesktop: "/featured/rakkojae-card-desktop.mp4",
     coverVideoMobile: "/featured/rakkojae-card-mobile-wide.mp4",
@@ -432,12 +431,11 @@ const travelFeaturedProjects: Project[] = [
     slug: "insta360",
     title: "Insta360 Luna Ultra",
     description: "A product film for the Insta360 Luna Ultra, shot around Singapore’s Gardens by the Bay and Marina Bay.",
-    // Preview is the whole film from the start, played once
+    // Preview loop is the first 8s of the film
     coverImage: "/featured/insta360-card-poster.jpg",
     coverVideoDesktop: "/featured/insta360-card-desktop.mp4",
     coverVideoMobile: "/featured/insta360-card-mobile.mp4",
     coverPoster: "/featured/insta360-card-poster.jpg",
-    coverPlayOnce: true,
     images: [],
   },
   {
