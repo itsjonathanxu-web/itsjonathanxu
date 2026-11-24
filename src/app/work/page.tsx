@@ -35,6 +35,7 @@ function FullWidthWorkCard({ location }: { location: (typeof travelLocations)[0]
             src={videoSrc}
             poster={location.coverPoster}
             className={`h-full w-full object-cover ${location.coverAlignBottom ? "object-bottom" : ""}`}
+            loop={!location.coverPlayOnce}
           />
         ) : (
           <Image src={coverSrc} alt={location.title} fill className="object-cover" sizes="100vw" quality={100} unoptimized />

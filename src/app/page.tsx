@@ -19,7 +19,7 @@ const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
 const VIDEO_DURATION = 6.881875;
 
 export default function Home() {
-  const featured = getFeaturedProjects().filter((p) => p.slug === "symphony-of-movement" || p.slug === "through-my-eyes" || p.slug === "rakkojae");
+  const featured = getFeaturedProjects().filter((p) => p.slug === "symphony-of-movement" || p.slug === "through-my-eyes" || p.slug === "rakkojae" || p.slug === "insta360");
 
   const heroSectionRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -572,6 +572,7 @@ function FullWidthProjectCard({
             src={videoSrc}
             poster={project.coverPoster}
             className={`h-full w-full object-cover ${project.coverAlignBottom ? "object-bottom" : ""}`}
+            loop={!project.coverPlayOnce}
           />
         ) : (
           <Image src={coverSrc} alt={project.title} fill className="object-cover" sizes="100vw" quality={100} unoptimized />

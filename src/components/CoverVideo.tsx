@@ -3,11 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Silent looping cover video. Loads only when it nears the viewport and pauses
+ * Silent cover video, looping unless `loop` is false. Loads only when it nears the viewport and pauses
  * whenever it scrolls away, so a page never decodes several full-quality
  * videos at once (phones run out of memory and reload the tab otherwise).
  */
-export default function CoverVideo({ src, poster, className }: { src: string; poster?: string; className?: string }) {
+export default function CoverVideo({ src, poster, className, loop = true }: { src: string; poster?: string; className?: string; loop?: boolean }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [shouldLoad, setShouldLoad] = useState(false);
 
@@ -38,7 +38,7 @@ export default function CoverVideo({ src, poster, className }: { src: string; po
       className={className}
       muted
       autoPlay
-      loop
+      loop={loop}
       playsInline
       preload={shouldLoad ? "auto" : "none"}
     />
