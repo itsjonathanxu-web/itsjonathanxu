@@ -40,3 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 public/hero-video-original.mp4
+
+# Pre-made image sizes, generated at build time by scripts/images/variants.mjs
+/public/img/

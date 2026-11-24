@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    // Photos are pre-sized at build time (scripts/images/variants.mjs) instead of by Vercel's metered optimizer
+    loader: "custom",
+    loaderFile: "./src/lib/imageLoader.ts",
+    deviceSizes: [640, 1080, 1920],
+    imageSizes: [320],
     remotePatterns: [
       {
         protocol: "https",
