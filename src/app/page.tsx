@@ -19,7 +19,7 @@ const smoothSpring = { stiffness: 60, damping: 20, mass: 0.8 };
 const VIDEO_DURATION = 6.881875;
 
 export default function Home() {
-  const featured = getFeaturedProjects().filter((p) => p.slug === "symphony-of-movement" || p.slug === "through-my-eyes" || p.slug === "rakkojae" || p.slug === "insta360");
+  const featured = getFeaturedProjects().filter((p) => p.slug === "symphony-of-movement" || p.slug === "rakkojae" || p.slug === "insta360");
 
   const heroSectionRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
