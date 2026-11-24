@@ -403,6 +403,9 @@ export default function LocationClient() {
                     alt={`${location.title} hero`}
                     fill
                     className="object-cover"
+                    sizes="100vw"
+                    quality={100}
+                    unoptimized
                     priority
                   />
                 </div>

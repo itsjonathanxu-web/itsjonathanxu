@@ -82,7 +82,7 @@ export default function FilmPage({
         {background && (
           <>
             <div className="absolute inset-0">
-              <Image src={background} alt={`${title} background`} fill className="object-cover" priority />
+              <Image src={background} alt={`${title} background`} fill className="object-cover" sizes="100vw" quality={100} unoptimized priority />
             </div>
             <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.4)" }} />
             <div className="absolute inset-x-0 bottom-0" style={{ height: "60%", background: "linear-gradient(to bottom, transparent 0%, black 100%)" }} />
