@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMetadata({
 });
 
 // Stills from the film, named by timecode, in film order
-const FRAMES = ["00-48-07", "01-05-07", "01-06-23", "01-11-14"].map((t) => `/work/insta360/frames/${t}.jpg`);
+const FRAMES = ["00-40-14", "00-40-16", "00-41-00", "00-43-19", "00-44-14", "00-47-09", "00-48-07", "01-05-07", "01-06-23", "01-11-14"].map((t) => `/work/insta360/frames/${t}.jpg`);
 
 export default function Insta360Page() {
   return (
